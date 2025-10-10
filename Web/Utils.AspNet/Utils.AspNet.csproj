@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net9.0;net10.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<OutputType>Library</OutputType>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>IDE0130;NU5128</NoWarn>
+		<IsPackable>true</IsPackable>
+		<Configurations>Debug;Release;Test</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>LightningArc.Utils.AspNet</AssemblyName>
+		<PackageId>LightningArc.Utils.AspNet</PackageId>
+		<Version>1.0.0</Version>
+    </PropertyGroup>
+	
+    <PropertyGroup>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <SuppressDependenciesWhenNoTargetFramework>true</SuppressDependenciesWhenNoTargetFramework>
+    </PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Utils.AspNet.Results\Utils.AspNet.Results.csproj" />
+		<ProjectReference Include="..\Utils.AspNet.CORS\Utils.AspNet.CORS.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))">
+		<ProjectReference Include="..\Utils.AspNet.OpenAPI\Utils.AspNet.OpenAPI.csproj" />
+	</ItemGroup>
+
+	<!--
+	<ItemGroup>
+		<PackageReference Include="LightningArc.Utils.AspNet.Results" Version="1.0.0" />
+		<PackageReference Include="LightningArc.Utils.AspNet.CORS" Version="1.0.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net9.0'))">
+		<PackageReference Include="LightningArc.Utils.AspNet.OpenAPI" Version="1.0.0" />
+	</ItemGroup>
+	-->
+</Project>

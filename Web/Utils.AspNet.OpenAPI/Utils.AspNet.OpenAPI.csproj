@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>IDE0130</NoWarn>
+    <IsPackable>true</IsPackable>
+    <Configurations>Debug;Release;Test</Configurations>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+	
+  <PropertyGroup>
+	<AssemblyName>LightningArc.Utils.AspNet.OpenAPI</AssemblyName>
+    <PackageId>LightningArc.Utils.AspNet.OpenAPI</PackageId>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\..\Core\Utils.Abstractions\Utils.Abstractions.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference
+      Include="Microsoft.AspNetCore.OpenApi"
+      Condition="'$(TargetFramework)' == 'net8.0'"
+      Version="8.0.20"
+    />
+    <PackageReference
+      Include="Microsoft.AspNetCore.OpenApi"
+      Condition="'$(TargetFramework)' == 'net9.0'"
+      Version="9.0.9"
+    />
+    <PackageReference
+      Include="Microsoft.AspNetCore.OpenApi"
+      Condition="'$(TargetFramework)' == 'net10.0'"
+      Version="10.0.0-rc.1.25451.107"
+    />
+  </ItemGroup>
+</Project>

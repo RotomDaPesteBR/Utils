@@ -1,0 +1,18 @@
+﻿using LightningArc.Utils.Metalama;
+using Metalama.Framework.Advising;
+using Metalama.Framework.Aspects;
+using Metalama.Framework.Code;
+using Metalama.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+
+namespace Utils.Metalama.Tests.Aspects;
+
+public class MethodAspectTest
+{
+    [OverrideMethodWithLoggingAspect]
+    public void Test()
+    {
+        Debug.WriteLine("Test");
+    }
+}

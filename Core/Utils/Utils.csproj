@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>IDE0130;NU5128</NoWarn>
+    <IsPackable>true</IsPackable>
+    <Configurations>Debug;Release;Test</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>LightningArc.Utils</PackageId>
+    <AssemblyName>LightningArc.Utils</AssemblyName>   
+	<Version>1.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <IncludeBuildOutput>false</IncludeBuildOutput> 
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <SuppressDependenciesWhenNoTargetFramework>true</SuppressDependenciesWhenNoTargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utils.Abstractions\Utils.Abstractions.csproj" />
+    <ProjectReference Include="..\Utils.Results\Utils.Results.csproj" />
+    <ProjectReference Include="..\Utils.Json\Utils.Json.csproj" />
+  </ItemGroup>
+	
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="All" />
+		<PackageReference Include="System.Text.Json" Version="9.0.9" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="System.Text.Json" Version="8.0.6" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>Metalama, PostSharp, Aspect, Attribute</PackageTags>
+    <NoWarn>IDE0130</NoWarn>
+    <LangVersion>latest</LangVersion>
+    <MetalamaCompileTimeProject>true</MetalamaCompileTimeProject>
+    <IsPackable>true</IsPackable>
+    <Configurations>Debug;Release;LamaDebug;Test</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>LightningArc.Utils.Metalama.Factories</PackageId>
+	<AssemblyName>LightningArc.Utils.Metalama.Factories</AssemblyName>
+    <Version>1.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <NoWarn>$(NoWarn);CA1865</NoWarn>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Metalama.Framework" Version="2025.1.14" />
+
+    <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MetalamaCompileTimePackage Include="PolySharp" Version="1.15.0" />
+	<MetalamaCompileTimePackage Include="LightningArc.Utils" />
+  </ItemGroup>
+
+</Project>
