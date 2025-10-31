@@ -21,17 +21,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="Metalama.Framework" Version="2025.1.15" />
+	<PackageReference Include="Metalama.Framework" Version="2025.1.16" />
 
 	<PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
 	<ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
+	  <ProjectReference Include="..\Utils.Metalama.Extensions\Utils.Metalama.Extensions.csproj" />
+	  <ProjectReference Include="..\Utils.Metalama.Factories\Utils.Metalama.Factories.csproj" />
   </ItemGroup>
 
   <ItemGroup>
 	<MetalamaCompileTimePackage Include="PolySharp" Version="1.15.0" />
-	<MetalamaCompileTimePackage Include="LightningArc.Utils" />
   </ItemGroup>
 </Project>

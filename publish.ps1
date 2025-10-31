@@ -14,8 +14,8 @@ $projects_to_pack = @(
     "Web\Utils.AspNet.OpenAPI\Utils.AspNet.OpenAPI.csproj",
     "Web\Utils.AspNet\Utils.AspNet.csproj",
 	
-    #"Meta\Utils.Metalama.Factories\Utils.Metalama.Factories.csproj",
-    #"Meta\Utils.Metalama.Extensions\Utils.Metalama.Extensions.csproj",
+    "Meta\Utils.Metalama.Extensions\Utils.Metalama.Extensions.csproj",
+    "Meta\Utils.Metalama.Factories\Utils.Metalama.Factories.csproj",
     "Meta\Utils.Metalama\Utils.Metalama.csproj"
 )
 

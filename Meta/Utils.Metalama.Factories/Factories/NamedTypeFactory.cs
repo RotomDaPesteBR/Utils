@@ -25,7 +25,7 @@ public static class NamedTypeFactory
     /// </exception>
     public static INamedType GetType(Type type)
     {
-        return NamedTypeFactory.GetType(type);
+        return (INamedType)TypeFactory.GetType(type);
     }
 
     /// <summary>

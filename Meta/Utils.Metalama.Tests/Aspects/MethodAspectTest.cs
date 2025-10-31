@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Utils.Metalama.Tests.Aspects;
 
-public class MethodAspectTest
+public partial class MethodAspectTest
 {
     [OverrideMethodWithLoggingAspect]
     public void Test()

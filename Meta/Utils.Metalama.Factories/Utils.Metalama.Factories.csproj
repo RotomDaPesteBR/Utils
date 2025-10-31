@@ -39,7 +39,6 @@
 
   <ItemGroup>
     <MetalamaCompileTimePackage Include="PolySharp" Version="1.15.0" />
-	<MetalamaCompileTimePackage Include="LightningArc.Utils" />
   </ItemGroup>
 
 </Project>
