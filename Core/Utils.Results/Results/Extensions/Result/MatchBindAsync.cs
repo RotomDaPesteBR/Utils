@@ -1,7 +1,7 @@
-ï»¿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     /// <summary>
-    /// MÃ©todos de extensÃ£o para operaÃ§Ãµes de Encademaneto (Bind), como <c>MatchBindAsync</c>, que encadeiam uma operaÃ§Ã£o
+    /// Métodos de extensão para operações de Encademaneto (Bind), como <c>MatchBindAsync</c>, que encadeiam uma operação
     /// que retorna um novo <see cref="Result"/> ou <see cref="Task{TResult}">Task&lt;Result&gt;</see>.
     /// </summary>
     public static partial class ResultExtensions
@@ -19,12 +19,9 @@
             this Result result,
             Func<Task<Result>> success,
             Func<Error, Task<Result>> failure
-        )
-        {
-            return result.IsSuccess
+        ) => result.IsSuccess
                 ? await success().ConfigureAwait(false)
                 : await failure(result.Error).ConfigureAwait(false);
-        }
 
         /// <summary>
         /// Maps a non-generic result (without value) using a synchronous success function,
@@ -38,10 +35,7 @@
             this Result result,
             Func<Result> success,
             Func<Error, Task<Result>> failure
-        )
-        {
-            return result.IsSuccess ? success() : await failure(result.Error).ConfigureAwait(false);
-        }
+        ) => result.IsSuccess ? success() : await failure(result.Error).ConfigureAwait(false);
 
         /// <summary>
         /// Awaits a <see cref="Task{TResult}">Task&lt;Result&gt;</see> and maps the result using asynchronous functions,
@@ -108,12 +102,9 @@
             this Result<TIn> result,
             Func<Result<TIn>, Task<Result<TOut>>> success, // Receives Result<TIn>
             Func<Error, Task<Result<TOut>>> failure
-        )
-        {
-            return result.IsSuccess
+        ) => result.IsSuccess
                 ? await success(result).ConfigureAwait(false)
                 : await failure(result.Error).ConfigureAwait(false);
-        }
 
         /// <summary>
         /// Awaits a <see cref="Task{TResult}">Task&lt;Result&gt;</see> and maps the result. The success function receives the original <see cref="Result"/>
@@ -139,12 +130,9 @@
             this Result result,
             Func<Result, Task<Result>> success, // Receives Result
             Func<Error, Task<Result>> failure
-        )
-        {
-            return result.IsSuccess
+        ) => result.IsSuccess
                 ? await success(result).ConfigureAwait(false)
                 : await failure(result.Error).ConfigureAwait(false);
-        }
         #endregion
 
         #region Result<TValue>
@@ -161,12 +149,9 @@
             this Result<TIn> result,
             Func<Success<TIn>, Task<Result<TOut>>> success,
             Func<Error, Task<Result<TOut>>> failure
-        )
-        {
-            return result.IsSuccess
+        ) => result.IsSuccess
                 ? await success(result.SuccessDetails).ConfigureAwait(false)
                 : await failure(result.Error).ConfigureAwait(false);
-        }
 
         /// <summary>
         /// Awaits a <see cref="Task{TResult}">Task&lt;Result&lt;TIn&gt;&gt;</see> and maps the result
@@ -220,12 +205,9 @@
             this Result<TIn> result,
             Func<Success<TIn>, Task<Result<TOut>>> success,
             Func<Error, Result<TOut>> failure
-        )
-        {
-            return result.IsSuccess
+        ) => result.IsSuccess
                 ? await success(result.SuccessDetails!).ConfigureAwait(false)
                 : failure(result.Error);
-        }
 
         /// <summary>
         /// Awaits the asynchronous input result and maps it using a synchronous success function (returns <see cref="Result{TOut}"/>)

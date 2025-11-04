@@ -6,7 +6,7 @@ using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
 using Microsoft.Extensions.Logging;
 
-namespace Utils.Metalama.Tests.Aspects;
+namespace LightningArc.Utils.Metalama.Tests.Aspects;
 
 public class OverrideMethodWithLoggingAspectAttribute : OverrideMethodAspect
 {

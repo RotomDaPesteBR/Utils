@@ -7,27 +7,28 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <NoWarn>IDE0130</NoWarn>
-    <IsPackable>true</IsPackable>
     <Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>
 	
   <PropertyGroup>
     <AssemblyName>LightningArc.Utils.AspNet.Results</AssemblyName>
     <PackageId>LightningArc.Utils.AspNet.Results</PackageId>
-    <Version>1.0.0</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Version>$(PackageVersion)</Version>
+	  
+	<Authors>RotomDaPesteBR</Authors>
+	<PackageTags>Utils</PackageTags>
+	  
+	<IsPackable>true</IsPackable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 	
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
-	
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="System.Text.Json" Version="8.0.6" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0' OR '$(TargetFramework)' == 'net10.0'">
-    <PackageReference Include="System.Text.Json" Version="9.0.9" />
-  </ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="System.Text.Json"  />
+	</ItemGroup>
 	
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Utils.Results\Utils.Results.csproj" />

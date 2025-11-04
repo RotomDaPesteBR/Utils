@@ -15,15 +15,12 @@ public sealed class SuccessMappingConfigurator(ResultOptions options)
     /// <param name="statusCode">O código de status HTTP.</param>
     /// <param name="title">O título do sucesso.</param>
     public void Map<TSuccess>(HttpStatusCode statusCode, string title)
-        where TSuccess : Success
-    {
-        options.SuccessMappings.Add(new CustomSuccessMapping
+        where TSuccess : Success => options.SuccessMappings.Add(new CustomSuccessMapping
         {
             SuccessType = typeof(TSuccess),
             StatusCode = statusCode,
             Title = title
         });
-    }
 }
 
 /// <summary>
@@ -40,14 +37,11 @@ public sealed class ErrorMappingConfigurator(ResultOptions options)
     /// <param name="title">O título do problema.</param>
     /// <param name="type">A URL do tipo do problema.</param>
     public void Map<TError>(HttpStatusCode statusCode, string title, string type)
-        where TError : Error
-    {
-        options.ErrorMappings.Add(new CustomErrorMapping
+        where TError : Error => options.ErrorMappings.Add(new CustomErrorMapping
         {
             ErrorType = typeof(TError),
             StatusCode = statusCode,
             Title = title,
             Type = type
         });
-    }
 }

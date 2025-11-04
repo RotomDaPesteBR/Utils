@@ -12,37 +12,31 @@ public static class NamedTypeFactory
 {
     #region GetType
     /// <summary>
-    /// Obtém um <see cref="INamedType"/> dado um <see cref="System.Type"/> de reflexão.
+    /// Obtém um <see cref="T:Metalama.Framework.Code.INamedType" /> dado um <see cref="T:System.Type" /> de reflexão.
     /// </summary>
-    /// <param name="type">O <see cref="System.Type"/> de reflexão.</param>
+    /// <param name="type">O <see cref="T:System.Type" /> de reflexão.</param>
     /// <returns>
-    /// Um <see cref="INamedType"/> que representa o tipo, ou <see langword="null"/> se for um tipo que
-    /// não pode ser representado como <see cref="INamedType"/> (como um tipo anônimo ou um ponteiro), 
+    /// Um <see cref="T:Metalama.Framework.Code.INamedType" /> que representa o tipo, ou <see langword="null" /> se for um tipo que
+    /// não pode ser representado como <see cref="T:Metalama.Framework.Code.INamedType" /> (como um tipo anônimo ou um ponteiro),
     /// ou se o tipo não for encontrado na compilação.
     /// </returns>
-    /// <exception cref="InvalidOperationException">
-    /// Lançada se o <see cref="TypeFactory"/> não estiver disponível no contexto atual.
+    /// <exception cref="T:System.InvalidOperationException">
+    /// Lançada se o <see cref="T:Metalama.Framework.Code.TypeFactory" /> não estiver disponível no contexto atual.
     /// </exception>
-    public static INamedType GetType(Type type)
-    {
-        return (INamedType)TypeFactory.GetType(type);
-    }
+    public static INamedType GetType(Type type) => (INamedType)TypeFactory.GetType(type);
 
     /// <summary>
-    /// Obtém um <see cref="INamedType"/> que representa um <see cref="SpecialType"/> dado.
+    /// Obtém um <see cref="T:Metalama.Framework.Code.INamedType" /> que representa um <see cref="T:Metalama.Framework.Code.SpecialType" /> dado.
     /// </summary>
-    /// <param name="type">O <see cref="SpecialType"/> (tipo especial) a ser recuperado.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa o <paramref name="type"/> especial.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// Lançada se o <see cref="TypeFactory"/> não estiver disponível no contexto atual.
+    /// <param name="type">O <see cref="T:Metalama.Framework.Code.SpecialType" /> (tipo especial) a ser recuperado.</param>
+    /// <returns>Um <see cref="T:Metalama.Framework.Code.INamedType" /> que representa o <paramref name="type" /> especial.</returns>
+    /// <exception cref="T:System.InvalidOperationException">
+    /// Lançada se o <see cref="T:Metalama.Framework.Code.TypeFactory" /> não estiver disponível no contexto atual.
     /// </exception>
-    public static INamedType GetType(SpecialType type)
-    {
-        return TypeFactory.GetType(type);
-    }
+    public static INamedType GetType(SpecialType type) => TypeFactory.GetType(type);
 
     /// <summary>
-    /// Obtém um <see cref="INamedType"/> baseado em seu nome completo, como usado em reflexão.
+    /// Obtém um <see cref="T:Metalama.Framework.Code.INamedType" /> baseado em seu nome completo, como usado em reflexão.
     /// </summary>
     /// <remarks>
     /// <para>Para tipos aninhados, isso significa usar '+', por exemplo, para obter <c>System.Environment.SpecialFolder</c>,
@@ -53,14 +47,11 @@ public static class NamedTypeFactory
     /// <c>GenericExtensions.WithTypeArguments</c>.</para>
     /// </remarks>
     /// <param name="typeName">O nome completo do tipo (incluindo namespace e, para tipos aninhados, o caractere '+').</param>
-    /// <returns>O <see cref="INamedType"/> que corresponde ao <paramref name="typeName"/>.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// Lançada se o tipo não for encontrado ou se o <see cref="TypeFactory"/> não estiver disponível no contexto atual.
+    /// <returns>O <see cref="T:Metalama.Framework.Code.INamedType" /> que corresponde ao <paramref name="typeName" />.</returns>
+    /// <exception cref="T:System.InvalidOperationException">
+    /// Lançada se o tipo não for encontrado ou se o <see cref="T:Metalama.Framework.Code.TypeFactory" /> não estiver disponível no contexto atual.
     /// </exception>
-    public static INamedType GetType(string typeName)
-    {
-        return TypeFactory.GetType(typeName);
-    }
+    public static INamedType GetType(string typeName) => TypeFactory.GetType(typeName);
     #endregion
 
     #region GetTypeOrDefault
@@ -83,8 +74,6 @@ public static class NamedTypeFactory
         }
         catch
         {
-            // Captura qualquer exceção lançada por TypeFactory.GetType(string) 
-            // quando o tipo não é encontrado ou o TypeFactory não está disponível.
             return defaultType;
         }
     }

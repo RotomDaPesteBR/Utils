@@ -55,14 +55,7 @@ namespace LightningArc.Utils.Results
 
                     for (int i = 0; i < parameters.Length; i++)
                     {
-                        if (parameters[i].ParameterType == typeof(string))
-                        {
-                            args[i] = string.Empty;
-                        }
-                        else
-                        {
-                            args[i] = null;
-                        }
+                        args[i] = parameters[i].ParameterType == typeof(string) ? string.Empty : (object?)null;
                     }
 
 
@@ -124,14 +117,7 @@ namespace LightningArc.Utils.Results
 
                     for (int i = 0; i < parameters.Length; i++)
                     {
-                        if (parameters[i].ParameterType == typeof(string))
-                        {
-                            args[i] = string.Empty;
-                        }
-                        else
-                        {
-                            args[i] = null;
-                        }
+                        args[i] = parameters[i].ParameterType == typeof(string) ? string.Empty : (object?)null;
                     }
 
 
@@ -155,16 +141,11 @@ namespace LightningArc.Utils.Results
             return report.ToString();
         }
 
-        private static IEnumerable<Type> GetBuiltInErrorModules()
-        {
-            return typeof(Error)
+        private static IEnumerable<Type> GetBuiltInErrorModules() => typeof(Error)
                 .GetNestedTypes(BindingFlags.Public | BindingFlags.Static)
                 .Where(t => t.IsSubclassOf(typeof(ErrorModule)));
-        }
 
-        private static IEnumerable<Type> GetCustomErrorModules()
-        {
-            return AppDomain
+        private static IEnumerable<Type> GetCustomErrorModules() => AppDomain
                 .CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Where(t =>
@@ -173,7 +154,6 @@ namespace LightningArc.Utils.Results
                     && t.IsSubclassOf(typeof(ErrorModule))
                     && !t.IsNested
                 ); // Filtra para remover os módulos embutidos já tratados.
-        }
 
         private static IEnumerable<MethodInfo> GetErrorsForModule(Type moduleType)
         {
@@ -202,7 +182,7 @@ namespace LightningArc.Utils.Results
                     // será o módulo de extensão genérico com BusinessErrors como o parâmetro de tipo.
                     if (
                         firstParamType.IsGenericType
-                        && firstParamType.GetGenericTypeDefinition() == typeof(Error.ErrorModule<>)
+                        && firstParamType.GetGenericTypeDefinition() == typeof(ErrorModule<>)
                     )
                     {
                         // Verifica se o argumento genérico é o tipo do nosso módulo atual.

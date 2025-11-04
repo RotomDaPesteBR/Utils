@@ -12,18 +12,20 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>LightningArc.Utils.Results</AssemblyName>
-  </PropertyGroup>
-  
-  <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>LightningArc.Utils.Results</PackageId>
-    <Version>1.0.0</Version>
+    <AssemblyName>LightningArc.Utils.Results</AssemblyName>
+	<Version>$(PackageVersion)</Version>
+	  
+	<Authors>RotomDaPesteBR</Authors>
+	<PackageTags>Utils</PackageTags>
+	  
+	<IsPackable>true</IsPackable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="All" />
-    <PackageReference Include="System.Text.Json" Version="9.0.10" PrivateAssets="All" />
+    <PackageReference Include="PolySharp" PrivateAssets="All" />
+    <PackageReference Include="System.Text.Json" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

@@ -118,7 +118,7 @@ namespace LightningArc.Utils.Tests.Results
             }
 
             // Act
-            await result.TapAsync((Func<Task>)action);
+            await result.TapAsync(action);
 
             // Assert
             Assert.True(executed);

@@ -1,38 +1,45 @@
-Ôªønamespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     /// <summary>
-    /// Fornece m√©todos de extens√£o para a classe <see cref="Result{TValue}"/>,
-    /// permitindo a composi√ß√£o de opera√ß√µes funcionais.
+    /// Fornece mÈtodos de extens„o para a classe <see cref="Result{TValue}"/>,
+    /// permitindo a composiÁ„o de operaÁıes funcionais.
     /// </summary>
     public static partial class ResultExtensions
     {
         /// <summary>
         /// Retorna o valor de sucesso contido no <see cref="Result{TValue}"/>.
-        /// Se o resultado for uma falha, retorna o valor padr√£o fornecido.
+        /// Se o resultado for uma falha, retorna o valor padr„o fornecido.
         /// </summary>
         /// <typeparam name="TValue">O tipo de valor.</typeparam>
         /// <param name="result">O resultado.</param>
         /// <param name="defaultValue">O valor a ser retornado em caso de falha.</param>
-        /// <returns>O valor de sucesso ou o valor padr√£o.</returns>
-        public static TValue GetValueOrDefault<TValue>(this Result<TValue> result, TValue defaultValue)
-        {
-            return result.IsSuccess
-                ? result.Value
-                : defaultValue;
-        }
+        /// <returns>O valor de sucesso ou o valor padr„o.</returns>
+        public static TValue GetValueOrDefault<TValue>(
+            this Result<TValue> result,
+            TValue defaultValue
+        ) => result.IsSuccess ? result.Value : defaultValue;
 
         /// <summary>
         /// Retorna o valor de sucesso contido no <see cref="Result{TValue}"/>.
-        /// Se o resultado for uma falha, retorna o valor padr√£o de <typeparamref name="TValue"/> (i.e., null para refer√™ncia/anul√°vel, 0 para int, etc.).
+        /// Se o resultado for uma falha, retorna o valor padr„o fornecido.
         /// </summary>
         /// <typeparam name="TValue">O tipo de valor.</typeparam>
         /// <param name="result">O resultado.</param>
-        /// <returns>O valor de sucesso ou o valor padr√£o de <typeparamref name="TValue"/>.</returns>
-        public static TValue? GetValueOrDefault<TValue>(this Result<TValue> result)
-        {
-            return result.IsSuccess
-                ? result.Value
-                : default;
-        }
+        /// <param name="defaultValue">O valor a ser retornado em caso de falha.</param>
+        /// <returns>O valor de sucesso ou o valor padr„o.</returns>
+        public static TValue GetValueOrDefault<TValue>(
+            this Result<TValue> result,
+            Func<TValue> defaultValue
+        ) => result.IsSuccess ? result.Value : defaultValue();
+
+        /// <summary>
+        /// Retorna o valor de sucesso contido no <see cref="Result{TValue}"/>.
+        /// Se o resultado for uma falha, retorna o valor padr„o de <typeparamref name="TValue"/> (i.e., null para referÍncia/anul·vel, 0 para int, etc.).
+        /// </summary>
+        /// <typeparam name="TValue">O tipo de valor.</typeparam>
+        /// <param name="result">O resultado.</param>
+        /// <returns>O valor de sucesso ou o valor padr„o de <typeparamref name="TValue"/>.</returns>
+        public static TValue? GetValueOrDefault<TValue>(this Result<TValue> result) =>
+            result.IsSuccess ? result.Value : default;
     }
 }

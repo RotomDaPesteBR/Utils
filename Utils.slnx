@@ -2,40 +2,39 @@
   <Configurations>
     <BuildType Name="Debug" />
     <BuildType Name="Release" />
+    <BuildType Name="LamaDebug" />
     <BuildType Name="Test" />
   </Configurations>
-  <Folder Name="/src/" />
-  <Folder Name="/src/core/">
+  <Folder Name="/Core/">
     <Project Path="Core/Utils.Abstractions/Utils.Abstractions.csproj" />
     <Project Path="Core/Utils.Json/Utils.Json.csproj" />
     <Project Path="Core/Utils.Results/Utils.Results.csproj" />
+    <Project Path="Core/Utils.Tests/Utils.Tests.csproj">
+      <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
     <Project Path="Core/Utils/Utils.csproj" />
   </Folder>
-  <Folder Name="/src/meta/">
+  <Folder Name="/Meta/">
+    <Project Path="Meta/Utils.Metalama.Extensions/Utils.Metalama.Extensions.csproj" />
+    <Project Path="Meta/Utils.Metalama.Factories/Utils.Metalama.Factories.csproj" />
+    <Project Path="Meta/Utils.Metalama.Tests/Utils.Metalama.Tests.csproj">
+      <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
     <Project Path="Meta/Utils.Metalama/Utils.Metalama.csproj" />
   </Folder>
-  <Folder Name="/src/web/">
+  <Folder Name="/Web/">
     <Project Path="Web/Utils.AspNet.CORS/Utils.AspNet.CORS.csproj" />
     <Project Path="Web/Utils.AspNet.OpenAPI/Utils.AspNet.OpenAPI.csproj" />
     <Project Path="Web/Utils.AspNet.Results/Utils.AspNet.Results.csproj" />
-    <Project Path="Web/Utils.AspNet/Utils.AspNet.csproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="Core/Utils.Tests/Utils.Tests.csproj">
-      <BuildType Project="Test" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
-    <Project Path="Meta/Utils.Metalama.Tests/Utils.Metalama.Tests.csproj">
-      <BuildType Solution="Debug|*" Project="LamaDebug" />
-      <BuildType Solution="Release|*" Project="LamaDebug" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
     <Project Path="Web/Utils.AspNet.Tests/Utils.AspNet.Tests.csproj">
-      <BuildType Project="Test" />
       <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
       <Build Solution="Release|*" Project="false" />
     </Project>
+    <Project Path="Web/Utils.AspNet/Utils.AspNet.csproj" />
   </Folder>
 </Solution>

@@ -20,8 +20,5 @@ public static class BusinessErrorExtensions
         this Error.ErrorModule<Business> _,
         string message,
         List<ErrorDetail>? details = null
-    )
-    {
-        return new OrderRejectedError(message, details);
-    }
+    ) => new OrderRejectedError(message, details);
 }

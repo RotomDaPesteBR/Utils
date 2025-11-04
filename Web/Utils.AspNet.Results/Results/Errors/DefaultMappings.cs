@@ -11,9 +11,7 @@ public static partial class ErrorMappingServiceExtensions
     /// </summary>
     /// <param name="service">A instância do serviço de mapeamento de erros.</param>
     /// <returns>A instância do serviço para encadeamento.</returns>
-    public static ErrorMappingService MapDefaultErrors(this ErrorMappingService service)
-    {
-        return service
+    public static ErrorMappingService MapDefaultErrors(this ErrorMappingService service) => service
             .MapApplication()
             .MapSystem()
             .MapDatabase()
@@ -25,5 +23,4 @@ public static partial class ErrorMappingServiceExtensions
             .MapNetwork()
             .MapConcurrency()
             .MapIO();
-    }
 }

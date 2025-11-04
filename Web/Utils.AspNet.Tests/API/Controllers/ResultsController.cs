@@ -50,9 +50,6 @@ namespace LightningArc.Utils.AspNet.Tests.API.Controllers
         }
 
         [HttpGet("Example")]
-        public EndpointResult<string> Example()
-        {
-            return Result.Success("{\"teste\": \"teste\"}").WithContentType("application/json"); //, "Exemplo bem sucedido"
-        }
+        public EndpointResult<string> Example() => Result.Success("{\"teste\": \"teste\"}").WithContentType("application/json"); //, "Exemplo bem sucedido"
     }
 }

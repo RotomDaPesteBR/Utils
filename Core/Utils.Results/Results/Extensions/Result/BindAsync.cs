@@ -1,4 +1,4 @@
-﻿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     /// <summary>
     /// Provides asynchronous extension methods for the <see cref="Result{TValue}"/> class,
@@ -7,72 +7,121 @@
     public static partial class ResultExtensions
     {
         /// <summary>
-        /// Chains a synchronous result with a new asynchronous operation that might fail.
-        /// If the input result is a failure, the error is propagated without executing the function.
+        ///     Asynchronously binds a <see cref="Result{TIn}" /> to a <see cref="Result{TOut}" /> by applying an asynchronous function to the contained value.
         /// </summary>
         /// <typeparam name="TIn">The type of the input value.</typeparam>
         /// <typeparam name="TOut">The type of the output value.</typeparam>
-        /// <param name="result">The input result (<see cref="Result{TIn}"/>).</param>
-        /// <param name="func">The asynchronous function to apply to the successful value, which returns a new <see cref="Task{TResult}">Task&lt;Result&lt;TOut&gt;&gt;</see>.</param>
-        /// <returns>The <see cref="Task{TResult}">Task&lt;Result&lt;TOut&gt;&gt;</see> produced by <paramref name="func"/>, or the original error.</returns>
+        /// <param name="result">The input <see cref="Result{TIn}" />.</param>
+        /// <param name="binder">The asynchronous function to apply to the value.</param>
+        /// <returns>The <see cref="Result{TOut}" /> from the binder function.</returns>
         public static async Task<Result<TOut>> BindAsync<TIn, TOut>(
             this Result<TIn> result,
-            Func<TIn, Task<Result<TOut>>> func
-        )
-        {
-            if (result.IsSuccess)
-            {
-                // result.Value is non-null when IsSuccess is true.
-                return await func(result.Value!).ConfigureAwait(false);
-            }
-            // The implicit conversion from Error to Task<Result<TOut>> is handled.
-            return result.Error;
-        }
+            Func<TIn, Task<Result<TOut>>> binder
+        ) =>
+            result.IsSuccess
+                ? await binder(result.Value!).ConfigureAwait(false)
+                : Result<TOut>.Failure(result.Error);
 
         /// <summary>
-        /// Awaits an asynchronous input result and then chains it with a new asynchronous operation that might fail.
-        /// If the awaited result is a failure, the error is propagated.
+        ///     Asynchronously binds a <see cref="Result" /> to a <see cref="Result{T}" /> by applying an asynchronous function.
+        /// </summary>
+        /// <typeparam name="T">The type of the output value.</typeparam>
+        /// <param name="result">The input <see cref="Result" />.</param>
+        /// <param name="binder">The asynchronous function to apply.</param>
+        /// <returns>The <see cref="Result{T}" /> from the binder function.</returns>
+        public static async Task<Result<T>> BindAsync<T>(
+            this Result result,
+            Func<Task<Result<T>>> binder
+        ) =>
+            result.IsSuccess
+                ? await binder().ConfigureAwait(false)
+                : Result<T>.Failure(result.Error);
+
+        /// <summary>
+        ///     Asynchronously binds a <see cref="Result" /> to a <see cref="Result" /> by applying an asynchronous function.
+        /// </summary>
+        /// <param name="result">The input <see cref="Result" />.</param>
+        /// <param name="binder">The asynchronous function to apply.</param>
+        /// <returns>The <see cref="Result" /> from the binder function.</returns>
+        public static async Task<Result> BindAsync(this Result result, Func<Task<Result>> binder) =>
+            result.IsSuccess ? await binder().ConfigureAwait(false) : result;
+
+        /// <summary>
+        ///     Asynchronously binds a <see cref="Result{TIn}" /> to a <see cref="Result{TOut}" /> by applying a function to the contained value.
         /// </summary>
         /// <typeparam name="TIn">The type of the input value.</typeparam>
         /// <typeparam name="TOut">The type of the output value.</typeparam>
-        /// <param name="resultTask">The asynchronous input result.</param>
-        /// <param name="func">The asynchronous function to apply to the successful value, which returns a new <see cref="Task{TResult}">Task&lt;Result&lt;TOut&gt;&gt;</see>.</param>
-        /// <returns>The <see cref="Task{TResult}">Task&lt;Result&lt;TOut&gt;&gt;</see> produced by <paramref name="func"/>, or the original error.</returns>
+        /// <param name="resultTask">The input <see cref="Result{TIn}" />.</param>
+        /// <param name="binder">The function to apply to the value.</param>
+        /// <returns>The <see cref="Result{TOut}" /> from the binder function.</returns>
         public static async Task<Result<TOut>> BindAsync<TIn, TOut>(
             this Task<Result<TIn>> resultTask,
-            Func<TIn, Task<Result<TOut>>> func
-        )
-        {
-            var result = await resultTask.ConfigureAwait(false);
-            if (result.IsSuccess)
-            {
-                // result.Value is non-null when IsSuccess is true.
-                return await func(result.Value!).ConfigureAwait(false);
-            }
-            return result.Error;
-        }
+            Func<TIn, Result<TOut>> binder
+        ) => (await resultTask.ConfigureAwait(false)).Bind(binder);
 
         /// <summary>
-        /// Awaits an asynchronous input result and then chains it with a new **synchronous** operation that might fail.
-        /// If the awaited result is a failure, the error is propagated.
+        ///     Asynchronously binds a <see cref="Task{Result}" /> to a <see cref="Result{T}" /> by applying a function.
+        /// </summary>
+        /// <typeparam name="T">The type of the output value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Task{Result}" />.</param>
+        /// <param name="binder">The function to apply.</param>
+        /// <returns>The <see cref="Result{T}" /> from the binder function.</returns>
+        public static async Task<Result<T>> BindAsync<T>(
+            this Task<Result> resultTask,
+            Func<Result<T>> binder
+        ) => (await resultTask.ConfigureAwait(false)).Bind(binder);
+
+        /// <summary>
+        ///     Asynchronously binds a <see cref="Task{Result}" /> to a <see cref="Result" /> by applying a function.
+        /// </summary>
+        /// <param name="resultTask">The input <see cref="Task{Result}" />.</param>
+        /// <param name="binder">The function to apply.</param>
+        /// <returns>The <see cref="Result" /> from the binder function.</returns>
+        public static async Task<Result> BindAsync(
+            this Task<Result> resultTask,
+            Func<Result> binder
+        ) => (await resultTask.ConfigureAwait(false)).Bind(binder);
+
+        /// <summary>
+        ///     Asynchronously binds a <see cref="Result{TIn}" /> to a <see cref="Result{TOut}" /> by applying an asynchronous function to the contained value.
         /// </summary>
         /// <typeparam name="TIn">The type of the input value.</typeparam>
         /// <typeparam name="TOut">The type of the output value.</typeparam>
-        /// <param name="resultTask">The asynchronous input result.</param>
-        /// <param name="func">The synchronous function to apply to the successful value, which returns a new <see cref="Result{TOut}"/>.</param>
-        /// <returns>The <see cref="Task{TResult}">Task&lt;Result&lt;TOut&gt;&gt;</see> containing the result produced by <paramref name="func"/>, or the original error.</returns>
+        /// <param name="resultTask">The input <see cref="Result{TIn}" />.</param>
+        /// <param name="binder">The asynchronous function to apply to the value.</param>
+        /// <returns>The <see cref="Result{TOut}" /> from the binder function.</returns>
         public static async Task<Result<TOut>> BindAsync<TIn, TOut>(
             this Task<Result<TIn>> resultTask,
-            Func<TIn, Result<TOut>> func
-        )
-        {
-            var result = await resultTask.ConfigureAwait(false);
-            if (result.IsSuccess)
-            {
-                // result.Value is non-null when IsSuccess is true.
-                return func(result.Value!);
-            }
-            return result.Error;
-        }
+            Func<TIn, Task<Result<TOut>>> binder
+        ) =>
+            await (await resultTask.ConfigureAwait(false))
+                .BindAsync(binder)
+                .ConfigureAwait(false);
+
+        /// <summary>
+        ///     Asynchronously binds a <see cref="Task{Result}" /> to a <see cref="Result{T}" /> by applying an asynchronous function.
+        /// </summary>
+        /// <typeparam name="T">The type of the output value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Task{Result}" />.</param>
+        /// <param name="binder">The asynchronous function to apply.</param>
+        /// <returns>The <see cref="Result{T}" /> from the binder function.</returns>
+        public static async Task<Result<T>> BindAsync<T>(
+            this Task<Result> resultTask,
+            Func<Task<Result<T>>> binder
+        ) =>
+            await (await resultTask.ConfigureAwait(false))
+                .BindAsync(binder)
+                .ConfigureAwait(false);
+
+        /// <summary>
+        ///     Asynchronously binds a <see cref="Task{Result}" /> to a <see cref="Result" /> by applying an asynchronous function.
+        /// </summary>
+        /// <param name="resultTask">The input <see cref="Task{Result}" />.</param>
+        /// <param name="binder">The asynchronous function to apply.</param>
+        /// <returns>The <see cref="Result" /> from the binder function.</returns>
+        public static async Task<Result> BindAsync(
+            this Task<Result> resultTask,
+            Func<Task<Result>> binder
+        ) => await (await resultTask.ConfigureAwait(false)).BindAsync(binder).ConfigureAwait(false);
     }
 }

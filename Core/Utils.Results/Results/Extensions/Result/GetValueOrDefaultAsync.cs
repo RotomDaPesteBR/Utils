@@ -1,4 +1,4 @@
-﻿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     /// <summary>
     /// Fornece métodos de extensão para a classe <see cref="Result{TValue}"/>,
@@ -7,35 +7,67 @@
     public static partial class ResultExtensions
     {
         /// <summary>
-        /// Aguarda um <see cref="Task{TResult}"/> contendo um <see cref="Result{TValue}"/> e retorna o valor de sucesso.
-        /// Se for uma falha, retorna o valor padrão fornecido.
+        ///     Asynchronously returns the value of a <see cref="Result{T}" /> if it is a success, otherwise invokes an asynchronous factory to create a default value.
         /// </summary>
-        /// <typeparam name="TValue">O tipo de valor.</typeparam>
-        /// <param name="resultTask">A Task que contém o resultado.</param>
-        /// <param name="defaultValue">O valor a ser retornado em caso de falha.</param>
-        /// <returns>Uma <see cref="Task{TResult}"/> contendo o valor de sucesso ou o valor padrão.</returns>
-        public static async Task<TValue> GetValueOrDefaultAsync<TValue>(
-            this Task<Result<TValue>> resultTask,
-            TValue defaultValue
-        )
-        {
-            var result = await resultTask.ConfigureAwait(false);
-            return result.IsSuccess ? result.Value : defaultValue;
-        }
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="result">The input <see cref="Result{T}" />.</param>
+        /// <param name="defaultValueFactory">The asynchronous function to create a default value if the result is a failure.</param>
+        /// <returns>The value or the created default value.</returns>
+        public static async Task<T> GetValueOrDefaultAsync<T>(
+            this Result<T> result,
+            Func<Task<T>> defaultValueFactory
+        ) => result.IsSuccess ? result.Value! : await defaultValueFactory().ConfigureAwait(false);
 
         /// <summary>
-        /// Aguarda um <see cref="Task{TResult}"/> contendo um <see cref="Result{TValue}"/> e retorna o valor de sucesso.
-        /// Se for uma falha, retorna o valor padrão de <typeparamref name="TValue"/>.
+        ///     Asynchronously returns the value of a <see cref="Result{T}" /> if it is a success, otherwise the default value of the type.
         /// </summary>
-        /// <typeparam name="TValue">O tipo de valor.</typeparam>
-        /// <param name="resultTask">A Task que contém o resultado.</param>
-        /// <returns>Uma <see cref="Task{TResult}"/> contendo o valor de sucesso ou o valor padrão.</returns>
-        public static async Task<TValue?> GetValueOrDefaultAsync<TValue>(
-            this Task<Result<TValue>> resultTask
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <returns>The value or the default of <typeparamref name="T" />.</returns>
+        public static async Task<T?> GetValueOrDefaultAsync<T>(this Task<Result<T>> resultTask) =>
+            (await resultTask.ConfigureAwait(false)).GetValueOrDefault();
+
+        /// <summary>
+        ///     Asynchronously returns the value of a <see cref="Result{T}" /> if it is a success, otherwise the provided default value.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <param name="defaultValue">The default value to return if the result is a failure.</param>
+        /// <returns>The value or the provided default value.</returns>
+        public static async Task<T> GetValueOrDefaultAsync<T>(
+            this Task<Result<T>> resultTask,
+            T defaultValue
+        ) => (await resultTask.ConfigureAwait(false)).GetValueOrDefault(defaultValue);
+
+        /// <summary>
+        ///     Asynchronously returns the value of a <see cref="Result{T}" /> if it is a success, otherwise invokes a factory to create a default value.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <param name="defaultValueFactory">The function to create a default value if the result is a failure.</param>
+        /// <returns>The value or the created default value.</returns>
+        public static async Task<T> GetValueOrDefaultAsync<T>(
+            this Task<Result<T>> resultTask,
+            Func<T> defaultValueFactory
+        ) => (await resultTask.ConfigureAwait(false)).GetValueOrDefault(defaultValueFactory());
+
+        /// <summary>
+        ///     Asynchronously returns the value of a <see cref="Result{T}" /> if it is a success, otherwise invokes an asynchronous factory to create a default value.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <param name="defaultValueFactory">The asynchronous function to create a default value if the result is a failure.</param>
+        /// <returns>The value or the created default value.</returns>
+        public static async Task<T> GetValueOrDefaultAsync<T>(
+            this Task<Result<T>> resultTask,
+            Func<Task<T>> defaultValueFactory
         )
         {
-            var result = await resultTask.ConfigureAwait(false);
-            return result.IsSuccess ? result.Value : default;
+            Result<T> result = await resultTask.ConfigureAwait(false);
+
+            return result.IsSuccess
+                ? result.Value!
+                : await defaultValueFactory().ConfigureAwait(false);
         }
     }
 }

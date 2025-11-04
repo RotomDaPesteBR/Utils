@@ -58,10 +58,8 @@ namespace LightningArc.Utils.Json.Converters
             Utf8JsonWriter writer,
             Email value,
             JsonSerializerOptions options
-        )
-        {
+        ) =>
             // Escreve apenas o valor da string do Email
             writer.WriteStringValue(value.Value);
-        }
     }
 }

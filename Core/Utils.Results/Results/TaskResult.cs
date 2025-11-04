@@ -44,12 +44,10 @@ namespace LightningArc.Utils.Results
             /// Obtém o resultado da tarefa após a conclusão.
             /// </summary>
             /// <returns>O <see cref="Result{TValue}"/> encapsulado pela tarefa.</returns>
-            public Result<TValue> GetResult()
-            {
+            public Result<TValue> GetResult() =>
                 // Isso lançará a exceção original da Task se ela falhar,
                 // ou retornará o Result<TValue> se for bem-sucedida.
-                return _task.Result;
-            }
+                _task.Result;
 
             /// <summary>
             /// Agenda a ação de continuação quando a tarefa for concluída.
@@ -106,9 +104,7 @@ namespace LightningArc.Utils.Results
         /// </summary>
         /// <param name="task">A <see cref="Task{TResult}"/> a ser convertida.</param>
         /// <returns>Um TaskResult&lt;object&gt; encapsulando a tarefa.</returns>
-        public static TaskResult<object> FromTask(Task<Result> task)
-        {
-            return new TaskResult<object>(
+        public static TaskResult<object> FromTask(Task<Result> task) => new TaskResult<object>(
                 task.ContinueWith(t =>
                 {
                     if (t.IsFaulted && t.Exception != null)
@@ -133,7 +129,6 @@ namespace LightningArc.Utils.Results
                     }
                 })
             );
-        }
 
         /// <summary>
         /// Cria um TaskResult&lt;object&gt; de sucesso para operações que não retornam um valor específico.

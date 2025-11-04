@@ -281,7 +281,7 @@ public class Result
 public class Result<TValue> : Result
 {
     /// <summary>
-    /// Obtém o objeto <see cref="Results.Success"/> associado a este resultado.
+    /// Obtém o objeto <see cref="Success"/> associado a este resultado.
     /// </summary>
     /// <exception cref="ResultAccessFailedException">Lançada se o resultado for de falha (não há sucesso para acessar).</exception>
     public new Success<TValue> SuccessDetails =>
@@ -315,7 +315,7 @@ public class Result<TValue> : Result
     /// <summary>
     /// Construtor protegido para um resultado de sucesso.
     /// </summary>
-    /// <param name="success">O objeto <see cref="Results.Success"/> contendo o código e a mensagem.</param>
+    /// <param name="success">O objeto <see cref="Success"/> contendo o código e a mensagem.</param>
     internal Result(Success<TValue> success)
         : base(success)
     {

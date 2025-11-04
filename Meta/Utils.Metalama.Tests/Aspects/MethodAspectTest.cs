@@ -11,8 +11,5 @@ namespace Utils.Metalama.Tests.Aspects;
 public partial class MethodAspectTest
 {
     [OverrideMethodWithLoggingAspect]
-    public void Test()
-    {
-        Debug.WriteLine("Test");
-    }
+    public void Test() => Debug.WriteLine("Test");
 }

@@ -1,0 +1,50 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
+    <CentralPackageVersionOverrideEnabled>true</CentralPackageVersionOverrideEnabled>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageVersion>1.0.2-preview</PackageVersion> 
+  </PropertyGroup>
+
+  <!-- Compatibility -->
+  <ItemGroup>
+    <PackageVersion Include="PolySharp" Version="1.15.0" />
+    <PackageVersion Include="System.Text.Json" Condition="'$(TargetFramework)' == 'net6.0'" Version="8.0.6" />
+    <PackageVersion Include="System.Text.Json" Condition="'$(TargetFramework)' == 'netstandard2.0' 
+                                                       OR '$(TargetFramework)' == 'net8.0' 
+                                                       OR '$(TargetFramework)' == 'net9.0' 
+                                                       OR '$(TargetFramework)' == 'net10.0'" 
+    Version="9.0.9" />
+  </ItemGroup>
+  
+  <!-- Abstractions -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.10" />
+  </ItemGroup>
+
+  <!-- AspNetCore -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.0.20" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Condition="'$(TargetFramework)' == 'net9.0'" Version="9.0.10" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Condition="'$(TargetFramework)' == 'net10.0'" Version="10.0.0-rc.2.25502.107" />
+  </ItemGroup>
+  
+  <!-- Metalama -->
+  <ItemGroup>
+    <PackageVersion Include="Metalama.Framework" Version="2026.0.3-preview" />
+    <PackageVersion Include="Metalama.Extensions.DependencyInjection" Version="2026.0.3-preview" />
+  </ItemGroup>
+  
+  <!-- Tests -->
+  <ItemGroup> 
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+  </ItemGroup>
+</Project>

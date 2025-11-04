@@ -1,6 +1,4 @@
-﻿// File: ResultExtensions.Bind.cs
-
-namespace LightningArc.Utils.Results
+﻿namespace LightningArc.Utils.Results
 {
     /// <summary>
     /// Provides extension methods for the <see cref="Result{TValue}"/> class,
@@ -9,28 +7,35 @@ namespace LightningArc.Utils.Results
     public static partial class ResultExtensions
     {
         /// <summary>
-        /// Chains the current result with a new operation that might fail, transforming the success value
-        /// into a new <see cref="Result{TOut}"/>. This is the **Bind** (or FlatMap) operation.
-        /// If the input result is a failure, the error is propagated without executing the function.
+        ///     Binds a <see cref="Result{TIn}" /> to a <see cref="Result{TOut}" /> by applying a function to the contained value.
         /// </summary>
         /// <typeparam name="TIn">The type of the input value.</typeparam>
-        /// <typeparam name="TOut">O tipo de valor de saída.</typeparam>
-        /// <param name="result">The input result.</param>
-        /// <param name="func">The function to apply to the successful value, which returns a new <see cref="Result{TOut}"/>.</param>
-        /// <returns>The new <see cref="Result{TOut}"/> produced by <paramref name="func"/>, or the original error.</returns>
+        /// <typeparam name="TOut">The type of the output value.</typeparam>
+        /// <param name="result">The input <see cref="Result{TIn}" />.</param>
+        /// <param name="binder">The function to apply to the value.</param>
+        /// <returns>The <see cref="Result{TOut}" /> from the binder function.</returns>
         public static Result<TOut> Bind<TIn, TOut>(
             this Result<TIn> result,
-            Func<TIn, Result<TOut>> func
-        )
-        {
-            if (result.IsSuccess)
-            {
-                // result.Value is non-null when IsSuccess is true.
-                return func(result.Value!);
-            }
+            Func<TIn, Result<TOut>> binder
+        ) => !result.IsSuccess ? Result<TOut>.Failure(result.Error) : binder(result.Value!);
 
-            // The implicit conversion from Error to Result<TOut> applies here.
-            return result.Error;
-        }
+        /// <summary>
+        ///     Binds a <see cref="Result" /> to a <see cref="Result{T}" /> by applying a function.
+        /// </summary>
+        /// <typeparam name="T">The type of the output value.</typeparam>
+        /// <param name="result">The input <see cref="Result" />.</param>
+        /// <param name="binder">The function to apply.</param>
+        /// <returns>The <see cref="Result{T}" /> from the binder function.</returns>
+        public static Result<T> Bind<T>(this Result result, Func<Result<T>> binder) =>
+            !result.IsSuccess ? Result<T>.Failure(result.Error) : binder();
+
+        /// <summary>
+        ///     Binds a <see cref="Result" /> to a <see cref="Result" /> by applying a function.
+        /// </summary>
+        /// <param name="result">The input <see cref="Result" />.</param>
+        /// <param name="binder">The function to apply.</param>
+        /// <returns>The <see cref="Result" /> from the binder function.</returns>
+        public static Result Bind(this Result result, Func<Result> binder) =>
+            !result.IsSuccess ? result : binder();
     }
 }

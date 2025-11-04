@@ -1,56 +1,125 @@
-﻿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     /// <summary>
-    /// Fornece métodos de extensão para a classe <see cref="Result{TValue}"/>,
-    /// permitindo a composição de operações funcionais.
+    /// Provides asynchronous extension methods for the <see cref="Result"/> and <see cref="Result{TValue}"/> classes,
+    /// focused on executing side effects (Tap) within an asynchronous flow.
     /// </summary>
     public static partial class ResultExtensions
     {
         /// <summary>
-        /// Executa assincronamente uma função assíncrona no valor de sucesso de um <see cref="Result{TValue}"/> se a operação foi bem-sucedida.
+        ///     Asynchronously executes the given action if the <see cref="Result{T}" /> is a success.
         /// </summary>
-        public static async Task<Result<TValue>> TapAsync<TValue>(
-            this Task<Result<TValue>> taskResult,
-            Action<TValue> action
-        )
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="result">The input <see cref="Result{T}" />.</param>
+        /// <param name="action">The asynchronous action to execute.</param>
+        /// <returns>The input <see cref="Result{T}" />.</returns>
+        public static async Task<Result<T>> TapAsync<T>(this Result<T> result, Func<T, Task> action)
         {
-            var result = await taskResult.ConfigureAwait(false);
             if (result.IsSuccess)
             {
-                action(result.Value);
+                await action(result.Value!).ConfigureAwait(false);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///     Asynchronously executes the given action if the <see cref="Result" /> is a success.
+        /// </summary>
+        /// <param name="result">The input <see cref="Result" />.</param>
+        /// <param name="action">The asynchronous action to execute.</param>
+        /// <returns>The input <see cref="Result" />.</returns>
+        public static async Task<Result> TapAsync(this Result result, Func<Task> action)
+        {
+            if (result.IsSuccess)
+            {
+                await action().ConfigureAwait(false);
             }
             return result;
         }
 
         /// <summary>
-        /// Executa assincronamente uma função assíncrona no valor de sucesso de um <see cref="Result{TValue}"/> se a operação foi bem-sucedida.
+        ///     Asynchronously executes the given action if the <see cref="Result{T}" /> is a success.
         /// </summary>
-        public static async Task<Result<TValue>> TapAsync<TValue>(
-            this Result<TValue> result,
-            Func<TValue, Task> action
-        )
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="result">The input <see cref="Result{T}" />.</param>
+        /// <param name="action">The asynchronous action to execute.</param>
+        /// <returns>The input <see cref="Result{T}" />.</returns>
+        public static async Task<Result<T>> TapAsync<T>(this Result<T> result, Func<Task> action)
         {
             if (result.IsSuccess)
             {
-                await action(result.Value).ConfigureAwait(false);
+                await action().ConfigureAwait(false);
             }
             return result;
         }
 
         /// <summary>
-        /// Executa assincronamente uma função assíncrona no valor de sucesso de um <see cref="Result{TValue}"/> se a operação foi bem-sucedida.
+        ///     Asynchronously executes the given action if the <see cref="Result{T}" /> is a success.
         /// </summary>
-        public static async Task<Result<TValue>> TapAsync<TValue>(
-            this Task<Result<TValue>> resultTask,
-            Func<TValue, Task> action
-        )
-        {
-            var result = await resultTask.ConfigureAwait(false);
-            if (result.IsSuccess)
-            {
-                await action(result.Value).ConfigureAwait(false);
-            }
-            return result;
-        }
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <param name="action">The action to execute.</param>
+        /// <returns>The input <see cref="Result{T}" />.</returns>
+        public static async Task<Result<T>> TapAsync<T>(
+            this Task<Result<T>> resultTask,
+            Action<T> action
+        ) => (await resultTask.ConfigureAwait(false)).Tap(action);
+
+        /// <summary>
+        ///     Asynchronously executes the given action if the <see cref="Task{Result}" /> is a success.
+        /// </summary>
+        /// <param name="resultTask">The input <see cref="Task{Result}" />.</param>
+        /// <param name="action">The action to execute.</param>
+        /// <returns>The input <see cref="Task{Result}" />.</returns>
+        public static async Task<Result> TapAsync(this Task<Result> resultTask, Action action) =>
+            (await resultTask.ConfigureAwait(false)).Tap(action);
+
+        /// <summary>
+        ///     Asynchronously executes the given action if the <see cref="Result{T}" /> is a success.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <param name="action">The action to execute.</param>
+        /// <returns>The input <see cref="Result{T}" />.</returns>
+        public static async Task<Result<T>> TapAsync<T>(
+            this Task<Result<T>> resultTask,
+            Action action
+        ) => (await resultTask.ConfigureAwait(false)).Tap(action);
+
+        /// <summary>
+        ///     Asynchronously executes the given action if the <see cref="Result{T}" /> is a success.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{T}"/>.</param>
+        /// <param name="action">The asynchronous action to execute.</param>
+        /// <returns>The input <see cref="Result{T}" />.</returns>
+        public static async Task<Result<T>> TapAsync<T>(
+            this Task<Result<T>> resultTask,
+            Func<T, Task> action
+        ) => await (await resultTask.ConfigureAwait(false)).TapAsync(action).ConfigureAwait(false);
+
+        /// <summary>
+        ///     Asynchronously executes the given action if the <see cref="Task{Result}" /> is a success.
+        /// </summary>
+        /// <param name="resultTask">The input <see cref="Task{Result}" />.</param>
+        /// <param name="action">The asynchronous action to execute.</param>
+        /// <returns>The input <see cref="Task{Result}" />.</returns>
+        public static async Task<Result> TapAsync(
+            this Task<Result> resultTask,
+            Func<Task> action
+        ) => await (await resultTask.ConfigureAwait(false)).TapAsync(action).ConfigureAwait(false);
+
+        /// <summary>
+        ///     Asynchronously executes the given action if the <see cref="Result{T}" /> is a success.
+        /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <param name="action">The asynchronous action to execute.</param>
+        /// <returns>The input <see cref="Result{T}" />.</returns>
+        public static async Task<Result<T>> TapAsync<T>(
+            this Task<Result<T>> resultTask,
+            Func<Task> action
+        ) => await (await resultTask.ConfigureAwait(false)).TapAsync(action).ConfigureAwait(false);
     }
 }
