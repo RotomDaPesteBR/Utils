@@ -64,7 +64,10 @@
             /// </summary>
             internal class ConnectionFailedError : Error
             {
-                internal ConnectionFailedError(string message, List<ErrorDetail>? details = null)
+                internal ConnectionFailedError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Network.CodePrefix, (int)Codes.ConnectionFailed, message, details) { }
             }
 
@@ -73,7 +76,10 @@
             /// </summary>
             internal class RequestTimeoutError : Error
             {
-                internal RequestTimeoutError(string message, List<ErrorDetail>? details = null)
+                internal RequestTimeoutError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Network.CodePrefix, (int)Codes.RequestTimeout, message, details) { }
             }
 
@@ -82,7 +88,10 @@
             /// </summary>
             internal class ServiceUnavailableError : Error
             {
-                internal ServiceUnavailableError(string message, List<ErrorDetail>? details = null)
+                internal ServiceUnavailableError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Network.CodePrefix, (int)Codes.ServiceUnavailable, message, details) { }
             }
 
@@ -91,7 +100,7 @@
             /// </summary>
             internal class DnsFailureError : Error
             {
-                internal DnsFailureError(string message, List<ErrorDetail>? details = null)
+                internal DnsFailureError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Network.CodePrefix, (int)Codes.DnsFailure, message, details) { }
             }
 
@@ -100,7 +109,10 @@
             /// </summary>
             internal class SslHandshakeFailedError : Error
             {
-                internal SslHandshakeFailedError(string message, List<ErrorDetail>? details = null)
+                internal SslHandshakeFailedError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Network.CodePrefix, (int)Codes.SslHandshakeFailed, message, details) { }
             }
 
@@ -109,7 +121,7 @@
             /// </summary>
             internal class ProxyFailureError : Error
             {
-                internal ProxyFailureError(string message, List<ErrorDetail>? details = null)
+                internal ProxyFailureError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Network.CodePrefix, (int)Codes.ProxyFailure, message, details) { }
             }
 
@@ -123,7 +135,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de conexão.</returns>
             public static Error ConnectionFailed(
                 string message = "Falha ao conectar à rede.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ConnectionFailedError(message, details);
 
             /// <summary>
@@ -134,7 +146,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um timeout.</returns>
             public static Error RequestTimeout(
                 string message = "Tempo limite de requisição excedido.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new RequestTimeoutError(message, details);
 
             /// <summary>
@@ -145,7 +157,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um serviço indisponível.</returns>
             public static Error ServiceUnavailable(
                 string message = "Serviço de rede indisponível no momento.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ServiceUnavailableError(message, details);
 
             /// <summary>
@@ -156,7 +168,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de DNS.</returns>
             public static Error DnsFailure(
                 string message = "Falha na resolução de nome de domínio (DNS).",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new DnsFailureError(message, details);
 
             /// <summary>
@@ -167,7 +179,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de SSL/TLS.</returns>
             public static Error SslHandshakeFailed(
                 string message = "Falha na validação do certificado SSL/TLS.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new SslHandshakeFailedError(message, details);
 
             /// <summary>
@@ -178,7 +190,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha no proxy.</returns>
             public static Error ProxyFailure(
                 string message = "Falha na conexão ou autenticação do proxy.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ProxyFailureError(message, details);
         }
     }

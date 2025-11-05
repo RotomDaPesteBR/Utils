@@ -64,7 +64,7 @@
             /// </summary>
             internal class UnauthorizedError : Error
             {
-                internal UnauthorizedError(string message, List<ErrorDetail>? details = null)
+                internal UnauthorizedError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Authentication.CodePrefix, (int)Codes.Unauthorized, message, details) { }
             }
 
@@ -73,7 +73,7 @@
             /// </summary>
             internal class ForbiddenError : Error
             {
-                internal ForbiddenError(string message, List<ErrorDetail>? details = null)
+                internal ForbiddenError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Authentication.CodePrefix, (int)Codes.Forbidden, message, details) { }
             }
 
@@ -82,7 +82,7 @@
             /// </summary>
             internal class TokenExpiredError : Error
             {
-                internal TokenExpiredError(string message, List<ErrorDetail>? details = null)
+                internal TokenExpiredError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Authentication.CodePrefix, (int)Codes.TokenExpired, message, details) { }
             }
 
@@ -91,8 +91,16 @@
             /// </summary>
             internal class InvalidCredentialsError : Error
             {
-                internal InvalidCredentialsError(string message, List<ErrorDetail>? details = null)
-                    : base(Authentication.CodePrefix, (int)Codes.InvalidCredentials, message, details) { }
+                internal InvalidCredentialsError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(
+                        Authentication.CodePrefix,
+                        (int)Codes.InvalidCredentials,
+                        message,
+                        details
+                    ) { }
             }
 
             /// <summary>
@@ -100,8 +108,12 @@
             /// </summary>
             internal class InactiveAccountError : Error
             {
-                internal InactiveAccountError(string message, List<ErrorDetail>? details = null)
-                    : base(Authentication.CodePrefix, (int)Codes.InactiveAccount, message, details) { }
+                internal InactiveAccountError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(Authentication.CodePrefix, (int)Codes.InactiveAccount, message, details)
+                { }
             }
 
             /// <summary>
@@ -109,8 +121,12 @@
             /// </summary>
             internal class ExpiredSessionError : Error
             {
-                internal ExpiredSessionError(string message, List<ErrorDetail>? details = null)
-                    : base(Authentication.CodePrefix, (int)Codes.ExpiredSession, message, details) { }
+                internal ExpiredSessionError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(Authentication.CodePrefix, (int)Codes.ExpiredSession, message, details)
+                { }
             }
 
             // --- Construtores Estáticos ---
@@ -123,7 +139,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de autenticação.</returns>
             public static Error Unauthorized(
                 string message = "Acesso não autorizado. Credenciais ausentes ou inválidas.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new UnauthorizedError(message, details);
 
             /// <summary>
@@ -134,7 +150,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um acesso proibido.</returns>
             public static Error Forbidden(
                 string message = "Acesso proibido. Permissão insuficiente.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ForbiddenError(message, details);
 
             /// <summary>
@@ -145,7 +161,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um token expirado.</returns>
             public static Error TokenExpired(
                 string message = "O token de autenticação expirou.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new TokenExpiredError(message, details);
 
             /// <summary>
@@ -156,7 +172,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando credenciais inválidas.</returns>
             public static Error InvalidCredentials(
                 string message = "As credenciais fornecidas são inválidas.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InvalidCredentialsError(message, details);
 
             /// <summary>
@@ -167,7 +183,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma conta inativa.</returns>
             public static Error InactiveAccount(
                 string message = "A conta de usuário está inativa.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InactiveAccountError(message, details);
 
             /// <summary>
@@ -178,7 +194,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma sessão expirada.</returns>
             public static Error ExpiredSession(
                 string message = "A sessão de usuário expirou.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ExpiredSessionError(message, details);
         }
     }

@@ -88,7 +88,7 @@ public sealed class EndpointResult<TValue> : IResult
         if (result.IsSuccess)
         {
             return new EndpointResult<TValue>(
-                new SuccessResult<TValue>(result.SuccessDetails!, result.Value!, contentType)
+                new SuccessResult<TValue>(result.SuccessDetails, contentType)
             );
         }
         else
@@ -106,15 +106,21 @@ public sealed class EndpointResult<TValue> : IResult
     {
         if (result.IsSuccess)
         {
-            return new EndpointResult<TValue>(
-                new SuccessResult<TValue>(result.SuccessDetails!, result.Value!)
-            );
+            return new EndpointResult<TValue>(new SuccessResult<TValue>(result.SuccessDetails));
         }
         else
         {
             return new EndpointResult<TValue>(new ErrorResult(result.Error!));
         }
     }
+
+    /// <summary>
+    /// Permite a conversão implícita de um TValue para um <see cref="EndpointResult{TValue}"/>.
+    /// </summary>
+    /// <param name="value">O TValue a ser convertido.</param>
+    /// <returns>Um <see cref="EndpointResult{TValue}"/> que encapsula a resposta HTTP correspondente.</returns>
+    public static implicit operator EndpointResult<TValue>(TValue value) =>
+        new(new SuccessResult<TValue>(Success.Ok(value)));
 
     /// <summary>
     /// Permite a conversão implícita de um <see cref="Error"/> para um <see cref="EndpointResult{TValue}"/>.

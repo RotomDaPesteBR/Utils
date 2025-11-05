@@ -18,7 +18,7 @@ public static class BusinessErrorExtensions
 {
     public static Error OrderRejected(
         this Error.ErrorModule<Business> _,
-        string message,
+        string message = "Pedido rejeitado",
         List<ErrorDetail>? details = null
     ) => new OrderRejectedError(message, details);
 }

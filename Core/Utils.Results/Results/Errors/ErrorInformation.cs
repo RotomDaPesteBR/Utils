@@ -14,4 +14,9 @@ public class ErrorInformation
     /// O nome do método de fábrica que cria o erro.
     /// </summary>
     public string Name { get; init; } = "Erro";
+
+    /// <summary>
+    /// A mensagem padrão associada a este erro.
+    /// </summary>
+    public string Message { get; init; } = "";
 }

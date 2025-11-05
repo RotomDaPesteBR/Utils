@@ -59,7 +59,10 @@
             /// </summary>
             internal class InvalidRequestError : Error
             {
-                internal InvalidRequestError(string message, List<ErrorDetail>? details = null)
+                internal InvalidRequestError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Request.CodePrefix, (int)Codes.InvalidRequest, message, details) { }
             }
 
@@ -68,7 +71,10 @@
             /// </summary>
             internal class TooLargeRequestError : Error
             {
-                internal TooLargeRequestError(string message, List<ErrorDetail>? details = null)
+                internal TooLargeRequestError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Request.CodePrefix, (int)Codes.TooLargeRequest, message, details) { }
             }
 
@@ -77,7 +83,10 @@
             /// </summary>
             internal class TooManyRequestsError : Error
             {
-                internal TooManyRequestsError(string message, List<ErrorDetail>? details = null)
+                internal TooManyRequestsError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Request.CodePrefix, (int)Codes.TooManyRequests, message, details) { }
             }
 
@@ -86,7 +95,10 @@
             /// </summary>
             internal class NotAcceptableError : Error
             {
-                internal NotAcceptableError(string message, List<ErrorDetail>? details = null)
+                internal NotAcceptableError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Request.CodePrefix, (int)Codes.NotAcceptable, message, details) { }
             }
 
@@ -95,8 +107,12 @@
             /// </summary>
             internal class UnsupportedMediaTypeError : Error
             {
-                internal UnsupportedMediaTypeError(string message, List<ErrorDetail>? details = null)
-                    : base(Request.CodePrefix, (int)Codes.UnsupportedMediaType, message, details) { }
+                internal UnsupportedMediaTypeError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(Request.CodePrefix, (int)Codes.UnsupportedMediaType, message, details)
+                { }
             }
 
             // --- Construtores Estáticos ---
@@ -107,8 +123,10 @@
             /// <param name="message">A mensagem descritiva do erro. O valor padrão é "A requisição possui um formato inválido."</param>
             /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma requisição inválida.</returns>
-            public static Error Invalid(string message = "A requisição possui um formato inválido.", List<ErrorDetail>? details = null)
-                => new InvalidRequestError(message, details);
+            public static Error Invalid(
+                string message = "A requisição possui um formato inválido.",
+                params IEnumerable<ErrorDetail>? details
+            ) => new InvalidRequestError(message, details);
 
             /// <summary>
             /// Cria uma nova instância de um erro de requisição muito grande (código 02).
@@ -116,8 +134,10 @@
             /// <param name="message">A mensagem descritiva do erro. O valor padrão é "A carga da requisição é muito grande."</param>
             /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma carga de requisição muito grande.</returns>
-            public static Error TooLarge(string message = "A carga da requisição é muito grande.", List<ErrorDetail>? details = null)
-                => new TooLargeRequestError(message, details);
+            public static Error TooLarge(
+                string message = "A carga da requisição é muito grande.",
+                params IEnumerable<ErrorDetail>? details
+            ) => new TooLargeRequestError(message, details);
 
             /// <summary>
             /// Cria uma nova instância de um erro de excesso de requisições (código 03).
@@ -125,8 +145,10 @@
             /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Número excessivo de requisições."</param>
             /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
             /// <returns>Uma nova instância de <see cref="Error"/> representando um excesso de requisições.</returns>
-            public static Error TooManyRequests(string message = "Número excessivo de requisições.", List<ErrorDetail>? details = null)
-                => new TooManyRequestsError(message, details);
+            public static Error TooManyRequests(
+                string message = "Número excessivo de requisições.",
+                params IEnumerable<ErrorDetail>? details
+            ) => new TooManyRequestsError(message, details);
 
             /// <summary>
             /// Cria uma nova instância de um erro de "não aceitável" (código 04).
@@ -134,8 +156,10 @@
             /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O formato da resposta não é aceitável."</param>
             /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
             /// <returns>Uma nova instância de <see cref="Error"/> representando um formato de resposta não aceitável.</returns>
-            public static Error NotAcceptable(string message = "O formato da resposta não é aceitável.", List<ErrorDetail>? details = null)
-                => new NotAcceptableError(message, details);
+            public static Error NotAcceptable(
+                string message = "O formato da resposta não é aceitável.",
+                params IEnumerable<ErrorDetail>? details
+            ) => new NotAcceptableError(message, details);
 
             /// <summary>
             /// Cria uma nova instância de um erro de tipo de mídia não suportado (código 05).
@@ -143,8 +167,10 @@
             /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O tipo de mídia da requisição não é suportado."</param>
             /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
             /// <returns>Uma nova instância de <see cref="Error"/> representando um tipo de mídia não suportado.</returns>
-            public static Error UnsupportedMediaType(string message = "O tipo de mídia da requisição não é suportado.", List<ErrorDetail>? details = null)
-                => new UnsupportedMediaTypeError(message, details);
+            public static Error UnsupportedMediaType(
+                string message = "O tipo de mídia da requisição não é suportado.",
+                params IEnumerable<ErrorDetail>? details
+            ) => new UnsupportedMediaTypeError(message, details);
         }
     }
 }

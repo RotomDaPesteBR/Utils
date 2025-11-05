@@ -100,10 +100,10 @@ namespace LightningArc.Utils.Tests.Results
             const string value = "test";
 
             // Assert
-            Assert.IsType<Success.OkSuccess>(Result.Success(value).SuccessDetails);
-            Assert.IsType<Success.CreatedSuccess>(Result.Created(value).SuccessDetails);
-            Assert.IsType<Success.AcceptedSuccess>(Result.Accepted(value).SuccessDetails);
-            Assert.IsType<Success.NoContentSuccess>(Result.NoContent(value).SuccessDetails);
+            Assert.IsType<Success<string>.OkSuccess>(Result.Success(value).SuccessDetails);
+            Assert.IsType<Success<string>.CreatedSuccess>(Result.Created(value).SuccessDetails);
+            Assert.IsType<Success<string>.AcceptedSuccess>(Result.Accepted(value).SuccessDetails);
+            Assert.IsType<Success<string>.NoContentSuccess>(Result.NoContent(value).SuccessDetails);
         }
 
         [Fact]

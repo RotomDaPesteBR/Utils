@@ -59,7 +59,10 @@
             /// </summary>
             internal class ConnectionFailedError : Error
             {
-                internal ConnectionFailedError(string message, List<ErrorDetail>? details = null)
+                internal ConnectionFailedError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Database.CodePrefix, (int)Codes.ConnectionFailed, message, details) { }
             }
 
@@ -70,9 +73,10 @@
             {
                 internal QueryExecutionFailedError(
                     string message,
-                    List<ErrorDetail>? details = null
+                    IEnumerable<ErrorDetail>? details = null
                 )
-                    : base(Database.CodePrefix, (int)Codes.QueryExecutionFailed, message, details) { }
+                    : base(Database.CodePrefix, (int)Codes.QueryExecutionFailed, message, details)
+                { }
             }
 
             /// <summary>
@@ -80,8 +84,12 @@
             /// </summary>
             internal class ConstraintViolationError : Error
             {
-                internal ConstraintViolationError(string message, List<ErrorDetail>? details = null)
-                    : base(Database.CodePrefix, (int)Codes.ConstraintViolation, message, details) { }
+                internal ConstraintViolationError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(Database.CodePrefix, (int)Codes.ConstraintViolation, message, details)
+                { }
             }
 
             /// <summary>
@@ -89,7 +97,7 @@
             /// </summary>
             internal class TransientError : Error
             {
-                internal TransientError(string message, List<ErrorDetail>? details = null)
+                internal TransientError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Database.CodePrefix, (int)Codes.Transient, message, details) { }
             }
 
@@ -98,7 +106,7 @@
             /// </summary>
             internal class DeadlockError : Error
             {
-                internal DeadlockError(string message, List<ErrorDetail>? details = null)
+                internal DeadlockError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Database.CodePrefix, (int)Codes.Deadlock, message, details) { }
             }
 
@@ -112,7 +120,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de conexão.</returns>
             public static Error ConnectionFailed(
                 string message = "Falha ao conectar ao banco de dados.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ConnectionFailedError(message, details);
 
             /// <summary>
@@ -123,7 +131,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de execução de consulta.</returns>
             public static Error QueryExecutionFailed(
                 string message = "Falha ao executar consulta no banco de dados.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new QueryExecutionFailedError(message, details);
 
             /// <summary>
@@ -134,7 +142,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma violação de restrição.</returns>
             public static Error ConstraintViolation(
                 string message = "Violação de restrição do banco de dados.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ConstraintViolationError(message, details);
 
             /// <summary>
@@ -145,7 +153,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um erro temporário.</returns>
             public static Error Transient(
                 string message = "Erro temporário do banco de dados. Tente novamente.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new TransientError(message, details);
 
             /// <summary>
@@ -156,7 +164,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um deadlock.</returns>
             public static Error Deadlock(
                 string message = "Ocorreu um deadlock.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new DeadlockError(message, details);
         }
     }

@@ -1,5 +1,4 @@
-﻿
-namespace LightningArc.Utils.Results
+﻿namespace LightningArc.Utils.Results
 {
     public partial class Error
     {
@@ -60,7 +59,7 @@ namespace LightningArc.Utils.Results
             /// </summary>
             internal class InternalError : Error
             {
-                internal InternalError(string message, List<ErrorDetail>? details = null)
+                internal InternalError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Application.CodePrefix, (int)Codes.Internal, message, details) { }
             }
 
@@ -69,8 +68,12 @@ namespace LightningArc.Utils.Results
             /// </summary>
             internal class InvalidParameterError : Error
             {
-                internal InvalidParameterError(string message, List<ErrorDetail>? details = null)
-                    : base(Application.CodePrefix, (int)Codes.InvalidParameter, message, details) { }
+                internal InvalidParameterError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(Application.CodePrefix, (int)Codes.InvalidParameter, message, details)
+                { }
             }
 
             /// <summary>
@@ -78,8 +81,12 @@ namespace LightningArc.Utils.Results
             /// </summary>
             internal class InvalidOperationError : Error
             {
-                internal InvalidOperationError(string message, List<ErrorDetail>? details = null)
-                    : base(Application.CodePrefix, (int)Codes.InvalidOperation, message, details) { }
+                internal InvalidOperationError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(Application.CodePrefix, (int)Codes.InvalidOperation, message, details)
+                { }
             }
 
             /// <summary>
@@ -87,7 +94,7 @@ namespace LightningArc.Utils.Results
             /// </summary>
             internal class TaskCanceledError : Error
             {
-                internal TaskCanceledError(string message, List<ErrorDetail>? details = null)
+                internal TaskCanceledError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Application.CodePrefix, (int)Codes.TaskCanceled, message, details) { }
             }
 
@@ -96,7 +103,10 @@ namespace LightningArc.Utils.Results
             /// </summary>
             internal class NotImplementedError : Error
             {
-                internal NotImplementedError(string message, List<ErrorDetail>? details = null)
+                internal NotImplementedError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Application.CodePrefix, (int)Codes.NotImplemented, message, details) { }
             }
 
@@ -110,7 +120,7 @@ namespace LightningArc.Utils.Results
             /// <returns>Uma nova instância de <see cref="Error"/> representando um erro interno.</returns>
             public static Error Internal(
                 string message = "Erro interno da aplicação.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InternalError(message, details);
 
             /// <summary>
@@ -121,7 +131,7 @@ namespace LightningArc.Utils.Results
             /// <returns>Uma nova instância de <see cref="Error"/> representando um parâmetro inválido.</returns>
             public static Error InvalidParameter(
                 string message = "Um ou mais parâmetros são inválidos.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InvalidParameterError(message, details);
 
             /// <summary>
@@ -132,7 +142,7 @@ namespace LightningArc.Utils.Results
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma operação inválida.</returns>
             public static Error InvalidOperation(
                 string message = "A operação solicitada é inválida no estado atual do sistema.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InvalidOperationError(message, details);
 
             /// <summary>
@@ -143,7 +153,7 @@ namespace LightningArc.Utils.Results
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma operação cancelada.</returns>
             public static Error TaskCanceled(
                 string message = "A operação foi cancelada.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new TaskCanceledError(message, details);
 
             /// <summary>
@@ -154,7 +164,7 @@ namespace LightningArc.Utils.Results
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma funcionalidade não implementada.</returns>
             public static Error NotImplemented(
                 string message = "A funcionalidade ainda não foi implementada.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new NotImplementedError(message, details);
         }
     }

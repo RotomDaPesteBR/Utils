@@ -59,7 +59,7 @@
             /// </summary>
             internal class FileNotFoundError : Error
             {
-                internal FileNotFoundError(string message, List<ErrorDetail>? details = null)
+                internal FileNotFoundError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(IO.CodePrefix, (int)Codes.FileNotFound, message, details) { }
             }
 
@@ -68,7 +68,10 @@
             /// </summary>
             internal class PermissionDeniedError : Error
             {
-                internal PermissionDeniedError(string message, List<ErrorDetail>? details = null)
+                internal PermissionDeniedError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(IO.CodePrefix, (int)Codes.PermissionDenied, message, details) { }
             }
 
@@ -77,7 +80,10 @@
             /// </summary>
             internal class CorruptedFileError : Error
             {
-                internal CorruptedFileError(string message, List<ErrorDetail>? details = null)
+                internal CorruptedFileError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(IO.CodePrefix, (int)Codes.CorruptedFile, message, details) { }
             }
 
@@ -86,7 +92,7 @@
             /// </summary>
             internal class DiskFullError : Error
             {
-                internal DiskFullError(string message, List<ErrorDetail>? details = null)
+                internal DiskFullError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(IO.CodePrefix, (int)Codes.DiskFull, message, details) { }
             }
 
@@ -95,7 +101,10 @@
             /// </summary>
             internal class DirectoryNotFoundError : Error
             {
-                internal DirectoryNotFoundError(string message, List<ErrorDetail>? details = null)
+                internal DirectoryNotFoundError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(IO.CodePrefix, (int)Codes.DirectoryNotFound, message, details) { }
             }
 
@@ -109,7 +118,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um arquivo não encontrado.</returns>
             public static Error FileNotFound(
                 string message = "Arquivo não encontrado.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new FileNotFoundError(message, details);
 
             /// <summary>
@@ -120,7 +129,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma permissão negada.</returns>
             public static Error PermissionDenied(
                 string message = "Permissão negada para acessar o arquivo ou diretório.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new PermissionDeniedError(message, details);
 
             /// <summary>
@@ -131,7 +140,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um arquivo corrompido.</returns>
             public static Error CorruptedFile(
                 string message = "Arquivo corrompido ou ilegível.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new CorruptedFileError(message, details);
 
             /// <summary>
@@ -142,7 +151,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um disco cheio.</returns>
             public static Error DiskFull(
                 string message = "Não há espaço em disco suficiente para completar a operação.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new DiskFullError(message, details);
 
             /// <summary>
@@ -153,7 +162,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um caminho inválido.</returns>
             public static Error DirectoryNotFound(
                 string message = "O caminho do diretório não foi encontrado.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new DirectoryNotFoundError(message, details);
         }
     }

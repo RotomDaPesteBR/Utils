@@ -1,196 +1,136 @@
-﻿global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Http;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.IO;
 using LightningArc.Utils.Results;
 using LightningArc.Utils.Results.AspNet;
+using LightningArc.Utils.Results.AspNet.Interfaces;
+using LightningArc.Utils.Results.AspNet.Services;
 using LightningArc.Utils.Results.Errors;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Utils.AspNet.Results.Results.Success;
 
 namespace LightningArc.Utils.AspNet;
 
 /// <summary>
-/// Fornece métodos de extensão para registrar os serviços de mapeamento de resultados de endpoint
-/// na coleção de serviços da aplicação.
+/// Provides extension methods for registering the endpoint results feature
+/// in the application's service collection.
 /// </summary>
 public static class ServiceCollectionExtensions
 {
-    /// <summary>
-    /// Adiciona os serviços de mapeamento de resultados de endpoint à coleção de serviços.
-    /// </summary>
-    /// <param name="services">A coleção de serviços da aplicação.</param>
-    /// <param name="configure">Uma ação para configurar o serviço de mapeamento de erros, permitindo
-    /// a adição de mapeamentos customizados.</param>
-    /// <returns>A mesma instância de <see cref="IServiceCollection"/> para encadeamento.</returns>
-    public static IServiceCollection AddEndpointResultMappers(
+    /// <param name="services">The application's service collection.</param>
+    /// <param name="wrapSuccessResponses">If <c>true</c>, wraps all success responses in a standard object defined by <paramref name="successResponseBuilder"/>. If <c>false</c>, returns the value directly. Defaults to <c>false</c>.</param>
+    /// <param name="configureMappings">An action to configure custom success and error mappings to HTTP status codes.</param>
+    /// <param name="successResponseBuilder">A function to build a custom success response object. If null, a default format will be used.</param>
+    /// <param name="errorResponseBuilder">A function to build a custom error response object. If null, a default RFC 7807 ProblemDetails format will be used.</param>
+    /// <param name="defaultCharset">The default charset to be used for text-based responses. Defaults to "utf-8".</param>
+    /// <returns>The same <see cref="IServiceCollection"/> instance for chaining.</returns>
+    public static IServiceCollection AddEndpointResults(
         this IServiceCollection services,
-        Action<SuccessMappingConfigurator, ErrorMappingConfigurator>? configure = null
+        bool wrapSuccessResponses = false,
+        Func<SuccessDetail, object?>? successResponseBuilder = null,
+        Func<Error, HttpContext, object>? errorResponseBuilder = null,
+        Action<SuccessMappingConfigurator, ErrorMappingConfigurator>? configureMappings = null,
+        string? defaultCharset = null
     )
     {
-        // Cria uma instância de opções e a configura com a ação do usuário
-        var options = new ResultOptions();
+        var options = new EndpointResultOptions();
         var errorConfigurator = new ErrorMappingConfigurator(options);
         var successConfigurator = new SuccessMappingConfigurator(options);
-        configure?.Invoke(successConfigurator, errorConfigurator);
+        configureMappings?.Invoke(successConfigurator, errorConfigurator);
 
-        // Registra as opções configuradas no contêiner de DI
+        options.WrapSuccessResponses = wrapSuccessResponses;
+        options.ErrorResponseBuilder = errorResponseBuilder;
+
+        if (options.WrapSuccessResponses)
+        {
+            options.SuccessResponseBuilder =
+                successResponseBuilder
+                ?? (
+                    success => new
+                    {
+                        success.Status,
+                        success.Message,
+                        success.Data,
+                    }
+                );
+        }
+
+        if (defaultCharset is not null)
+        {
+            options.DefaultCharset = defaultCharset;
+        }
+
         services.AddSingleton(Options.Create(options));
 
         services.AddSingleton<SuccessMappingService>();
         services.AddSingleton<ErrorMappingService>();
+
+        services.AddSingleton<IErrorListProvider, DefaultErrorListProvider>();
+        services.AddTransient<MarkdownErrorListFormatter>();
+
+        services.AddHostedService<EndpointResultInitializerService>();
 
         return services;
     }
 }
 
 /// <summary>
-/// Fornece métodos de extensão para configurar a pipeline de requisição do ASP.NET Core.
+/// Provides extension methods for configuring the ASP.NET Core request pipeline.
 /// </summary>
 public static class WebApplicationExtensions
 {
     /// <summary>
-    /// Força a inicialização do <see cref="SuccessMappingService"/> e do <see cref="ErrorMappingService"/> durante o startup da aplicação.
+    /// Generates and saves a markdown file containing the list of defined errors and their codes.
     /// </summary>
     /// <remarks>
-    /// Este método deve ser chamado para garantir que os mapeamentos de erros sejam
-    /// registrados imediatamente, sem esperar pela primeira requisição.
+    /// The file is overwritten on each call. This method is useful in development environments
+    /// to maintain an up-to-date record of the errors defined in the application.
     /// </remarks>
-    /// <param name="app">O construtor de aplicação.</param>
-    public static void UseEndpointResultMappers(this WebApplication app)
-    {
-        // Força a resolução do serviço singleton, o que dispara a execução da sua fábrica.
-        app.Services.GetRequiredService<SuccessMappingService>();
-
-        app.Services.GetRequiredService<ErrorMappingService>();
-    }
-
-    /// <summary>
-    /// Gera e salva um arquivo markdown contendo a lista de erros e seus códigos.
-    /// </summary>
-    /// <remarks>
-    /// O arquivo é sobrescrito a cada chamada. Este método é útil em ambientes de desenvolvimento
-    /// para manter um registro atualizado dos erros definidos na aplicação.
-    /// </remarks>
-    /// <param name="app">A instância da aplicação web.</param>
-    /// <param name="filePath">O caminho completo para o arquivo markdown. O padrão é "ErrorsList.md" na pasta de execução do assembly.</param>
-    /// <param name="withHttpMappings">Indica se deve incluir os mapeamentos de status HTTP na lista.</param>
+    /// <param name="app">The web application instance.</param>
+    /// <param name="filePath">The full path for the markdown file. Defaults to "ErrorsList.md" in the assembly's execution folder.</param>
+    /// <param name="formatter">An optional custom formatter. If not provided, the default <see cref="MarkdownErrorListFormatter"/> will be used.</param>
     public static void OutputErrorsList(
         this WebApplication app,
-        string? filePath,
-        bool withHttpMappings = true
+        string? filePath = null,
+        IErrorListFormatter? formatter = null
     )
     {
-        var logger = app.Services.GetService<ILogger<WebApplication>>();
-
-        string finalPath = string.IsNullOrEmpty(filePath)
-            ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ErrorsList.md")
-            : filePath;
-
-        var markdownBuilder = new StringBuilder();
-
-        logger?.LogInformation("Iniciando a geração do arquivo de lista de erros.");
-
-        markdownBuilder.AppendLine("# Lista de erros:");
-        markdownBuilder.AppendLine();
-
-        // Obtém a lista de erros da biblioteca principal
-        Dictionary<string, Dictionary<Type, ErrorInformation>> errorModules = Error.GetErrorList();
-
-        // Tenta obter os mapeamentos HTTP da extensão ASP.NET Core
-        ReadOnlyDictionary<Type, ErrorMapping>? httpMappings = null;
-        if (withHttpMappings)
-        {
-            try
-            {
-                var mappingService = app.Services.GetService<ErrorMappingService>();
-                if (mappingService != null)
-                {
-                    httpMappings = mappingService.Mappings;
-                }
-            }
-            catch (Exception ex)
-            {
-                if (logger?.IsEnabled(LogLevel.Error) ?? false)
-                {
-                    logger.LogError(
-                        "Ocorreu um erro ao obter o ErrorMappingService. A lista será gerada sem códigos HTTP. Mensagem: {Message}",
-                        ex.Message
-                    );
-                }
-            }
-        }
-
-        foreach (var module in errorModules)
-        {
-            // Adiciona o nome do módulo como um cabeçalho Markdown
-            markdownBuilder.AppendLine($"## {module.Key}");
-            markdownBuilder.AppendLine();
-
-            if (module.Value.Count > 0)
-            {
-                // Constrói o cabeçalho da tabela dinamicamente
-                string tableHeader = "| Código | Erro ";
-                string tableSeparator = "|:---|:---";
-                if (withHttpMappings)
-                {
-                    tableHeader += "| Status HTTP ";
-                    tableSeparator += "|:---";
-                }
-                tableHeader += "|";
-                tableSeparator += "|";
-
-                markdownBuilder.AppendLine(tableHeader);
-                markdownBuilder.AppendLine(tableSeparator);
-
-                foreach (var error in module.Value)
-                {
-                    string httpStatusCell = "";
-                    if (
-                        withHttpMappings
-                        && httpMappings != null
-                        && httpMappings.TryGetValue(error.Key, out var mapping)
-                    )
-                    {
-                        httpStatusCell = $"| `{(int)mapping.StatusCode}` ";
-                    }
-                    else if (withHttpMappings)
-                    {
-                        httpStatusCell = "| `N/A` ";
-                    }
-
-                    var errorInfo = error.Value;
-
-                    markdownBuilder.AppendLine(
-                        $"| `{errorInfo.Code.ToString().PadLeft(5, '0')}` | `{errorInfo.Name}` {httpStatusCell}|"
-                    );
-                }
-            }
-            markdownBuilder.AppendLine();
-        }
+        var logger = app.Services.GetRequiredService<ILogger<WebApplication>>();
 
         try
         {
-            File.WriteAllText(finalPath, markdownBuilder.ToString());
-
-            if (logger?.IsEnabled(LogLevel.Information) == true)
+            if (logger.IsEnabled(LogLevel.Information))
             {
-                logger?.LogInformation(
-                    "Lista de erros gerada com sucesso em '{FilePath}'",
+                logger.LogInformation("Starting generation of the error list file.");
+            }
+
+            var provider = app.Services.GetRequiredService<IErrorListProvider>();
+            var errors = provider.GetErrorMetadata();
+
+            var listFormatter =
+                formatter ?? app.Services.GetRequiredService<MarkdownErrorListFormatter>();
+            string formattedContent = listFormatter.Format(errors);
+
+            string finalPath = string.IsNullOrEmpty(filePath)
+                ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ErrorsList.md")
+                : filePath;
+
+            File.WriteAllText(finalPath, formattedContent);
+
+            if (logger.IsEnabled(LogLevel.Information))
+            {
+                logger.LogInformation(
+                    "Error list successfully generated at '{FilePath}'",
                     Path.GetFullPath(finalPath)
                 );
             }
         }
         catch (Exception ex)
         {
-            if (logger?.IsEnabled(LogLevel.Error) == true)
-            {
-                logger?.LogError(
-                    "Ocorreu um erro ao tentar salvar o arquivo de lista de erros: {Message}",
-                    ex.Message
-                );
-            }
+            logger.LogError(ex, "An error occurred while generating the error list file.");
         }
     }
 }

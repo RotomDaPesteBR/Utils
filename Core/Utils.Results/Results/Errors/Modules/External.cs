@@ -64,7 +64,10 @@
             /// </summary>
             internal class RateLimitExceededError : Error
             {
-                internal RateLimitExceededError(string message, List<ErrorDetail>? details = null)
+                internal RateLimitExceededError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(External.CodePrefix, (int)Codes.RateLimitExceeded, message, details) { }
             }
 
@@ -73,7 +76,10 @@
             /// </summary>
             internal class ApiQuotaExceededError : Error
             {
-                internal ApiQuotaExceededError(string message, List<ErrorDetail>? details = null)
+                internal ApiQuotaExceededError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(External.CodePrefix, (int)Codes.ApiQuotaExceeded, message, details) { }
             }
 
@@ -82,7 +88,10 @@
             /// </summary>
             internal class InvalidApiResponseError : Error
             {
-                internal InvalidApiResponseError(string message, List<ErrorDetail>? details = null)
+                internal InvalidApiResponseError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(External.CodePrefix, (int)Codes.InvalidApiResponse, message, details) { }
             }
 
@@ -91,7 +100,10 @@
             /// </summary>
             internal class ServiceUnavailableError : Error
             {
-                internal ServiceUnavailableError(string message, List<ErrorDetail>? details = null)
+                internal ServiceUnavailableError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(External.CodePrefix, (int)Codes.ServiceUnavailable, message, details) { }
             }
 
@@ -100,7 +112,7 @@
             /// </summary>
             internal class TimeoutError : Error
             {
-                internal TimeoutError(string message, List<ErrorDetail>? details = null)
+                internal TimeoutError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(External.CodePrefix, (int)Codes.Timeout, message, details) { }
             }
 
@@ -109,7 +121,10 @@
             /// </summary>
             internal class CommunicationError : Error
             {
-                internal CommunicationError(string message, List<ErrorDetail>? details = null)
+                internal CommunicationError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(External.CodePrefix, (int)Codes.Communication, message, details) { }
             }
 
@@ -123,7 +138,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um limite de taxa excedido.</returns>
             public static Error RateLimitExceeded(
                 string message = "Limite de requisições excedido.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new RateLimitExceededError(message, details);
 
             /// <summary>
@@ -134,7 +149,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma cota de API excedida.</returns>
             public static Error ApiQuotaExceeded(
                 string message = "Cota de API excedida.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ApiQuotaExceededError(message, details);
 
             /// <summary>
@@ -145,7 +160,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma resposta de API inválida.</returns>
             public static Error InvalidApiResponse(
                 string message = "Resposta inválida da API externa.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InvalidApiResponseError(message, details);
 
             /// <summary>
@@ -156,7 +171,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um serviço indisponível.</returns>
             public static Error ServiceUnavailable(
                 string message = "O serviço solicitado não está disponível no momento.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ServiceUnavailableError(message, details);
 
             /// <summary>
@@ -167,7 +182,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um tempo limite.</returns>
             public static Error Timeout(
                 string message = "A requisição para o serviço externo atingiu o tempo limite.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new TimeoutError(message, details);
 
             /// <summary>
@@ -178,7 +193,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de comunicação.</returns>
             public static Error Communication(
                 string message = "Falha de comunicação com o serviço externo.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new CommunicationError(message, details);
         }
     }

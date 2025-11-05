@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Mvc;
-using LightningArc.Utils.Results;
+﻿using LightningArc.Utils.Results;
 using LightningArc.Utils.Results.AspNet;
 using LightningArc.Utils.Results.AspNet.Extensions;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LightningArc.Utils.AspNet.Tests.API.Controllers
 {
@@ -20,12 +20,12 @@ namespace LightningArc.Utils.AspNet.Tests.API.Controllers
             {
                 var t = typeof(Success<string>.CreatedSuccess);
 
-
                 //return Error.Application.Internal("Erro de teste", [ new ("Teste", "Erro de teste") ]);
                 //return Error.Database.ConstraintViolation("Erro de teste", [ new ("Teste", "Erro de teste") ]);
-                return Error.Custom<Business>().OrderRejected("Erro de teste", [new("Teste", "Erro de teste")]);
+                return Error
+                    .Custom<Business>()
+                    .OrderRejected("Erro de teste", [new("Teste", "Erro de teste")]);
                 //return Result.Success("Resultado", Success.Created("Criado com sucesso"));
-
             }
             catch (Exception exception)
             {
@@ -33,23 +33,59 @@ namespace LightningArc.Utils.AspNet.Tests.API.Controllers
                 return Error.Application.Internal("Ocorreu um erro");
             }
         }
-
 
         [HttpGet("Teste")]
         public EndpointResult<string> GetTestResult()
         {
-            try
+            int[] values = [1, 2, 3];
+            Result<List<string>> result = values.Select(v => v.ToString()).ToList();
+
+            return result.Bind(v => {
+
+                var value = v.FirstOrDefault();
+
+                return value is not null
+                    ? Result.Success(value)
+                    : Error.Resource.NotFound($"Não foi encontrado");
+            });
+        }
+
+        [HttpGet("Test/{id:int}")]
+        public EndpointResult<string> GetTestResultById(int id)
+        {
+            Result<string> result;
+
+            if (id == 0)
             {
-                return Result.Success("Teste bem sucedido");
+                result = "Teste";
             }
-            catch (Exception exception)
+            else if (id == 1)
             {
-                _logger.LogError("{Message}", exception.Message);
-                return Error.Application.Internal("Ocorreu um erro");
+                result = Result.Created($"Teste {id} foi criado", $"Teste criado com sucesso");
             }
+            else if (id >= 2)
+            {
+                result = Error.Database.ConnectionFailed("Falha na conexão do banco de dados");
+            }
+            else if (id == -1)
+            {
+                result = Error.Application.InvalidParameter(
+                    "Id inválido",
+                    new ErrorDetail("Id", id.ToString())
+                );
+            }
+            else
+            {
+                result = Error.Application.Internal($"Erro id {id}");
+            }
+
+            return result;
         }
 
         [HttpGet("Example")]
-        public EndpointResult<string> Example() => Result.Success("{\"teste\": \"teste\"}").WithContentType("application/json"); //, "Exemplo bem sucedido"
+
+        public EndpointResult<string> Example() =>
+            Result.Success("teste").WithContentType("text/plain");
+        //Result.Success("{\"teste\": \"teste\"}").WithContentType("application/json"); //, "Exemplo bem sucedido"
     }
 }

@@ -58,7 +58,10 @@
             /// </summary>
             internal class InvalidFormatError : Error
             {
-                internal InvalidFormatError(string message, List<ErrorDetail>? details = null)
+                internal InvalidFormatError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Validation.CodePrefix, (int)Codes.InvalidFormat, message, details) { }
             }
 
@@ -67,7 +70,10 @@
             /// </summary>
             internal class InvalidSchemaError : Error
             {
-                internal InvalidSchemaError(string message, List<ErrorDetail>? details = null)
+                internal InvalidSchemaError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Validation.CodePrefix, (int)Codes.InvalidSchema, message, details) { }
             }
 
@@ -76,25 +82,36 @@
             /// </summary>
             internal class DeserializationFailedError : Error
             {
-                internal DeserializationFailedError(string message, List<ErrorDetail>? details = null)
-                    : base(Validation.CodePrefix, (int)Codes.DeserializationFailed, message, details) { }
+                internal DeserializationFailedError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(
+                        Validation.CodePrefix,
+                        (int)Codes.DeserializationFailed,
+                        message,
+                        details
+                    ) { }
             }
 
             /// <summary>
             /// Representa um erro de campo obrigatório ausente (Sufixo: 04).
             /// </summary>
-            internal class MissingFieldError : Error // CORRIGIDO: Adicionado 'Error'
+            internal class MissingFieldError : Error
             {
-                internal MissingFieldError(string message, List<ErrorDetail>? details = null)
+                internal MissingFieldError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Validation.CodePrefix, (int)Codes.MissingField, message, details) { }
             }
 
             /// <summary>
             /// Representa um erro de valor fora do intervalo (Sufixo: 05).
             /// </summary>
-            internal class ValueOutOfRangeError : Error // CORRIGIDO: Adicionado 'Error'
+            internal class ValueOutOfRangeError : Error
             {
-                internal ValueOutOfRangeError(string message, List<ErrorDetail>? details = null)
+                internal ValueOutOfRangeError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Validation.CodePrefix, (int)Codes.ValueOutOfRange, message, details) { }
             }
 
@@ -108,7 +125,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um formato inválido.</returns>
             public static Error InvalidFormat(
                 string message = "Formato de dados inválido.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InvalidFormatError(message, details);
 
             /// <summary>
@@ -119,7 +136,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um esquema de dados inválido.</returns>
             public static Error InvalidSchema(
                 string message = "Esquema de dados inválido.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InvalidSchemaError(message, details);
 
             /// <summary>
@@ -130,7 +147,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de desserialização.</returns>
             public static Error DeserializationFailed(
                 string message = "Falha na desserialização dos dados.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new DeserializationFailedError(message, details);
 
             /// <summary>
@@ -141,7 +158,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um campo obrigatório ausente.</returns>
             public static Error MissingField(
                 string message = "Um ou mais campos obrigatórios estão ausentes.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new MissingFieldError(message, details); // CORRIGIDO: Chamando 'MissingFieldError'
 
             /// <summary>
@@ -152,7 +169,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um valor fora do intervalo.</returns>
             public static Error ValueOutOfRange(
                 string message = "Um ou mais valores estão fora do intervalo permitido.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ValueOutOfRangeError(message, details); // CORRIGIDO: Chamando 'ValueOutOfRangeError'
         }
     }

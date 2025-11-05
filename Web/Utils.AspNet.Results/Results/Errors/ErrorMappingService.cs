@@ -41,7 +41,7 @@ public class ErrorMappingService
     /// </summary>
     /// <param name="logger">O serviço de logging para registrar informações de mapeamento.</param>
     /// <param name="options"></param>
-    public ErrorMappingService(ILogger<ErrorMappingService> logger, IOptions<ResultOptions> options)
+    public ErrorMappingService(ILogger<ErrorMappingService> logger, IOptions<EndpointResultOptions> options)
     {
         _logger = logger;
 

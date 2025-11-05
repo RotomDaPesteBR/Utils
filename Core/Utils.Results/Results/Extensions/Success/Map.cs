@@ -17,7 +17,7 @@ namespace LightningArc.Utils.Results
         public static Success<TOut> Map<TIn, TOut>(
             this Success<TIn> success,
             Func<TIn, TOut> mapper
-        ) => success.WithValue(mapper(success.Value!));
+        ) => success.WithValue(mapper(success.Value));
 
         /// <summary>
         ///     Maps a <see cref="Success" /> to <see cref="Success{TOut}" /> by applying a function.

@@ -29,7 +29,7 @@ public class SuccessMappingService
     /// </summary>
     /// <param name="logger">O serviço de logging para registrar informações de mapeamento.</param>
     /// <param name="options"></param>
-    public SuccessMappingService(ILogger<SuccessMappingService> logger, IOptions<ResultOptions> options)
+    public SuccessMappingService(ILogger<SuccessMappingService> logger, IOptions<EndpointResultOptions> options)
     {
         _logger = logger;
         _logger.LogInformation("Iniciando o mapeamento de sucessos HTTP para a API...");

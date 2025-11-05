@@ -54,7 +54,7 @@
             /// </summary>
             internal class ConflictError : Error
             {
-                internal ConflictError(string message, List<ErrorDetail>? details = null)
+                internal ConflictError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Concurrency.CodePrefix, (int)Codes.Conflict, message, details) { }
             }
 
@@ -63,7 +63,7 @@
             /// </summary>
             internal class LockedError : Error
             {
-                internal LockedError(string message, List<ErrorDetail>? details = null)
+                internal LockedError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Concurrency.CodePrefix, (int)Codes.Locked, message, details) { }
             }
 
@@ -72,7 +72,7 @@
             /// </summary>
             internal class StaleDataError : Error
             {
-                internal StaleDataError(string message, List<ErrorDetail>? details = null)
+                internal StaleDataError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Concurrency.CodePrefix, (int)Codes.StaleData, message, details) { }
             }
 
@@ -81,7 +81,10 @@
             /// </summary>
             internal class ResourceInUseError : Error
             {
-                internal ResourceInUseError(string message, List<ErrorDetail>? details = null)
+                internal ResourceInUseError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Concurrency.CodePrefix, (int)Codes.ResourceInUse, message, details) { }
             }
 
@@ -95,7 +98,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um conflito.</returns>
             public static Error Conflict(
                 string message = "Conflito de concorrência detectado.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ConflictError(message, details);
 
             /// <summary>
@@ -106,7 +109,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso bloqueado.</returns>
             public static Error Locked(
                 string message = "O recurso está bloqueado por outro processo.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new LockedError(message, details);
 
             /// <summary>
@@ -117,7 +120,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando dados obsoletos.</returns>
             public static Error StaleData(
                 string message = "Os dados estão desatualizados devido à concorrência.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new StaleDataError(message, details);
 
             /// <summary>
@@ -128,7 +131,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso em uso.</returns>
             public static Error ResourceInUse(
                 string message = "O recurso já está em uso por outra operação.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ResourceInUseError(message, details);
         }
     }

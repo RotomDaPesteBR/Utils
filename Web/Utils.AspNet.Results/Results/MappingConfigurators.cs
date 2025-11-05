@@ -6,7 +6,7 @@ namespace LightningArc.Utils.Results.AspNet;
 /// Proporciona uma API fluente para configurar mapeamentos de sucesso personalizados.
 /// </summary>
 /// <param name="options">O objeto de opções onde os mapeamentos serão registrados.</param>
-public sealed class SuccessMappingConfigurator(ResultOptions options)
+public sealed class SuccessMappingConfigurator(EndpointResultOptions options)
 {
     /// <summary>
     /// Mapeia um tipo de sucesso para uma resposta HTTP.
@@ -27,7 +27,7 @@ public sealed class SuccessMappingConfigurator(ResultOptions options)
 /// Proporciona uma API fluente para configurar mapeamentos de erro personalizados.
 /// </summary>
 /// <param name="options">O objeto de opções onde os mapeamentos serão registrados.</param>
-public sealed class ErrorMappingConfigurator(ResultOptions options)
+public sealed class ErrorMappingConfigurator(EndpointResultOptions options)
 {
     /// <summary>
     /// Mapeia um tipo de erro para uma resposta HTTP.

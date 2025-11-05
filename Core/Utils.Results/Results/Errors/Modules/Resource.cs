@@ -59,7 +59,7 @@
             /// </summary>
             internal class NotFoundError : Error
             {
-                internal NotFoundError(string message, List<ErrorDetail>? details = null)
+                internal NotFoundError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Resource.CodePrefix, (int)Codes.NotFound, message, details) { }
             }
 
@@ -68,7 +68,10 @@
             /// </summary>
             internal class AlreadyExistsError : Error
             {
-                internal AlreadyExistsError(string message, List<ErrorDetail>? details = null)
+                internal AlreadyExistsError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(Resource.CodePrefix, (int)Codes.AlreadyExists, message, details) { }
             }
 
@@ -77,7 +80,7 @@
             /// </summary>
             internal class UnavailableError : Error
             {
-                internal UnavailableError(string message, List<ErrorDetail>? details = null)
+                internal UnavailableError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Resource.CodePrefix, (int)Codes.Unavailable, message, details) { }
             }
 
@@ -86,7 +89,7 @@
             /// </summary>
             internal class InvalidStateError : Error
             {
-                internal InvalidStateError(string message, List<ErrorDetail>? details = null)
+                internal InvalidStateError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Resource.CodePrefix, (int)Codes.InvalidState, message, details) { }
             }
 
@@ -95,7 +98,7 @@
             /// </summary>
             internal class ObsoleteError : Error
             {
-                internal ObsoleteError(string message, List<ErrorDetail>? details = null)
+                internal ObsoleteError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(Resource.CodePrefix, (int)Codes.Obsolete, message, details) { }
             }
 
@@ -109,7 +112,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso não encontrado.</returns>
             public static Error NotFound(
                 string message = "O recurso solicitado não foi encontrado.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new NotFoundError(message, details);
 
             /// <summary>
@@ -120,7 +123,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso já existente.</returns>
             public static Error AlreadyExists(
                 string message = "O recurso já existe.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new AlreadyExistsError(message, details);
 
             /// <summary>
@@ -131,7 +134,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso indisponível.</returns>
             public static Error Unavailable(
                 string message = "O recurso está indisponível no momento.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new UnavailableError(message, details);
 
             /// <summary>
@@ -142,7 +145,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um estado de recurso inválido.</returns>
             public static Error InvalidState(
                 string message = "O recurso não está em um estado válido para a operação.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new InvalidStateError(message, details);
 
             /// <summary>
@@ -153,7 +156,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso obsoleto.</returns>
             public static Error Obsolete(
                 string message = "O recurso solicitado está obsoleto ou descontinuado.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ObsoleteError(message, details);
         }
     }

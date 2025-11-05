@@ -59,7 +59,10 @@
             /// </summary>
             internal class ConfigurationError : Error
             {
-                internal ConfigurationError(string message, List<ErrorDetail>? details = null)
+                internal ConfigurationError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(System.CodePrefix, (int)Codes.Configuration, message, details) { }
             }
 
@@ -68,8 +71,12 @@
             /// </summary>
             internal class DependencyNotRegisteredError : Error
             {
-                internal DependencyNotRegisteredError(string message, List<ErrorDetail>? details = null)
-                    : base(System.CodePrefix, (int)Codes.DependencyNotRegistered, message, details) { }
+                internal DependencyNotRegisteredError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
+                    : base(System.CodePrefix, (int)Codes.DependencyNotRegistered, message, details)
+                { }
             }
 
             /// <summary>
@@ -77,7 +84,7 @@
             /// </summary>
             internal class OutOfMemoryError : Error
             {
-                internal OutOfMemoryError(string message, List<ErrorDetail>? details = null)
+                internal OutOfMemoryError(string message, IEnumerable<ErrorDetail>? details = null)
                     : base(System.CodePrefix, (int)Codes.OutOfMemory, message, details) { }
             }
 
@@ -86,7 +93,10 @@
             /// </summary>
             internal class ThreadAbortedError : Error
             {
-                internal ThreadAbortedError(string message, List<ErrorDetail>? details = null)
+                internal ThreadAbortedError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(System.CodePrefix, (int)Codes.ThreadAborted, message, details) { }
             }
 
@@ -95,7 +105,10 @@
             /// </summary>
             internal class SystemMaintenanceError : Error
             {
-                internal SystemMaintenanceError(string message, List<ErrorDetail>? details = null)
+                internal SystemMaintenanceError(
+                    string message,
+                    IEnumerable<ErrorDetail>? details = null
+                )
                     : base(System.CodePrefix, (int)Codes.SystemMaintenance, message, details) { }
             }
 
@@ -109,7 +122,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um erro de configuração.</returns>
             public static Error Configuration(
                 string message = "Configuração do sistema inválida ou ausente.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ConfigurationError(message, details);
 
             /// <summary>
@@ -120,7 +133,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma dependência ausente.</returns>
             public static Error DependencyNotRegistered(
                 string message = "Dependência de sistema não registrada ou ausente.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new DependencyNotRegisteredError(message, details);
 
             /// <summary>
@@ -131,7 +144,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma falta de memória.</returns>
             public static Error OutOfMemory(
                 string message = "Não há memória suficiente para completar a operação.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new OutOfMemoryError(message, details);
 
             /// <summary>
@@ -142,7 +155,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando uma thread abortada.</returns>
             public static Error ThreadAborted(
                 string message = "A thread de execução foi abortada.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new ThreadAbortedError(message, details);
 
             /// <summary>
@@ -153,7 +166,7 @@
             /// <returns>Uma nova instância de <see cref="Error"/> representando um erro de manutenção.</returns>
             public static Error SystemMaintenance(
                 string message = "O sistema está em manutenção.",
-                List<ErrorDetail>? details = null
+                params IEnumerable<ErrorDetail>? details
             ) => new SystemMaintenanceError(message, details);
         }
     }

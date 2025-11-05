@@ -1,40 +1,47 @@
-﻿using System.Net;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System.Net;
+using Utils.AspNet.Results.Results.Success;
 
 namespace LightningArc.Utils.Results.AspNet;
 
 /// <summary>
-/// Representa um resultado HTTP que mapeia uma instância de <see cref="Success"/> para uma
-/// resposta de sucesso padrão.
+/// Represents an HTTP result that maps a <see cref="Success"/> instance to a standard success response.
 /// </summary>
-/// <param name="success">A instância de sucesso a ser mapeada.</param>
+/// <param name="success">The success instance to be mapped.</param>
 public sealed class SuccessResult(Success success) : IResult
 {
-
     /// <summary>
-    /// Executa a resposta assincronamente, formatando o resultado de sucesso e escrevendo
-    /// no contexto HTTP.
+    /// Executes the response asynchronously, formatting the success result and writing it to the HTTP context.
     /// </summary>
-    /// <param name="httpContext">O contexto HTTP atual.</param>
-    /// <returns>Uma <see cref="Task"/> que representa a operação assíncrona.</returns>
+    /// <param name="httpContext">The current HTTP context.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     public Task ExecuteAsync(HttpContext httpContext)
     {
-        var mappingService =
-            httpContext.RequestServices.GetRequiredService<SuccessMappingService>();
+        var mappingService = httpContext.RequestServices.GetRequiredService<SuccessMappingService>();
+        var options = httpContext.RequestServices.GetRequiredService<IOptions<EndpointResultOptions>>().Value;
+
         var mapping = mappingService.GetMapping(success);
         var statusCode = (int)(mapping?.StatusCode ?? HttpStatusCode.OK);
 
         httpContext.Response.StatusCode = statusCode;
 
-        if (!string.IsNullOrEmpty(success.Message) && statusCode != (int)HttpStatusCode.NoContent)
+        if (statusCode == (int)HttpStatusCode.NoContent)
         {
-            var successDetails = new
+            return Task.CompletedTask;
+        }
+
+        if (options.WrapSuccessResponses && options.SuccessResponseBuilder != null)
+        {
+            var successDetails = new SuccessDetail
             {
                 Status = mapping?.StatusCode ?? HttpStatusCode.OK,
                 Message = success.Message ?? "",
+                Data = null
             };
 
-            return httpContext.Response.WriteAsJsonAsync(successDetails);
+            var response = options.SuccessResponseBuilder(successDetails);
+            return httpContext.Response.WriteAsJsonAsync(response);
         }
 
         return Task.CompletedTask;
@@ -42,53 +49,60 @@ public sealed class SuccessResult(Success success) : IResult
 }
 
 /// <summary>
-/// Representa um resultado HTTP que mapeia uma instância de <see cref="Success"/> e um valor
-/// para uma resposta de sucesso padrão.
+/// Represents an HTTP result that maps a <see cref="Success{TValue}"/> instance and a value to a standard success response.
 /// </summary>
-/// <typeparam name="TValue">O tipo do valor de sucesso a ser retornado na resposta.</typeparam>
-public sealed class SuccessResult<TValue>(Success success, TValue value, string? contentType = null)
+/// <typeparam name="TValue">The type of the success value to be returned in the response.</typeparam>
+public sealed class SuccessResult<TValue>(Success<TValue> success, string? contentType = null)
     : IResult
 {
-
     /// <summary>
-    /// Executa a resposta assincronamente, formatando o resultado de sucesso com o valor
-    /// e escrevendo no contexto HTTP.
+    /// Executes the response asynchronously, formatting the success result with the value and writing it to the HTTP context.
     /// </summary>
-    /// <param name="httpContext">O contexto HTTP atual.</param>
-    /// <returns>Uma <see cref="Task"/> que representa a operação assíncrona.</returns>
+    /// <param name="httpContext">The current HTTP context.</param>
+    /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     public Task ExecuteAsync(HttpContext httpContext)
     {
-        var mappingService = httpContext.RequestServices.GetService<SuccessMappingService>();
-        var mapping = mappingService?.GetMapping(success);
+        var mappingService = httpContext.RequestServices.GetRequiredService<SuccessMappingService>();
+        var options = httpContext.RequestServices.GetRequiredService<IOptions<EndpointResultOptions>>().Value;
+
+        var mapping = mappingService.GetMapping(success);
         var statusCode = (int)(mapping?.StatusCode ?? HttpStatusCode.OK);
 
         httpContext.Response.StatusCode = statusCode;
 
-        if (statusCode != (int)HttpStatusCode.NoContent)
+        if (statusCode == (int)HttpStatusCode.NoContent)
         {
-            if (contentType is not null)
+            return Task.CompletedTask;
+        }
+
+        if (contentType is not null)
+        {
+            if (contentType.Contains("text/") && !contentType.Contains("charset"))
             {
-                if (contentType.Contains("text/plain") && !contentType.Contains("charset"))
-                {
-                    httpContext.Response.ContentType = $"{contentType}; charset=utf-8";
-                    return httpContext.Response.WriteAsync(value?.ToString() ?? string.Empty);
-                }
-
-                httpContext.Response.ContentType = contentType;
-
-                return httpContext.Response.WriteAsync(value?.ToString() ?? string.Empty);
+                httpContext.Response.ContentType = $"{contentType}; charset={options.DefaultCharset}";
             }
+            else
+            {
+                httpContext.Response.ContentType = contentType;
+            }
+            return httpContext.Response.WriteAsync(success.Value?.ToString() ?? string.Empty);
+        }
 
-            var successDetails = new
+        if (options.WrapSuccessResponses && options.SuccessResponseBuilder != null)
+        {
+            var successDetails = new SuccessDetail
             {
                 Status = mapping?.StatusCode ?? HttpStatusCode.OK,
                 Message = success.Message ?? "",
-                Data = value,
+                Data = success.Value,
             };
 
-            return httpContext.Response.WriteAsJsonAsync(successDetails);
+            var response = options.SuccessResponseBuilder(successDetails);
+            return httpContext.Response.WriteAsJsonAsync(response);
         }
-
-        return Task.CompletedTask;
+        else
+        {
+            return httpContext.Response.WriteAsJsonAsync(success.Value);
+        }
     }
 }

@@ -19,15 +19,10 @@ namespace LightningArc.Utils.Results
             this Result result,
             Func<Task<Result>> success,
             Func<Error, Task<Result>> failure
-        )
-        {
-            Result result1;
-            if (result.IsSuccess)
-                result1 = await success().ConfigureAwait(false);
-            else
-                result1 = await failure(result.Error).ConfigureAwait(false);
-            return result1;
-        }
+        ) =>
+            result.IsSuccess
+                ? await success().ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
 
         /// <summary>
         /// Maps a non-generic result (without value) using a synchronous success function,
@@ -41,15 +36,7 @@ namespace LightningArc.Utils.Results
             this Result result,
             Func<Success> success,
             Func<Error, Task<Result>> failure
-        )
-        {
-            Result result1;
-            if (result.IsSuccess)
-                result1 = (Result)success();
-            else
-                result1 = await failure(result.Error).ConfigureAwait(false);
-            return result1;
-        }
+        ) => result.IsSuccess ? success() : await failure(result.Error).ConfigureAwait(false);
 
         /// <summary>
         /// Awaits a <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&gt;</see> and maps the result using asynchronous functions,
@@ -65,13 +52,10 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result>> failure
         )
         {
-            Result result1 = await resultTask.ConfigureAwait(false);
-            Result result2;
-            if (result1.IsSuccess)
-                result2 = (Result)await success().ConfigureAwait(false);
-            else
-                result2 = await failure(result1.Error).ConfigureAwait(false);
-            return result2;
+            Result result = await resultTask.ConfigureAwait(false);
+            return result.IsSuccess
+                ? await success().ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -88,13 +72,8 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result>> failure
         )
         {
-            Result result1 = await resultTask.ConfigureAwait(false);
-            Result result2;
-            if (result1.IsSuccess)
-                result2 = (Result)success();
-            else
-                result2 = await failure(result1.Error).ConfigureAwait(false);
-            return result2;
+            Result result = await resultTask.ConfigureAwait(false);
+            return result.IsSuccess ? success() : await failure(result.Error).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -107,13 +86,10 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result>> failure
         )
         {
-            Result result1 = await resultTask.ConfigureAwait(false);
-            Result result2;
-            if (result1.IsSuccess)
-                result2 = (Result)await success(result1.SuccessDetails).ConfigureAwait(false);
-            else
-                result2 = await failure(result1.Error).ConfigureAwait(false);
-            return result2;
+            Result result = await resultTask.ConfigureAwait(false);
+            return result.IsSuccess
+                ? await success(result.SuccessDetails).ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -123,16 +99,68 @@ namespace LightningArc.Utils.Results
             this Result result,
             Func<Success, Task<Success>> success,
             Func<Error, Task<Result>> failure
+        ) =>
+            result.IsSuccess
+                ? await success(result.SuccessDetails).ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
+
+        /// <summary>
+        /// Awaits a <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&gt;</see> and maps the result using asynchronous functions, where success returns a <see cref="T:LightningArc.Utils.Results.Result`1" />.
+        /// The success function receives the success details (<see cref="T:LightningArc.Utils.Results.Success" />).
+        /// </summary>
+        /// <typeparam name="TOut">The type of the output value (if successful).</typeparam>
+        /// <param name="resultTask">The Task containing the input result.</param>
+        /// <param name="success">The asynchronous function to apply to the success details, which returns a <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TOut&gt;&gt;</see>.</param>
+        /// <param name="failure">The asynchronous function to apply to the error.</param>
+        /// <returns>A <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TOut&gt;&gt;</see> containing the new <see cref="T:LightningArc.Utils.Results.Result`1" />.</returns>
+        public static async Task<Result<TOut>> MatchAsync<TOut>(
+            this Task<Result> resultTask,
+            Func<Success, Task<Success<TOut>>> success,
+            Func<Error, Task<Result<TOut>>> failure
         )
         {
-            Result result1;
-            if (result.IsSuccess)
-                result1 = (Result)await success(result.SuccessDetails).ConfigureAwait(false);
-            else
-                result1 = await failure(result.Error).ConfigureAwait(false);
-            return result1;
+            Result result = await resultTask.ConfigureAwait(false);
+            return result.IsSuccess
+                ? await success(result.SuccessDetails).ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Maps a non-generic result to a generic result by applying asynchronous functions.
+        /// </summary>
+        /// <typeparam name="TOut">The type of the output value.</typeparam>
+        /// <param name="result">The input result.</param>
+        /// <param name="success">The asynchronous function to apply on success.</param>
+        /// <param name="failure">The asynchronous function to apply on failure.</param>
+        /// <returns>A <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TOut&gt;&gt;</see> containing the new <see cref="T:LightningArc.Utils.Results.Result`1" />.</returns>
+        public static async Task<Result<TOut>> MatchAsync<TOut>(
+            this Result result,
+            Func<Success, Task<Success<TOut>>> success,
+            Func<Error, Task<Result<TOut>>> failure
+        ) =>
+            result.IsSuccess
+                ? await success(result.SuccessDetails).ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
+
+        /// <summary>
+        /// Maps a non-generic result to a generic result by applying asynchronous functions.
+        /// </summary>
+        /// <typeparam name="TOut">The type of the output value.</typeparam>
+        /// <param name="result">The input result.</param>
+        /// <param name="success">The asynchronous function to apply on success.</param>
+        /// <param name="failure">The asynchronous function to apply on failure.</param>
+        /// <returns>A <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TOut&gt;&gt;</see> containing the new <see cref="T:LightningArc.Utils.Results.Result`1" />.</returns>
+        public static async Task<Result<TOut>> MatchAsync<TOut>(
+            this Result result,
+            Func<Success, Task<Result<TOut>>> success,
+            Func<Error, Task<Result<TOut>>> failure
+        ) =>
+            result.IsSuccess
+                ? await success(result.SuccessDetails).ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
+        #endregion
+
+        #region Result<TValue>
         /// <summary>
         /// Maps the result by applying one of two asynchronous functions: one for success and one for failure.
         /// </summary>
@@ -146,15 +174,10 @@ namespace LightningArc.Utils.Results
             this Result<TIn> result,
             Func<Success<TIn>, Task<Success<TOut>>> success,
             Func<Error, Task<Result<TOut>>> failure
-        )
-        {
-            Result<TOut> result1;
-            if (result.IsSuccess)
-                result1 = (Result<TOut>)await success(result.SuccessDetails).ConfigureAwait(false);
-            else
-                result1 = await failure(result.Error).ConfigureAwait(false);
-            return result1;
-        }
+        ) =>
+            result.IsSuccess
+                ? await success(result.SuccessDetails).ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
 
         /// <summary>
         /// Awaits a <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TIn&gt;&gt;</see> and maps the result
@@ -172,13 +195,10 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result<TOut>>> failure
         )
         {
-            Result<TIn> result1 = await resultTask.ConfigureAwait(false);
-            Result<TOut> result2;
-            if (result1.IsSuccess)
-                result2 = (Result<TOut>)await success(result1.SuccessDetails).ConfigureAwait(false);
-            else
-                result2 = await failure(result1.Error).ConfigureAwait(false);
-            return result2;
+            Result<TIn> result = await resultTask.ConfigureAwait(false);
+            return result.IsSuccess
+                ? await success(result.SuccessDetails).ConfigureAwait(false)
+                : await failure(result.Error).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -211,15 +231,10 @@ namespace LightningArc.Utils.Results
             this Result<TIn> result,
             Func<Success<TIn>, Task<Success<TOut>>> success,
             Func<Error, Result<TOut>> failure
-        )
-        {
-            Result<TOut> result1;
-            if (result.IsSuccess)
-                result1 = (Result<TOut>)await success(result.SuccessDetails).ConfigureAwait(false);
-            else
-                result1 = failure(result.Error);
-            return result1;
-        }
+        ) =>
+            result.IsSuccess
+                ? await success(result.SuccessDetails).ConfigureAwait(false)
+                : failure(result.Error);
 
         /// <summary>
         /// Awaits the asynchronous input result and maps it using a synchronous success function (returns <see cref="T:LightningArc.Utils.Results.Result`1" />)
@@ -231,83 +246,11 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result<TOut>>> failure
         )
         {
-            Result<TIn> result1 = await resultTask.ConfigureAwait(false);
-            Result<TOut> result2;
-            if (result1.IsSuccess)
-                result2 = (Result<TOut>)success(result1.SuccessDetails);
-            else
-                result2 = await failure(result1.Error).ConfigureAwait(false);
-            return result2;
+            Result<TIn> result = await resultTask.ConfigureAwait(false);
+            return result.IsSuccess
+                ? success(result.SuccessDetails)
+                : await failure(result.Error).ConfigureAwait(false);
         }
-
-        /// <summary>
-        /// Awaits a <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&gt;</see> and maps the result using asynchronous functions, where success returns a <see cref="T:LightningArc.Utils.Results.Result`1" />.
-        /// The success function receives the success details (<see cref="T:LightningArc.Utils.Results.Success" />).
-        /// </summary>
-        /// <typeparam name="TOut">The type of the output value (if successful).</typeparam>
-        /// <param name="resultTask">The Task containing the input result.</param>
-        /// <param name="success">The asynchronous function to apply to the success details, which returns a <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TOut&gt;&gt;</see>.</param>
-        /// <param name="failure">The asynchronous function to apply to the error.</param>
-        /// <returns>A <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TOut&gt;&gt;</see> containing the new <see cref="T:LightningArc.Utils.Results.Result`1" />.</returns>
-        public static async Task<Result<TOut>> MatchAsync<TOut>(
-            this Task<Result> resultTask,
-            Func<Success, Task<Success<TOut>>> success,
-            Func<Error, Task<Result<TOut>>> failure
-        )
-        {
-            Result result1 = await resultTask.ConfigureAwait(false);
-            Result<TOut> result2;
-            if (result1.IsSuccess)
-                result2 = (Result<TOut>)await success(result1.SuccessDetails).ConfigureAwait(false);
-            else
-                result2 = await failure(result1.Error).ConfigureAwait(false);
-            return result2;
-        }
-
-        /// <summary>
-        /// Maps a non-generic result to a generic result by applying asynchronous functions.
-        /// </summary>
-        /// <typeparam name="TOut">The type of the output value.</typeparam>
-        /// <param name="result">The input result.</param>
-        /// <param name="success">The asynchronous function to apply on success.</param>
-        /// <param name="failure">The asynchronous function to apply on failure.</param>
-        /// <returns>A <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TOut&gt;&gt;</see> containing the new <see cref="T:LightningArc.Utils.Results.Result`1" />.</returns>
-        public static async Task<Result<TOut>> MatchAsync<TOut>(
-            this Result result,
-            Func<Success, Task<Success<TOut>>> success,
-            Func<Error, Task<Result<TOut>>> failure
-        )
-        {
-            Result<TOut> result1;
-            if (result.IsSuccess)
-                result1 = (Result<TOut>)await success(result.SuccessDetails).ConfigureAwait(false);
-            else
-                result1 = await failure(result.Error).ConfigureAwait(false);
-            return result1;
-        }
-
-        /// <summary>
-        /// Maps a non-generic result to a generic result by applying asynchronous functions.
-        /// </summary>
-        /// <typeparam name="TOut">The type of the output value.</typeparam>
-        /// <param name="result">The input result.</param>
-        /// <param name="success">The asynchronous function to apply on success.</param>
-        /// <param name="failure">The asynchronous function to apply on failure.</param>
-        /// <returns>A <see cref="T:System.Threading.Tasks.Task`1">Task&lt;Result&lt;TOut&gt;&gt;</see> containing the new <see cref="T:LightningArc.Utils.Results.Result`1" />.</returns>
-        public static async Task<Result<TOut>> MatchAsync<TOut>(
-            this Result result,
-            Func<Success, Task<Result<TOut>>> success,
-            Func<Error, Task<Result<TOut>>> failure
-        )
-        {
-            Result<TOut> result1;
-            if (result.IsSuccess)
-                result1 = await success(result.SuccessDetails).ConfigureAwait(false);
-            else
-                result1 = await failure(result.Error).ConfigureAwait(false);
-            return result1;
-        }
-
         #endregion
     }
 }

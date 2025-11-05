@@ -1,41 +1,62 @@
-﻿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results;
+
+/// <summary>
+/// Provides extension methods for the <see cref="Result{TValue}"/> class,
+/// enabling the composition of functional operations.
+/// </summary>
+public static partial class ResultExtensions
 {
+    #region Result => Result<TValue>
+
+    #region Result => Result<TOut>
     /// <summary>
-    /// Provides extension methods for the <see cref="Result{TValue}"/> class,
-    /// enabling the composition of functional operations.
+    /// Binds a non-generic <see cref="Result"/> to a new <see cref="Result{TOut}"/> by applying a function.
+    /// This method is used to chain operations where the next step (defined by the <paramref name="mapper"/>)
+    /// also returns a <see cref="Result{TOut}"/>, allowing for propagation of success or failure.
     /// </summary>
-    public static partial class ResultExtensions
-    {
-        /// <summary>
-        ///     Binds a <see cref="Result{TIn}" /> to a <see cref="Result{TOut}" /> by applying a function to the contained value.
-        /// </summary>
-        /// <typeparam name="TIn">The type of the input value.</typeparam>
-        /// <typeparam name="TOut">The type of the output value.</typeparam>
-        /// <param name="result">The input <see cref="Result{TIn}" />.</param>
-        /// <param name="binder">The function to apply to the value.</param>
-        /// <returns>The <see cref="Result{TOut}" /> from the binder function.</returns>
-        public static Result<TOut> Bind<TIn, TOut>(
-            this Result<TIn> result,
-            Func<TIn, Result<TOut>> binder
-        ) => !result.IsSuccess ? Result<TOut>.Failure(result.Error) : binder(result.Value!);
+    /// <typeparam name="TOut">The type of the value contained in the output <see cref="Result{TOut}"/>.</typeparam>
+    /// <param name="result">The input non-generic <see cref="Result"/>.</param>
+    /// <param name="mapper">
+    /// The function to apply if the input <paramref name="result"/> is successful.
+    /// This function takes no arguments and returns a <see cref="Result{TOut}"/>.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="Result{TOut}"/>:
+    /// If the input <paramref name="result"/> is successful, the result of applying the <paramref name="mapper"/> function.
+    /// If the input <paramref name="result"/> is a failure, the original error is propagated.
+    /// </returns>
+    public static Result<TOut> Bind<TOut>(this Result result, Func<Result<TOut>> mapper) =>
+        result.IsSuccess ? mapper() : result.Error;
+    #endregion
 
-        /// <summary>
-        ///     Binds a <see cref="Result" /> to a <see cref="Result{T}" /> by applying a function.
-        /// </summary>
-        /// <typeparam name="T">The type of the output value.</typeparam>
-        /// <param name="result">The input <see cref="Result" />.</param>
-        /// <param name="binder">The function to apply.</param>
-        /// <returns>The <see cref="Result{T}" /> from the binder function.</returns>
-        public static Result<T> Bind<T>(this Result result, Func<Result<T>> binder) =>
-            !result.IsSuccess ? Result<T>.Failure(result.Error) : binder();
+    #endregion
 
-        /// <summary>
-        ///     Binds a <see cref="Result" /> to a <see cref="Result" /> by applying a function.
-        /// </summary>
-        /// <param name="result">The input <see cref="Result" />.</param>
-        /// <param name="binder">The function to apply.</param>
-        /// <returns>The <see cref="Result" /> from the binder function.</returns>
-        public static Result Bind(this Result result, Func<Result> binder) =>
-            !result.IsSuccess ? result : binder();
-    }
+    #region Result<TValue> => Result<TValue>
+
+    #region TIn => Result<TOut>
+    /// <summary>
+    /// Binds a <see cref="Result{TIn}"/> to a new <see cref="Result{TOut}"/> by applying a function to its contained value.
+    /// This method is used to chain operations where the next step (defined by the <paramref name="mapper"/>)
+    /// takes the successful value of the current result and returns a new <see cref="Result{TOut}"/>,
+    /// allowing for propagation of success or failure.
+    /// </summary>
+    /// <typeparam name="TIn">The type of the value contained in the input <see cref="Result{TIn}"/>.</typeparam>
+    /// <typeparam name="TOut">The type of the value contained in the output <see cref="Result{TOut}"/>.</typeparam>
+    /// <param name="result">The input <see cref="Result{TIn}"/>.</param>
+    /// <param name="mapper">
+    /// The function to apply if the input <paramref name="result"/> is successful.
+    /// This function takes the successful value of type <typeparamref name="TIn"/> and returns a <see cref="Result{TOut}"/>.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="Result{TOut}"/>:
+    /// If the input <paramref name="result"/> is successful, the result of applying the <paramref name="mapper"/> function to its value.
+    /// If the input <paramref name="result"/> is a failure, the original error is propagated.
+    /// </returns>
+    public static Result<TOut> Bind<TIn, TOut>(
+        this Result<TIn> result,
+        Func<TIn, Result<TOut>> mapper
+    ) => result.IsSuccess ? mapper(result.Value) : result.Error;
+    #endregion
+
+    #endregion
 }

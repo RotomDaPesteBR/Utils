@@ -38,6 +38,27 @@ namespace LightningArc.Utils.Tests.Results
         }
 
         [Fact]
+        public void Bind_With_Value_OnSuccess_ChainsOperation_CanFail()
+        {
+            // Arrange
+            int[] values = [1, 2, 3];
+            Result<List<string>> result = values.Select(v => v.ToString()).ToList();
+
+            // Act
+            var mappedResult = result.Bind(v =>
+            {
+                var value = v.FirstOrDefault();
+
+                return value is not null
+                    ? Result.Success(value)
+                    : Error.Resource.NotFound($"Não foi encontrado");
+            });
+
+            // Assert
+            Assert.Equal("1", mappedResult.Value);
+        }
+
+        [Fact]
         public void Bind_No_Value_OnSuccess_ChainsOperation()
         {
             // Arrange
@@ -50,20 +71,6 @@ namespace LightningArc.Utils.Tests.Results
             // Assert
             Assert.True(boundResult.IsSuccess);
             Assert.Equal(5.0, boundResult.Value);
-        }
-
-        [Fact]
-        public void Bind_No_Value_To_No_Value_OnSuccess_ChainsOperation()
-        {
-            // Arrange
-            Result result = Result.Success();
-            static Result func() => Result.Success();
-
-            // Act
-            var boundResult = result.Bind(func);
-
-            // Assert
-            Assert.True(boundResult.IsSuccess);
         }
 
         [Fact]
@@ -102,24 +109,6 @@ namespace LightningArc.Utils.Tests.Results
             // Assert
             Assert.True(boundResult.IsSuccess);
             Assert.Equal(5.0, boundResult.Value);
-        }
-
-        [Fact]
-        public async Task BindAsync_No_Value_To_No_Value_OnSuccess_ChainsOperation()
-        {
-            // Arrange
-            Result result = Result.Success();
-            static async Task<Result> func()
-            {
-                await Task.Delay(1);
-                return Result.Success();
-            }
-
-            // Act
-            var boundResult = await result.BindAsync(func);
-
-            // Assert
-            Assert.True(boundResult.IsSuccess);
         }
     }
 }

@@ -53,7 +53,9 @@ builder.Services.AddOpenApi(options =>
     options.AddSchemaTransformers();
 });
 
-builder.Services.AddEndpointResultMappers((successes, errors) =>
+builder.Services.AddEndpointResults(
+    wrapSuccessResponses: true,
+    configureMappings: (successes, errors) =>
 {
     errors.Map<Business.OrderRejectedError>(HttpStatusCode.UnprocessableEntity, "Pedido Rejeitado", "urn:api-errors:order-rejected");
 });
@@ -81,8 +83,6 @@ app.UseCorsPolicies();
 app.UseOutputCache();
 
 app.UseAuthorization();
-
-app.UseEndpointResultMappers();
 
 app.MapControllers().WithOpenApi();
 
