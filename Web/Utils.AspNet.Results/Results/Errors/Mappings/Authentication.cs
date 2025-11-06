@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LightningArc.Utils.Results.AspNet.Localization;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -16,12 +17,12 @@ public static partial class ErrorMappingServiceExtensions
     public static ErrorMappingService MapAuthentication(this ErrorMappingService service)
     {
         // Módulo AUTHENTICATION (Prefixo 4)
-        service.Map<Error.Authentication.UnauthorizedError>(HttpStatusCode.Unauthorized, "Falha de autenticação", "urn:api-errors:auth-failed");
-        service.Map<Error.Authentication.ForbiddenError>(HttpStatusCode.Forbidden, "Acesso proibido", "urn:api-errors:auth-forbidden");
-        service.Map<Error.Authentication.TokenExpiredError>(HttpStatusCode.Unauthorized, "Token expirado", "urn:api-errors:auth-token-expired");
-        service.Map<Error.Authentication.InvalidCredentialsError>(HttpStatusCode.Unauthorized, "Credenciais inválidas", "urn:api-errors:auth-invalid-credentials");
-        service.Map<Error.Authentication.InactiveAccountError>(HttpStatusCode.Forbidden, "Conta inativa", "urn:api-errors:auth-inactive-account");
-        service.Map<Error.Authentication.ExpiredSessionError>(HttpStatusCode.Unauthorized, "Sessão expirada", "urn:api-errors:auth-session-expired");
+        service.Map<Error.Authentication.UnauthorizedError>(HttpStatusCode.Unauthorized, LocalizationManager.GetErrorTitle("Authentication_Unauthorized"), "urn:api-errors:auth-failed");
+        service.Map<Error.Authentication.ForbiddenError>(HttpStatusCode.Forbidden, LocalizationManager.GetErrorTitle("Authentication_Forbidden"), "urn:api-errors:auth-forbidden");
+        service.Map<Error.Authentication.TokenExpiredError>(HttpStatusCode.Unauthorized, LocalizationManager.GetErrorTitle("Authentication_TokenExpired"), "urn:api-errors:auth-token-expired");
+        service.Map<Error.Authentication.InvalidCredentialsError>(HttpStatusCode.Unauthorized, LocalizationManager.GetErrorTitle("Authentication_InvalidCredentials"), "urn:api-errors:auth-invalid-credentials");
+        service.Map<Error.Authentication.InactiveAccountError>(HttpStatusCode.Forbidden, LocalizationManager.GetErrorTitle("Authentication_InactiveAccount"), "urn:api-errors:auth-inactive-account");
+        service.Map<Error.Authentication.ExpiredSessionError>(HttpStatusCode.Unauthorized, LocalizationManager.GetErrorTitle("Authentication_ExpiredSession"), "urn:api-errors:auth-session-expired");
 
 
         return service;

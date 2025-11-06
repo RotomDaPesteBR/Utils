@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace LightningArc.Utils.Results.AspNet.Models;
+namespace LightningArc.Utils.Results.AspNet;
 
 /// <summary>
 /// Represents the structured metadata of a registered error.

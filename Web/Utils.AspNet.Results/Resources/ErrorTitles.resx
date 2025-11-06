@@ -39,4 +39,175 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Application_Internal" xml:space="preserve">
+    <value>Internal Error</value>
+  </data>
+  <data name="Application_InvalidParameter" xml:space="preserve">
+    <value>Invalid Parameter</value>
+  </data>
+  <data name="Application_InvalidOperation" xml:space="preserve">
+    <value>Invalid Operation</value>
+  </data>
+  <data name="Application_TaskCanceled" xml:space="preserve">
+    <value>Task Canceled</value>
+  </data>
+  <data name="Application_NotImplemented" xml:space="preserve">
+    <value>Not Implemented</value>
+  </data>
+  <data name="Authentication_Unauthorized" xml:space="preserve">
+    <value>Authentication Failed</value>
+  </data>
+  <data name="Authentication_Forbidden" xml:space="preserve">
+    <value>Access Forbidden</value>
+  </data>
+  <data name="Authentication_TokenExpired" xml:space="preserve">
+    <value>Token Expired</value>
+  </data>
+  <data name="Authentication_InvalidCredentials" xml:space="preserve">
+    <value>Invalid Credentials</value>
+  </data>
+  <data name="Authentication_InactiveAccount" xml:space="preserve">
+    <value>Inactive Account</value>
+  </data>
+  <data name="Authentication_ExpiredSession" xml:space="preserve">
+    <value>Session Expired</value>
+  </data>
+  <data name="Concurrency_Conflict" xml:space="preserve">
+    <value>Concurrency Conflict</value>
+  </data>
+  <data name="Concurrency_Locked" xml:space="preserve">
+    <value>Resource Locked</value>
+  </data>
+  <data name="Concurrency_StaleData" xml:space="preserve">
+    <value>Stale Data</value>
+  </data>
+  <data name="Concurrency_ResourceInUse" xml:space="preserve">
+    <value>Resource In Use</value>
+  </data>
+  <data name="Database_ConnectionFailed" xml:space="preserve">
+    <value>Database Connection Failed</value>
+  </data>
+  <data name="Database_QueryExecutionFailed" xml:space="preserve">
+    <value>Query Execution Failed</value>
+  </data>
+  <data name="Database_ConstraintViolation" xml:space="preserve">
+    <value>Database Constraint Violation</value>
+  </data>
+  <data name="Database_Transient" xml:space="preserve">
+    <value>Transient Database Error</value>
+  </data>
+  <data name="Database_Deadlock" xml:space="preserve">
+    <value>Database Deadlock</value>
+  </data>
+  <data name="External_RateLimitExceeded" xml:space="preserve">
+    <value>Rate Limit Exceeded</value>
+  </data>
+  <data name="External_ApiQuotaExceeded" xml:space="preserve">
+    <value>API Quota Exceeded</value>
+  </data>
+  <data name="External_InvalidApiResponse" xml:space="preserve">
+    <value>Invalid API Response</value>
+  </data>
+  <data name="External_ServiceUnavailable" xml:space="preserve">
+    <value>External Service Unavailable</value>
+  </data>
+  <data name="External_Timeout" xml:space="preserve">
+    <value>External Service Timeout</value>
+  </data>
+  <data name="External_Communication" xml:space="preserve">
+    <value>External Communication Failure</value>
+  </data>
+  <data name="IO_FileNotFound" xml:space="preserve">
+    <value>File Not Found</value>
+  </data>
+  <data name="IO_DirectoryNotFound" xml:space="preserve">
+    <value>Directory Not Found</value>
+  </data>
+  <data name="IO_PermissionDenied" xml:space="preserve">
+    <value>Permission Denied (Server)</value>
+  </data>
+  <data name="IO_DiskFull" xml:space="preserve">
+    <value>Disk Full</value>
+  </data>
+  <data name="IO_CorruptedFile" xml:space="preserve">
+    <value>Corrupted File</value>
+  </data>
+  <data name="Network_ConnectionFailed" xml:space="preserve">
+    <value>Network Connection Failed</value>
+  </data>
+  <data name="Network_RequestTimeout" xml:space="preserve">
+    <value>Request Timeout</value>
+  </data>
+  <data name="Network_ServiceUnavailable" xml:space="preserve">
+    <value>Network Service Unavailable</value>
+  </data>
+  <data name="Network_DnsFailure" xml:space="preserve">
+    <value>DNS Failure</value>
+  </data>
+  <data name="Network_SslHandshakeFailed" xml:space="preserve">
+    <value>SSL Handshake Failed</value>
+  </data>
+  <data name="Network_ProxyFailure" xml:space="preserve">
+    <value>Proxy Failure</value>
+  </data>
+  <data name="Request_InvalidRequest" xml:space="preserve">
+    <value>Invalid Request</value>
+  </data>
+  <data name="Request_TooLargeRequest" xml:space="preserve">
+    <value>Request Too Large</value>
+  </data>
+  <data name="Request_TooManyRequests" xml:space="preserve">
+    <value>Too Many Requests</value>
+  </data>
+  <data name="Request_NotAcceptable" xml:space="preserve">
+    <value>Not Acceptable</value>
+  </data>
+  <data name="Request_UnsupportedMediaType" xml:space="preserve">
+    <value>Unsupported Media Type</value>
+  </data>
+  <data name="Resource_NotFound" xml:space="preserve">
+    <value>Resource Not Found</value>
+  </data>
+  <data name="Resource_AlreadyExists" xml:space="preserve">
+    <value>Resource Already Exists</value>
+  </data>
+  <data name="Resource_Unavailable" xml:space="preserve">
+    <value>Resource Unavailable</value>
+  </data>
+  <data name="Resource_InvalidState" xml:space="preserve">
+    <value>Invalid Resource State</value>
+  </data>
+  <data name="Resource_Obsolete" xml:space="preserve">
+    <value>Obsolete Resource</value>
+  </data>
+  <data name="System_Configuration" xml:space="preserve">
+    <value>Configuration Error</value>
+  </data>
+  <data name="System_DependencyNotRegistered" xml:space="preserve">
+    <value>Dependency Not Registered</value>
+  </data>
+  <data name="System_SystemMaintenance" xml:space="preserve">
+    <value>System Maintenance</value>
+  </data>
+  <data name="System_OutOfMemory" xml:space="preserve">
+    <value>Out of Memory</value>
+  </data>
+  <data name="System_ThreadAborted" xml:space="preserve">
+    <value>Thread Aborted</value>
+  </data>
+  <data name="Validation_InvalidFormat" xml:space="preserve">
+    <value>Invalid Data Format</value>
+  </data>
+  <data name="Validation_InvalidSchema" xml:space="preserve">
+    <value>Invalid Data Schema</value>
+  </data>
+  <data name="Validation_DeserializationFailed" xml:space="preserve">
+    <value>Deserialization Failed</value>
+  </data>
+  <data name="Validation_MissingField" xml:space="preserve">
+    <value>Missing Required Field</value>
+  </data>
+  <data name="Validation_ValueOutOfRange" xml:space="preserve">
+    <value>Value Out of Range</value>
+  </data>
 </root>

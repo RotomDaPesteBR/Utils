@@ -1,6 +1,7 @@
 
-using System.Collections.Generic;
 using LightningArc.Utils.Results;
+using LightningArc.Utils.Results.Localization;
+using System.Collections.Generic;
 using Xunit;
 
 namespace LightningArc.Utils.Tests.Results
@@ -71,6 +72,8 @@ namespace LightningArc.Utils.Tests.Results
         [Fact]
         public void Application_InvalidOperation_ShouldCreateCorrectError()
         {
+            LocalizationManager.Configure("pt-BR");
+
             // Act
             var error = Error.Application.InvalidOperation();
 

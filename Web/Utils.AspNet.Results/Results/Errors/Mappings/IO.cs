@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LightningArc.Utils.Results.AspNet.Localization;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -16,11 +17,11 @@ public static partial class ErrorMappingServiceExtensions
     public static ErrorMappingService MapIO(this ErrorMappingService service)
     {
         // Módulo IO
-        service.Map<Error.IO.FileNotFoundError>(HttpStatusCode.NotFound, "Arquivo não encontrado", "urn:api-errors:io-file-not-found");
-        service.Map<Error.IO.DirectoryNotFoundError>(HttpStatusCode.NotFound, "Diretório não encontrado", "urn:api-errors:io-directory-not-found");
-        service.Map<Error.IO.PermissionDeniedError>(HttpStatusCode.InternalServerError, "Permissão negada (servidor)", "urn:api-errors:io-permission-denied");
-        service.Map<Error.IO.DiskFullError>(HttpStatusCode.InsufficientStorage, "Disco cheio", "urn:api-errors:io-disk-full");
-        service.Map<Error.IO.CorruptedFileError>(HttpStatusCode.InternalServerError, "Arquivo corrompido", "urn:api-errors:io-corrupted-file");
+        service.Map<Error.IO.FileNotFoundError>(HttpStatusCode.NotFound, LocalizationManager.GetErrorTitle("IO_FileNotFound"), "urn:api-errors:io-file-not-found");
+        service.Map<Error.IO.DirectoryNotFoundError>(HttpStatusCode.NotFound, LocalizationManager.GetErrorTitle("IO_DirectoryNotFound"), "urn:api-errors:io-directory-not-found");
+        service.Map<Error.IO.PermissionDeniedError>(HttpStatusCode.InternalServerError, LocalizationManager.GetErrorTitle("IO_PermissionDenied"), "urn:api-errors:io-permission-denied");
+        service.Map<Error.IO.DiskFullError>(HttpStatusCode.InsufficientStorage, LocalizationManager.GetErrorTitle("IO_DiskFull"), "urn:api-errors:io-disk-full");
+        service.Map<Error.IO.CorruptedFileError>(HttpStatusCode.InternalServerError, LocalizationManager.GetErrorTitle("IO_CorruptedFile"), "urn:api-errors:io-corrupted-file");
 
         return service;
     }

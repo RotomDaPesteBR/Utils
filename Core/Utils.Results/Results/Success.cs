@@ -204,7 +204,7 @@ public abstract class Success
     /// <summary>
     /// Represents the success type for a "No Content" operation.
     /// </summary>
-    public sealed class NoContentSuccess : Success
+    internal sealed class NoContentSuccess : Success
     {
         internal NoContentSuccess(IMessageProvider? messageProvider)
             : base(103, messageProvider) { }

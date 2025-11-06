@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LightningArc.Utils.Results.AspNet.Localization;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -16,12 +17,12 @@ public static partial class ErrorMappingServiceExtensions
     public static ErrorMappingService MapNetwork(this ErrorMappingService service)
     {
         // Módulo NETWORK
-        service.Map<Error.Network.ConnectionFailedError>(HttpStatusCode.ServiceUnavailable, "Falha na conexão de rede", "urn:api-errors:net-connection-failed");
-        service.Map<Error.Network.RequestTimeoutError>(HttpStatusCode.GatewayTimeout, "Tempo limite da requisição", "urn:api-errors:net-request-timeout");
-        service.Map<Error.Network.ServiceUnavailableError>(HttpStatusCode.ServiceUnavailable, "Serviço de rede indisponível", "urn:api-errors:net-service-unavailable");
-        service.Map<Error.Network.DnsFailureError>(HttpStatusCode.ServiceUnavailable, "Falha de DNS", "urn:api-errors:net-dns-failure");
-        service.Map<Error.Network.SslHandshakeFailedError>(HttpStatusCode.ServiceUnavailable, "Falha no handshake SSL", "urn:api-errors:net-ssl-handshake-failed");
-        service.Map<Error.Network.ProxyFailureError>(HttpStatusCode.BadGateway, "Falha no proxy", "urn:api-errors:net-proxy-failure");
+        service.Map<Error.Network.ConnectionFailedError>(HttpStatusCode.ServiceUnavailable, LocalizationManager.GetErrorTitle("Network_ConnectionFailed"), "urn:api-errors:net-connection-failed");
+        service.Map<Error.Network.RequestTimeoutError>(HttpStatusCode.GatewayTimeout, LocalizationManager.GetErrorTitle("Network_RequestTimeout"), "urn:api-errors:net-request-timeout");
+        service.Map<Error.Network.ServiceUnavailableError>(HttpStatusCode.ServiceUnavailable, LocalizationManager.GetErrorTitle("Network_ServiceUnavailable"), "urn:api-errors:net-service-unavailable");
+        service.Map<Error.Network.DnsFailureError>(HttpStatusCode.ServiceUnavailable, LocalizationManager.GetErrorTitle("Network_DnsFailure"), "urn:api-errors:net-dns-failure");
+        service.Map<Error.Network.SslHandshakeFailedError>(HttpStatusCode.ServiceUnavailable, LocalizationManager.GetErrorTitle("Network_SslHandshakeFailed"), "urn:api-errors:net-ssl-handshake-failed");
+        service.Map<Error.Network.ProxyFailureError>(HttpStatusCode.BadGateway, LocalizationManager.GetErrorTitle("Network_ProxyFailure"), "urn:api-errors:net-proxy-failure");
 
 
         return service;

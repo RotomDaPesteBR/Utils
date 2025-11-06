@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LightningArc.Utils.Results.AspNet.Localization;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -16,11 +17,11 @@ public static partial class ErrorMappingServiceExtensions
     public static ErrorMappingService MapSystem(this ErrorMappingService service)
     {
         // Módulo SYSTEM (Prefixo 10)
-        service.Map<Error.System.ConfigurationError>(HttpStatusCode.InternalServerError, "Erro de configuração", "urn:api-errors:sys-configuration-error");
-        service.Map<Error.System.DependencyNotRegisteredError>(HttpStatusCode.InternalServerError, "Dependência não registrada", "urn:api-errors:sys-dependency-not-registered");
-        service.Map<Error.System.SystemMaintenanceError>(HttpStatusCode.ServiceUnavailable, "Manutenção do sistema", "urn:api-errors:sys-maintenance");
-        service.Map<Error.System.OutOfMemoryError>(HttpStatusCode.InternalServerError, "Memória insuficiente", "urn:api-errors:sys-out-of-memory");
-        service.Map<Error.System.ThreadAbortedError>(HttpStatusCode.InternalServerError, "Execução da thread abortada", "urn:api-errors:sys-thread-aborted");
+        service.Map<Error.System.ConfigurationError>(HttpStatusCode.InternalServerError, LocalizationManager.GetErrorTitle("System_Configuration"), "urn:api-errors:sys-configuration-error");
+        service.Map<Error.System.DependencyNotRegisteredError>(HttpStatusCode.InternalServerError, LocalizationManager.GetErrorTitle("System_DependencyNotRegistered"), "urn:api-errors:sys-dependency-not-registered");
+        service.Map<Error.System.SystemMaintenanceError>(HttpStatusCode.ServiceUnavailable, LocalizationManager.GetErrorTitle("System_SystemMaintenance"), "urn:api-errors:sys-maintenance");
+        service.Map<Error.System.OutOfMemoryError>(HttpStatusCode.InternalServerError, LocalizationManager.GetErrorTitle("System_OutOfMemory"), "urn:api-errors:sys-out-of-memory");
+        service.Map<Error.System.ThreadAbortedError>(HttpStatusCode.InternalServerError, LocalizationManager.GetErrorTitle("System_ThreadAborted"), "urn:api-errors:sys-thread-aborted");
 
         return service;
     }

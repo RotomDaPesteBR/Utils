@@ -35,5 +35,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="LightningArc.Utils.AspNet.Results" />
+	  
+	<InternalsVisibleTo Include="LightningArc.Utils.Tests" />
   </ItemGroup>
 </Project>

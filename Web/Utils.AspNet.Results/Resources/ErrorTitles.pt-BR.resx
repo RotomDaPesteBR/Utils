@@ -39,4 +39,175 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Application_Internal" xml:space="preserve">
+    <value>Erro Interno</value>
+  </data>
+  <data name="Application_InvalidParameter" xml:space="preserve">
+    <value>Parâmetro Inválido</value>
+  </data>
+  <data name="Application_InvalidOperation" xml:space="preserve">
+    <value>Operação Inválida</value>
+  </data>
+  <data name="Application_TaskCanceled" xml:space="preserve">
+    <value>Operação Cancelada</value>
+  </data>
+  <data name="Application_NotImplemented" xml:space="preserve">
+    <value>Não Implementado</value>
+  </data>
+  <data name="Authentication_Unauthorized" xml:space="preserve">
+    <value>Falha de Autenticação</value>
+  </data>
+  <data name="Authentication_Forbidden" xml:space="preserve">
+    <value>Acesso Proibido</value>
+  </data>
+  <data name="Authentication_TokenExpired" xml:space="preserve">
+    <value>Token Expirado</value>
+  </data>
+  <data name="Authentication_InvalidCredentials" xml:space="preserve">
+    <value>Credenciais Inválidas</value>
+  </data>
+  <data name="Authentication_InactiveAccount" xml:space="preserve">
+    <value>Conta Inativa</value>
+  </data>
+  <data name="Authentication_ExpiredSession" xml:space="preserve">
+    <value>Sessão Expirada</value>
+  </data>
+  <data name="Concurrency_Conflict" xml:space="preserve">
+    <value>Conflito de Concorrência</value>
+  </data>
+  <data name="Concurrency_Locked" xml:space="preserve">
+    <value>Recurso Bloqueado</value>
+  </data>
+  <data name="Concurrency_StaleData" xml:space="preserve">
+    <value>Dados Desatualizados</value>
+  </data>
+  <data name="Concurrency_ResourceInUse" xml:space="preserve">
+    <value>Recurso em Uso</value>
+  </data>
+  <data name="Database_ConnectionFailed" xml:space="preserve">
+    <value>Falha na Conexão com o Banco de Dados</value>
+  </data>
+  <data name="Database_QueryExecutionFailed" xml:space="preserve">
+    <value>Falha na Execução da Consulta</value>
+  </data>
+  <data name="Database_ConstraintViolation" xml:space="preserve">
+    <value>Violação de Restrição no Banco de Dados</value>
+  </data>
+  <data name="Database_Transient" xml:space="preserve">
+    <value>Erro Temporário no Banco de Dados</value>
+  </data>
+  <data name="Database_Deadlock" xml:space="preserve">
+    <value>Deadlock no Banco de Dados</value>
+  </data>
+  <data name="External_RateLimitExceeded" xml:space="preserve">
+    <value>Limite de Taxa Excedido</value>
+  </data>
+  <data name="External_ApiQuotaExceeded" xml:space="preserve">
+    <value>Cota da API Excedida</value>
+  </data>
+  <data name="External_InvalidApiResponse" xml:space="preserve">
+    <value>Resposta de API Inválida</value>
+  </data>
+  <data name="External_ServiceUnavailable" xml:space="preserve">
+    <value>Serviço Externo Indisponível</value>
+  </data>
+  <data name="External_Timeout" xml:space="preserve">
+    <value>Tempo Limite do Serviço Externo</value>
+  </data>
+  <data name="External_Communication" xml:space="preserve">
+    <value>Falha de Comunicação Externa</value>
+  </data>
+  <data name="IO_FileNotFound" xml:space="preserve">
+    <value>Arquivo Não Encontrado</value>
+  </data>
+  <data name="IO_DirectoryNotFound" xml:space="preserve">
+    <value>Diretório Não Encontrado</value>
+  </data>
+  <data name="IO_PermissionDenied" xml:space="preserve">
+    <value>Permissão Negada (Servidor)</value>
+  </data>
+  <data name="IO_DiskFull" xml:space="preserve">
+    <value>Disco Cheio</value>
+  </data>
+  <data name="IO_CorruptedFile" xml:space="preserve">
+    <value>Arquivo Corrompido</value>
+  </data>
+  <data name="Network_ConnectionFailed" xml:space="preserve">
+    <value>Falha na Conexão de Rede</value>
+  </data>
+  <data name="Network_RequestTimeout" xml:space="preserve">
+    <value>Tempo Limite da Requisição</value>
+  </data>
+  <data name="Network_ServiceUnavailable" xml:space="preserve">
+    <value>Serviço de Rede Indisponível</value>
+  </data>
+  <data name="Network_DnsFailure" xml:space="preserve">
+    <value>Falha de DNS</value>
+  </data>
+  <data name="Network_SslHandshakeFailed" xml:space="preserve">
+    <value>Falha no Handshake SSL</value>
+  </data>
+  <data name="Network_ProxyFailure" xml:space="preserve">
+    <value>Falha no Proxy</value>
+  </data>
+  <data name="Request_InvalidRequest" xml:space="preserve">
+    <value>Requisição Inválida</value>
+  </data>
+  <data name="Request_TooLargeRequest" xml:space="preserve">
+    <value>Conteúdo da Requisição Muito Grande</value>
+  </data>
+  <data name="Request_TooManyRequests" xml:space="preserve">
+    <value>Excesso de Requisições</value>
+  </data>
+  <data name="Request_NotAcceptable" xml:space="preserve">
+    <value>Inaceitável</value>
+  </data>
+  <data name="Request_UnsupportedMediaType" xml:space="preserve">
+    <value>Tipo de Mídia Não Suportado</value>
+  </data>
+  <data name="Resource_NotFound" xml:space="preserve">
+    <value>Recurso Não Encontrado</value>
+  </data>
+  <data name="Resource_AlreadyExists" xml:space="preserve">
+    <value>Recurso Já Existe</value>
+  </data>
+  <data name="Resource_Unavailable" xml:space="preserve">
+    <value>Recurso Indisponível</value>
+  </data>
+  <data name="Resource_InvalidState" xml:space="preserve">
+    <value>Estado do Recurso Inválido</value>
+  </data>
+  <data name="Resource_Obsolete" xml:space="preserve">
+    <value>Recurso Obsoleto</value>
+  </data>
+  <data name="System_Configuration" xml:space="preserve">
+    <value>Erro de Configuração</value>
+  </data>
+  <data name="System_DependencyNotRegistered" xml:space="preserve">
+    <value>Dependência Não Registrada</value>
+  </data>
+  <data name="System_SystemMaintenance" xml:space="preserve">
+    <value>Manutenção do Sistema</value>
+  </data>
+  <data name="System_OutOfMemory" xml:space="preserve">
+    <value>Memória Insuficiente</value>
+  </data>
+  <data name="System_ThreadAborted" xml:space="preserve">
+    <value>Execução da Thread Abortada</value>
+  </data>
+  <data name="Validation_InvalidFormat" xml:space="preserve">
+    <value>Formato de Dado Inválido</value>
+  </data>
+  <data name="Validation_InvalidSchema" xml:space="preserve">
+    <value>Esquema de Dado Inválido</value>
+  </data>
+  <data name="Validation_DeserializationFailed" xml:space="preserve">
+    <value>Falha na Desserialização</value>
+  </data>
+  <data name="Validation_MissingField" xml:space="preserve">
+    <value>Campo Obrigatório Ausente</value>
+  </data>
+  <data name="Validation_ValueOutOfRange" xml:space="preserve">
+    <value>Valor Fora do Intervalo</value>
+  </data>
 </root>

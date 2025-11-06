@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LightningArc.Utils.Results.AspNet.Localization;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -16,11 +17,11 @@ public static partial class ErrorMappingServiceExtensions
     public static ErrorMappingService MapValidation(this ErrorMappingService service)
     {
         // Módulo VALIDATION
-        service.Map<Error.Validation.InvalidFormatError>(HttpStatusCode.BadRequest, "Formato de dado inválido", "urn:api-errors:data-invalid-format");
-        service.Map<Error.Validation.InvalidSchemaError>(HttpStatusCode.BadRequest, "Esquema de dado inválido", "urn:api-errors:data-invalid-schema");
-        service.Map<Error.Validation.DeserializationFailedError>(HttpStatusCode.BadRequest, "Falha na desserialização", "urn:api-errors:data-deserialization-failed");
-        service.Map<Error.Validation.MissingFieldError>(HttpStatusCode.BadRequest, "Campo obrigatório ausente", "urn:api-errors:data-missing-field");
-        service.Map<Error.Validation.ValueOutOfRangeError>(HttpStatusCode.BadRequest, "Valor fora do intervalo", "urn:api-errors:data-out-of-range");
+        service.Map<Error.Validation.InvalidFormatError>(HttpStatusCode.BadRequest, LocalizationManager.GetErrorTitle("Validation_InvalidFormat"), "urn:api-errors:data-invalid-format");
+        service.Map<Error.Validation.InvalidSchemaError>(HttpStatusCode.BadRequest, LocalizationManager.GetErrorTitle("Validation_InvalidSchema"), "urn:api-errors:data-invalid-schema");
+        service.Map<Error.Validation.DeserializationFailedError>(HttpStatusCode.BadRequest, LocalizationManager.GetErrorTitle("Validation_DeserializationFailed"), "urn:api-errors:data-deserialization-failed");
+        service.Map<Error.Validation.MissingFieldError>(HttpStatusCode.BadRequest, LocalizationManager.GetErrorTitle("Validation_MissingField"), "urn:api-errors:data-missing-field");
+        service.Map<Error.Validation.ValueOutOfRangeError>(HttpStatusCode.BadRequest, LocalizationManager.GetErrorTitle("Validation_ValueOutOfRange"), "urn:api-errors:data-out-of-range");
 
         return service;
     }

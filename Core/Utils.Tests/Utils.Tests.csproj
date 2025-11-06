@@ -3,11 +3,21 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <IsPackable>false</IsPackable>
     <NoWarn>IDE0130</NoWarn>
     <Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>
-  
+
+  <PropertyGroup>
+    <AssemblyName>LightningArc.Utils.Tests</AssemblyName>
+	<Version>$(PackageVersion)</Version>
+	  
+	<Authors>RotomDaPesteBR</Authors>
+	<PackageTags>Utils</PackageTags>
+	  
+	<IsPackable>false</IsPackable>
+	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+	
   <ItemGroup>
     <PackageReference Include="coverlet.collector" >
       <PrivateAssets>all</PrivateAssets>

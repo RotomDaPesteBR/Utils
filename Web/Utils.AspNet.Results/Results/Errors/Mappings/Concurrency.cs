@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LightningArc.Utils.Results.AspNet.Localization;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -16,10 +17,10 @@ public static partial class ErrorMappingServiceExtensions
     public static ErrorMappingService MapConcurrency(this ErrorMappingService service)
     {
         // Módulo CONCURRENCY (Prefixo 9)
-        service.Map<Error.Concurrency.ConflictError>(HttpStatusCode.Conflict, "Conflito de concorrência", "urn:api-errors:concurrency-conflict");
-        service.Map<Error.Concurrency.LockedError>(HttpStatusCode.Locked, "Recurso bloqueado", "urn:api-errors:concurrency-locked");
-        service.Map<Error.Concurrency.StaleDataError>(HttpStatusCode.Conflict, "Dados desatualizados", "urn:api-errors:concurrency-stale-data");
-        service.Map<Error.Concurrency.ResourceInUseError>(HttpStatusCode.Locked, "Recurso em uso", "urn:api-errors:concurrency-resource-in-use");
+        service.Map<Error.Concurrency.ConflictError>(HttpStatusCode.Conflict, LocalizationManager.GetErrorTitle("Concurrency_Conflict"), "urn:api-errors:concurrency-conflict");
+        service.Map<Error.Concurrency.LockedError>(HttpStatusCode.Locked, LocalizationManager.GetErrorTitle("Concurrency_Locked"), "urn:api-errors:concurrency-locked");
+        service.Map<Error.Concurrency.StaleDataError>(HttpStatusCode.Conflict, LocalizationManager.GetErrorTitle("Concurrency_StaleData"), "urn:api-errors:concurrency-stale-data");
+        service.Map<Error.Concurrency.ResourceInUseError>(HttpStatusCode.Locked, LocalizationManager.GetErrorTitle("Concurrency_ResourceInUse"), "urn:api-errors:concurrency-resource-in-use");
 
         return service;
     }

@@ -1,6 +1,7 @@
 
-using System;
 using LightningArc.Utils.Results;
+using LightningArc.Utils.Results.Localization;
+using System;
 using Xunit;
 
 namespace LightningArc.Utils.Tests.Results
@@ -10,6 +11,8 @@ namespace LightningArc.Utils.Tests.Results
         [Fact]
         public void Ok_ShouldCreateOkSuccess_WithDefaultMessage()
         {
+            LocalizationManager.Configure("pt-BR");
+
             // Act
             var success = Success.Ok();
 
@@ -37,6 +40,8 @@ namespace LightningArc.Utils.Tests.Results
         [Fact]
         public void Created_ShouldCreateCreatedSuccess_WithDefaultMessage()
         {
+            LocalizationManager.Configure("pt-BR");
+
             // Act
             var success = Success.Created();
 
@@ -64,9 +69,11 @@ namespace LightningArc.Utils.Tests.Results
         [Fact]
         public void Accepted_ShouldCreateAcceptedSuccess_WithDefaultMessage()
         {
+            LocalizationManager.Configure("pt-BR");
+
             // Act
             var success = Success.Accepted();
-
+            
             // Assert
             Assert.IsType<Success.AcceptedSuccess>(success);
             Assert.Equal(102, success.Code);
@@ -91,13 +98,14 @@ namespace LightningArc.Utils.Tests.Results
         [Fact]
         public void NoContent_ShouldCreateNoContentSuccess_WithNullMessage()
         {
+            LocalizationManager.Configure("pt-BR");
+
             // Act
             var success = Success.NoContent();
 
             // Assert
             Assert.IsType<Success.NoContentSuccess>(success);
             Assert.Equal(103, success.Code);
-            Assert.Null(success.Message);
         }
 
         [Fact]

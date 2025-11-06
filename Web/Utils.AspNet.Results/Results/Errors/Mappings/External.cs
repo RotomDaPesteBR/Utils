@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LightningArc.Utils.Results.AspNet.Localization;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -16,12 +17,12 @@ public static partial class ErrorMappingServiceExtensions
     public static ErrorMappingService MapExternal(this ErrorMappingService service)
     {
         // Módulo EXTERNAL (Prefixo 8)
-        service.Map<Error.External.RateLimitExceededError>(HttpStatusCode.TooManyRequests, "Limite de taxa excedido", "urn:api-errors:external-rate-limit");
-        service.Map<Error.External.ApiQuotaExceededError>(HttpStatusCode.TooManyRequests, "Cota da API excedida", "urn:api-errors:external-quota-exceeded");
-        service.Map<Error.External.InvalidApiResponseError>(HttpStatusCode.BadGateway, "Resposta de API inválida", "urn:api-errors:external-invalid-api-response");
-        service.Map<Error.External.ServiceUnavailableError>(HttpStatusCode.ServiceUnavailable, "Serviço externo indisponível", "urn:api-errors:external-service-unavailable");
-        service.Map<Error.External.TimeoutError>(HttpStatusCode.GatewayTimeout, "Tempo limite do serviço externo", "urn:api-errors:external-timeout");
-        service.Map<Error.External.CommunicationError>(HttpStatusCode.BadGateway, "Falha de comunicação com serviço externo", "urn:api-errors:external-communication-failed");
+        service.Map<Error.External.RateLimitExceededError>(HttpStatusCode.TooManyRequests, LocalizationManager.GetErrorTitle("External_RateLimitExceeded"), "urn:api-errors:external-rate-limit");
+        service.Map<Error.External.ApiQuotaExceededError>(HttpStatusCode.TooManyRequests, LocalizationManager.GetErrorTitle("External_ApiQuotaExceeded"), "urn:api-errors:external-quota-exceeded");
+        service.Map<Error.External.InvalidApiResponseError>(HttpStatusCode.BadGateway, LocalizationManager.GetErrorTitle("External_InvalidApiResponse"), "urn:api-errors:external-invalid-api-response");
+        service.Map<Error.External.ServiceUnavailableError>(HttpStatusCode.ServiceUnavailable, LocalizationManager.GetErrorTitle("External_ServiceUnavailable"), "urn:api-errors:external-service-unavailable");
+        service.Map<Error.External.TimeoutError>(HttpStatusCode.GatewayTimeout, LocalizationManager.GetErrorTitle("External_Timeout"), "urn:api-errors:external-timeout");
+        service.Map<Error.External.CommunicationError>(HttpStatusCode.BadGateway, LocalizationManager.GetErrorTitle("External_Communication"), "urn:api-errors:external-communication-failed");
 
         return service;
     }

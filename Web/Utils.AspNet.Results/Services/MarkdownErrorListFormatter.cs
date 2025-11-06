@@ -1,6 +1,5 @@
 using System.Text;
 using LightningArc.Utils.Results.AspNet.Interfaces;
-using LightningArc.Utils.Results.AspNet.Models;
 
 namespace LightningArc.Utils.Results.AspNet.Services;
 

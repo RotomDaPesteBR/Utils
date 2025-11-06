@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using LightningArc.Utils.Results.AspNet.Localization;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -16,11 +17,11 @@ public static partial class ErrorMappingServiceExtensions
     public static ErrorMappingService MapResource(this ErrorMappingService service)
     {
         // Módulo RESOURCE (Prefixo 3)
-        service.Map<Error.Resource.NotFoundError>(HttpStatusCode.NotFound, "Recurso não encontrado", "urn:api-errors:resource-not-found");
-        service.Map<Error.Resource.AlreadyExistsError>(HttpStatusCode.Conflict, "Recurso já existe", "urn:api-errors:resource-already-exists");
-        service.Map<Error.Resource.UnavailableError>(HttpStatusCode.ServiceUnavailable, "Recurso indisponível", "urn:api-errors:resource-unavailable");
-        service.Map<Error.Resource.InvalidStateError>(HttpStatusCode.Conflict, "Estado do recurso inválido", "urn:api-errors:resource-invalid-state");
-        service.Map<Error.Resource.ObsoleteError>(HttpStatusCode.Gone, "Recurso obsoleto", "urn:api-errors:resource-obsolete");
+        service.Map<Error.Resource.NotFoundError>(HttpStatusCode.NotFound, LocalizationManager.GetErrorTitle("Resource_NotFound"), "urn:api-errors:resource-not-found");
+        service.Map<Error.Resource.AlreadyExistsError>(HttpStatusCode.Conflict, LocalizationManager.GetErrorTitle("Resource_AlreadyExists"), "urn:api-errors:resource-already-exists");
+        service.Map<Error.Resource.UnavailableError>(HttpStatusCode.ServiceUnavailable, LocalizationManager.GetErrorTitle("Resource_Unavailable"), "urn:api-errors:resource-unavailable");
+        service.Map<Error.Resource.InvalidStateError>(HttpStatusCode.Conflict, LocalizationManager.GetErrorTitle("Resource_InvalidState"), "urn:api-errors:resource-invalid-state");
+        service.Map<Error.Resource.ObsoleteError>(HttpStatusCode.Gone, LocalizationManager.GetErrorTitle("Resource_Obsolete"), "urn:api-errors:resource-obsolete");
 
 
         return service;
