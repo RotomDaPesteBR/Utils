@@ -55,6 +55,7 @@ builder.Services.AddOpenApi(options =>
 
 builder.Services.AddEndpointResults(
     wrapSuccessResponses: true,
+    //defaultCulture: "pt-BR",
     configureMappings: (successes, errors) =>
 {
     errors.Map<Business.OrderRejectedError>(HttpStatusCode.UnprocessableEntity, "Pedido Rejeitado", "urn:api-errors:order-rejected");

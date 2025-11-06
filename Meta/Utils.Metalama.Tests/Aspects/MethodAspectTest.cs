@@ -5,6 +5,7 @@ using Metalama.Framework.Code;
 using Metalama.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using LightningArc.Utils.Metalama.Tests.Aspects;
 
 namespace Utils.Metalama.Tests.Aspects;
 

@@ -1,197 +1,222 @@
-﻿namespace LightningArc.Utils.Results
+using LightningArc.Utils.Results.Messages;
+
+namespace LightningArc.Utils.Results;
+
+public partial class Error
 {
-    public partial class Error
+    /// <summary>
+    /// Represents the network error module.
+    /// </summary>
+    /// <remarks>
+    /// This module contains errors that occur during low-level communication (TCP/IP, SSL)
+    /// with external services, such as connection failures or timeouts. The code prefix
+    /// for errors in this module is 9.
+    /// </remarks>
+    public partial class Network : ErrorModule
     {
         /// <summary>
-        /// Representa o módulo de erros de rede.
+        /// Gets the code prefix for the error category.
         /// </summary>
         /// <remarks>
-        /// Este módulo contém erros que ocorrem durante a comunicação de baixo nível (TCP/IP, SSL)
-        /// com serviços externos, como falhas de conexão ou timeouts. O prefixo de código
-        /// para erros deste módulo é 9.
+        /// This value is used to categorize the error and is combined with a suffix to form the complete error code.
         /// </remarks>
-        public partial class Network : ErrorModule
+        public new const int CodePrefix = (int)ModuleCodes.Network;
+
+        /// <summary>
+        /// Defines the numeric suffixes for errors in the Network module (prefix 9).
+        /// These values are used to compose the complete error code (e.g., 9001, 9002, etc.).
+        /// </summary>
+        public enum Codes
         {
             /// <summary>
-            /// Obtém o prefixo de código da categoria do erro.
+            /// Code '1'. Failed to establish the connection (e.g., unreachable host, closed port).
             /// </summary>
-            /// <remarks>
-            /// Este valor é usado para categorizar o erro e é combinado com um sufixo para formar o código de erro completo.
-            /// </remarks>
-            public new const int CodePrefix = (int)ModuleCodes.Network;
+            ConnectionFailed = 1,
 
             /// <summary>
-            /// Define os sufixos numéricos para os erros do módulo Network (prefixo 9).
-            /// Estes valores são usados para compor o código de erro completo (ex: 9001, 9002, etc.).
+            /// Code '2'. The time limit for receiving a response or data was exceeded.
             /// </summary>
-            public enum Codes
-            {
-                /// <summary>
-                /// Código '1'. Falha ao estabelecer a conexão (ex: host inalcançável, porta fechada).
-                /// </summary>
-                ConnectionFailed = 1,
-
-                /// <summary>
-                /// Código '2'. O tempo limite para receber uma resposta ou dados foi excedido.
-                /// </summary>
-                RequestTimeout = 2,
-
-                /// <summary>
-                /// Código '3'. O serviço de rede está temporariamente inoperante (geralmente status 503).
-                /// </summary>
-                ServiceUnavailable = 3,
-
-                /// <summary>
-                /// Código '4'. Falha na resolução do nome de domínio (DNS).
-                /// </summary>
-                DnsFailure = 4,
-
-                /// <summary>
-                /// Código '5'. Falha durante o handshake SSL/TLS ou certificado inválido.
-                /// </summary>
-                SslHandshakeFailed = 5,
-
-                /// <summary>
-                /// Código '6'. Falha ao se conectar ou autenticar através de um servidor proxy.
-                /// </summary>
-                ProxyFailure = 6,
-            }
-
-            // --- Classes Internas de Erro ---
+            RequestTimeout = 2,
 
             /// <summary>
-            /// Representa um erro de falha na conexão de rede (Sufixo: 01).
+            /// Code '3'. The network service is temporarily down (usually status 503).
             /// </summary>
-            internal class ConnectionFailedError : Error
-            {
-                internal ConnectionFailedError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Network.CodePrefix, (int)Codes.ConnectionFailed, message, details) { }
-            }
+            ServiceUnavailable = 3,
 
             /// <summary>
-            /// Representa um erro de timeout da requisição (Sufixo: 02).
+            /// Code '4'. Domain name resolution (DNS) failure.
             /// </summary>
-            internal class RequestTimeoutError : Error
-            {
-                internal RequestTimeoutError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Network.CodePrefix, (int)Codes.RequestTimeout, message, details) { }
-            }
+            DnsFailure = 4,
 
             /// <summary>
-            /// Representa um erro de serviço de rede indisponível (Sufixo: 03).
+            /// Code '5'. Failure during SSL/TLS handshake or invalid certificate.
             /// </summary>
-            internal class ServiceUnavailableError : Error
-            {
-                internal ServiceUnavailableError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Network.CodePrefix, (int)Codes.ServiceUnavailable, message, details) { }
-            }
+            SslHandshakeFailed = 5,
 
             /// <summary>
-            /// Representa um erro de falha no DNS (Sufixo: 04).
+            /// Code '6'. Failed to connect or authenticate through a proxy server.
             /// </summary>
-            internal class DnsFailureError : Error
-            {
-                internal DnsFailureError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(Network.CodePrefix, (int)Codes.DnsFailure, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de falha de SSL/TLS (Sufixo: 05).
-            /// </summary>
-            internal class SslHandshakeFailedError : Error
-            {
-                internal SslHandshakeFailedError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Network.CodePrefix, (int)Codes.SslHandshakeFailed, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de falha no proxy (Sufixo: 06).
-            /// </summary>
-            internal class ProxyFailureError : Error
-            {
-                internal ProxyFailureError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(Network.CodePrefix, (int)Codes.ProxyFailure, message, details) { }
-            }
-
-            // --- Construtores Estáticos ---
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de falha de conexão (código 01).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Falha ao conectar à rede."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de conexão.</returns>
-            public static Error ConnectionFailed(
-                string message = "Falha ao conectar à rede.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new ConnectionFailedError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de timeout da requisição (código 02).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Tempo limite de requisição excedido."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um timeout.</returns>
-            public static Error RequestTimeout(
-                string message = "Tempo limite de requisição excedido.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new RequestTimeoutError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de serviço indisponível (código 03).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Serviço de rede indisponível no momento."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um serviço indisponível.</returns>
-            public static Error ServiceUnavailable(
-                string message = "Serviço de rede indisponível no momento.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new ServiceUnavailableError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de falha no DNS (código 04).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Falha na resolução de nome de domínio (DNS)."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de DNS.</returns>
-            public static Error DnsFailure(
-                string message = "Falha na resolução de nome de domínio (DNS).",
-                params IEnumerable<ErrorDetail>? details
-            ) => new DnsFailureError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de falha de SSL/TLS (código 05).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Falha na validação do certificado SSL/TLS."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de SSL/TLS.</returns>
-            public static Error SslHandshakeFailed(
-                string message = "Falha na validação do certificado SSL/TLS.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new SslHandshakeFailedError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de falha no proxy (código 06).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Falha na conexão ou autenticação do proxy."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha no proxy.</returns>
-            public static Error ProxyFailure(
-                string message = "Falha na conexão ou autenticação do proxy.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new ProxyFailureError(message, details);
+            ProxyFailure = 6,
         }
+
+        // --- Internal Error Classes ---
+
+        /// <summary>
+        /// Represents a network connection failed error (Suffix: 01).
+        /// </summary>
+        internal class ConnectionFailedError : Error
+        {
+            internal ConnectionFailedError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Network.CodePrefix, (int)Codes.ConnectionFailed, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a request timeout error (Suffix: 02).
+        /// </summary>
+        internal class RequestTimeoutError : Error
+        {
+            internal RequestTimeoutError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Network.CodePrefix, (int)Codes.RequestTimeout, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a service unavailable error (Suffix: 03).
+        /// </summary>
+        internal class ServiceUnavailableError : Error
+        {
+            internal ServiceUnavailableError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Network.CodePrefix, (int)Codes.ServiceUnavailable, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a DNS failure error (Suffix: 04).
+        /// </summary>
+        internal class DnsFailureError : Error
+        {
+            internal DnsFailureError(IMessageProvider messageProvider, IEnumerable<ErrorDetail>? details = null)
+                : base(Network.CodePrefix, (int)Codes.DnsFailure, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents an SSL/TLS handshake failed error (Suffix: 05).
+        /// </summary>
+        internal class SslHandshakeFailedError : Error
+        {
+            internal SslHandshakeFailedError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Network.CodePrefix, (int)Codes.SslHandshakeFailed, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a proxy failure error (Suffix: 06).
+        /// </summary>
+        internal class ProxyFailureError : Error
+        {
+            internal ProxyFailureError(IMessageProvider messageProvider, IEnumerable<ErrorDetail>? details = null)
+                : base(Network.CodePrefix, (int)Codes.ProxyFailure, messageProvider, details) { }
+        }
+
+        // --- Static Factory Methods ---
+
+        /// <summary>
+        /// Creates a new connection failed error instance (code 01).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a connection failure.</returns>
+        public static Error ConnectionFailed(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new ConnectionFailedError(
+                ErrorMessageFactory.CreateProvider(message, "Network_ConnectionFailed"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new request timeout error instance (code 02).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a timeout.</returns>
+        public static Error RequestTimeout(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new RequestTimeoutError(
+                ErrorMessageFactory.CreateProvider(message, "Network_RequestTimeout"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new service unavailable error instance (code 03).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a service unavailable.</returns>
+        public static Error ServiceUnavailable(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new ServiceUnavailableError(
+                ErrorMessageFactory.CreateProvider(message, "Network_ServiceUnavailable"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new DNS failure error instance (code 04).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a DNS failure.</returns>
+        public static Error DnsFailure(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new DnsFailureError(
+                ErrorMessageFactory.CreateProvider(message, "Network_DnsFailure"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new SSL/TLS handshake failed error instance (code 05).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an SSL/TLS failure.</returns>
+        public static Error SslHandshakeFailed(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new SslHandshakeFailedError(
+                ErrorMessageFactory.CreateProvider(message, "Network_SslHandshakeFailed"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new proxy failure error instance (code 06).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a proxy failure.</returns>
+        public static Error ProxyFailure(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new ProxyFailureError(
+                ErrorMessageFactory.CreateProvider(message, "Network_ProxyFailure"),
+                details
+            );
     }
 }

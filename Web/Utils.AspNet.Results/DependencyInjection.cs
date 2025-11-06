@@ -5,12 +5,11 @@ using LightningArc.Utils.Results;
 using LightningArc.Utils.Results.AspNet;
 using LightningArc.Utils.Results.AspNet.Interfaces;
 using LightningArc.Utils.Results.AspNet.Services;
-using LightningArc.Utils.Results.Errors;
+using LightningArc.Utils.Results.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Utils.AspNet.Results.Results.Success;
 
 namespace LightningArc.Utils.AspNet;
 
@@ -25,15 +24,17 @@ public static class ServiceCollectionExtensions
     /// <param name="configureMappings">An action to configure custom success and error mappings to HTTP status codes.</param>
     /// <param name="successResponseBuilder">A function to build a custom success response object. If null, a default format will be used.</param>
     /// <param name="errorResponseBuilder">A function to build a custom error response object. If null, a default RFC 7807 ProblemDetails format will be used.</param>
+    /// <param name="defaultCulture">The default culture to use for localizing error messages (e.g., "en-US", "pt-BR"). If not provided, the invariant culture will be used.</param>
     /// <param name="defaultCharset">The default charset to be used for text-based responses. Defaults to "utf-8".</param>
     /// <returns>The same <see cref="IServiceCollection"/> instance for chaining.</returns>
     public static IServiceCollection AddEndpointResults(
         this IServiceCollection services,
         bool wrapSuccessResponses = false,
-        Func<SuccessDetail, object?>? successResponseBuilder = null,
+        Func<SuccessDetail, HttpContext, object?>? successResponseBuilder = null,
         Func<Error, HttpContext, object>? errorResponseBuilder = null,
-        Action<SuccessMappingConfigurator, ErrorMappingConfigurator>? configureMappings = null,
-        string? defaultCharset = null
+        string? defaultCulture = null,
+        string? defaultCharset = null,
+        Action<SuccessMappingConfigurator, ErrorMappingConfigurator>? configureMappings = null
     )
     {
         var options = new EndpointResultOptions();
@@ -46,21 +47,25 @@ public static class ServiceCollectionExtensions
 
         if (options.WrapSuccessResponses)
         {
-            options.SuccessResponseBuilder =
-                successResponseBuilder
-                ?? (
-                    success => new
-                    {
-                        success.Status,
-                        success.Message,
-                        success.Data,
-                    }
-                );
+            options.SuccessResponseBuilder = successResponseBuilder ?? ((success, _) => success);
         }
+
+        //new
+        //{
+        //    success.Status,
+        //    success.Message,
+        //    success.Data,
+        //}
 
         if (defaultCharset is not null)
         {
             options.DefaultCharset = defaultCharset;
+        }
+
+        // Configure the localization manager for the core library
+        if (defaultCulture is not null)
+        {
+            LocalizationManager.Configure(defaultCulture);
         }
 
         services.AddSingleton(Options.Create(options));

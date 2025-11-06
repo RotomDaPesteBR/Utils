@@ -1,66 +1,64 @@
-﻿namespace LightningArc.Utils.Results
+using LightningArc.Utils.Results.Messages;
+using System.Globalization;
+
+namespace LightningArc.Utils.Results
 {
     /// <summary>
-    /// Representa um objeto de erro padronizado para a aplicação.
+    /// Represents a standardized error object for the application.
     /// </summary>
     /// <remarks>
-    /// Esta classe base é usada em conjunto com o padrão Result para fornecer
-    /// informações claras sobre falhas de operações. Os erros podem ser
-    /// mapeados para códigos de status HTTP na camada de apresentação da aplicação.
+    /// This base class is used in conjunction with the Result pattern to provide
+    /// clear information about operation failures. Errors can be mapped to HTTP
+    /// status codes in the application's presentation layer.
     /// <para>
-    /// O código de erro é composto por um prefixo (categoria) e um sufixo (erro específico).
-    /// Por exemplo: 1001 (prefixo 10 para "Aplicação", sufixo 01 para "Interno").
+    /// The error code is composed of a prefix (category) and a suffix (specific error).
+    /// For example: 1001 (prefix 10 for "Application", suffix 01 for "Internal").
     /// </para>
     /// </remarks>
     public partial class Error
     {
+        private readonly IMessageProvider _messageProvider;
+
         /// <summary>
-        /// Obtém o código completo do erro, composto por um prefixo de categoria e um sufixo específico.
+        /// Gets the full error code, composed of a category prefix and a specific suffix.
         /// </summary>
         public int Code => CodePrefix * 1000 + CodeSuffix;
 
         /// <summary>
-        /// Obtém o prefixo do código de erro, que representa a categoria do erro (ex: 10 para Aplicação).
+        /// Gets the error code prefix, representing the error category (e.g., 10 for Application).
         /// </summary>
         private protected int CodePrefix { get; }
 
         /// <summary>
-        /// Obtém o sufixo do código de erro, que representa o erro específico dentro de uma categoria (ex: 01 para Erro Interno).
+        /// Gets the error code suffix, representing the specific error within a category (e.g., 01 for Internal Error).
         /// </summary>
         private protected int CodeSuffix { get; }
 
         /// <summary>
-        /// Obtém a mensagem descritiva do erro.
+        /// Gets the descriptive message for the error.
+        /// This message is either a literal string or a localized string retrieved using a resource key.
         /// </summary>
-        public string Message { get; }
+        public string Message => _messageProvider.GetMessage(CultureInfo.CurrentCulture);
 
         /// <summary>
-        /// Obtém uma lista de detalhes adicionais do erro, útil para validações com múltiplos problemas.
+        /// Gets a list of additional error details, useful for validations with multiple issues.
         /// </summary>
         public IReadOnlyList<ErrorDetail> Details { get; }
 
         /// <summary>
-        /// Inicializa uma nova instância da classe <see cref="Error"/> com um código de erro e uma mensagem específicos.
+        /// Initializes a new instance of the <see cref="Error"/> class with a literal message.
         /// </summary>
-        /// <param name="codePrefix">O prefixo do código de erro, representando a categoria.</param>
-        /// <param name="codeSuffix">O sufixo do código de erro, representando o erro específico.</param>
-        /// <param name="message">A mensagem descritiva do erro.</param>
-        /// <param name="details">Detalhes adicionais do erro.</param>
+        /// <param name="codePrefix">The error code prefix, representing the category.</param>
+        /// <param name="codeSuffix">The error code suffix, representing the specific error.</param>
+        /// <param name="messageProvider">The message provider for the error.</param>
+        /// <param name="details">Additional error details.</param>
         protected Error(
             int codePrefix,
             int codeSuffix,
-            string message,
+            IMessageProvider messageProvider,
             IEnumerable<ErrorDetail>? details = null
         )
         {
-            if (message is null)
-            {
-                throw new ArgumentException(
-                    "Error message cannot be null.",
-                    nameof(message)
-                );
-            }
-
             if (codePrefix <= 0)
             {
                 throw new ArgumentOutOfRangeException(
@@ -79,7 +77,43 @@
 
             CodePrefix = codePrefix;
             CodeSuffix = codeSuffix;
-            Message = message;
+            _messageProvider = messageProvider;
+            Details = details?.ToList() ?? [];
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Error"/> class with a literal message.
+        /// </summary>
+        /// <param name="codePrefix">The error code prefix, representing the category.</param>
+        /// <param name="codeSuffix">The error code suffix, representing the specific error.</param>
+        /// <param name="message">The message provider for the error.</param>
+        /// <param name="details">Additional error details.</param>
+        protected Error(
+            int codePrefix,
+            int codeSuffix,
+            string message,
+            IEnumerable<ErrorDetail>? details = null
+        )
+        {
+            if (codePrefix <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(codePrefix),
+                    "Code prefix must be a positive integer."
+                );
+            }
+
+            if (codeSuffix <= 0)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(codeSuffix),
+                    "Code suffix must be a positive integer."
+                );
+            }
+
+            CodePrefix = codePrefix;
+            CodeSuffix = codeSuffix;
+            _messageProvider = new LiteralMessageProvider(message);
             Details = details?.ToList() ?? [];
         }
     }

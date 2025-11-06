@@ -18,7 +18,7 @@ namespace LightningArc.Utils.AspNet.Tests.API.Controllers
         {
             try
             {
-                var t = typeof(Success<string>.CreatedSuccess);
+                //var t = typeof(Success<string>.CreatedSuccess);
 
                 //return Error.Application.Internal("Erro de teste", [ new ("Teste", "Erro de teste") ]);
                 //return Error.Database.ConstraintViolation("Erro de teste", [ new ("Teste", "Erro de teste") ]);
@@ -71,12 +71,13 @@ namespace LightningArc.Utils.AspNet.Tests.API.Controllers
             {
                 result = Error.Application.InvalidParameter(
                     "Id inválido",
-                    new ErrorDetail("Id", id.ToString())
+                    new ErrorDetail("Id", id.ToString()),
+                    new ErrorDetail("Code", (id + 1).ToString())
                 );
             }
             else
             {
-                result = Error.Application.Internal($"Erro id {id}");
+                result = Error.Application.Internal(); //$"Erro id {id}"
             }
 
             return result;

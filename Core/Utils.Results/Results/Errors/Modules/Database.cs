@@ -1,171 +1,207 @@
-﻿namespace LightningArc.Utils.Results
+﻿using LightningArc.Utils.Results.Messages;
+
+namespace LightningArc.Utils.Results;
+
+public partial class Error
 {
-    public partial class Error
+    /// <summary>
+    /// Represents the database error module.
+    /// </summary>
+    /// <remarks>
+    /// This module contains errors that occur during interaction with the database,
+    /// such as connection failures or constraint violations. The code prefix
+    /// for errors in this module is 3.
+    /// </remarks>
+    public partial class Database : ErrorModule
     {
         /// <summary>
-        /// Representa o módulo de erros de banco de dados.
+        /// Gets the error category code prefix.
         /// </summary>
         /// <remarks>
-        /// Este módulo contém erros que ocorrem durante a interação com o banco de dados,
-        /// como falhas de conexão ou violações de restrições. O prefixo de código
-        /// para erros deste módulo é 3.
+        /// This value is used to categorize the error and is combined with a suffix to form the complete error code.
         /// </remarks>
-        public partial class Database : ErrorModule
+        public new const int CodePrefix = (int)ModuleCodes.Database;
+
+        /// <summary>
+        /// Defines the numeric suffixes for Database module errors (prefix 3).
+        /// These values are used to compose the complete error code (e.g., 3001, 3002, etc.).
+        /// </summary>
+        public enum Codes
         {
             /// <summary>
-            /// Obtém o prefixo de código da categoria do erro.
+            /// Code '1'. Failed to establish a connection with the database server.
             /// </summary>
-            /// <remarks>
-            /// Este valor é usado para categorizar o erro e é combinado com um sufixo para formar o código de erro completo.
-            /// </remarks>
-            public new const int CodePrefix = (int)ModuleCodes.Database;
+            ConnectionFailed = 1,
 
             /// <summary>
-            /// Define os sufixos numéricos para os erros do módulo Database (prefixo 3).
-            /// Estes valores são usados para compor o código de erro completo (ex: 3001, 3002, etc.).
+            /// Code '2'. Error during the execution of an SQL command (query) in the database.
             /// </summary>
-            public enum Codes
-            {
-                /// <summary>
-                /// Código '1'. Falha ao estabelecer uma conexão com o servidor de banco de dados.
-                /// </summary>
-                ConnectionFailed = 1,
-
-                /// <summary>
-                /// Código '2'. Erro durante a execução de um comando SQL (query) no banco de dados.
-                /// </summary>
-                QueryExecutionFailed = 2,
-
-                /// <summary>
-                /// Código '3'. Tentativa de violar uma regra (chave única, chave estrangeira, etc.) do esquema do banco de dados.
-                /// </summary>
-                ConstraintViolation = 3,
-
-                /// <summary>
-                /// Código '4'. Erro temporário que pode ser resolvido com uma nova tentativa (retry).
-                /// </summary>
-                Transient = 4,
-
-                /// <summary>
-                /// Código '5'. Duas ou mais transações se bloquearam mutuamente.
-                /// </summary>
-                Deadlock = 5,
-            }
-
-            // --- Classes Internas de Erro ---
+            QueryExecutionFailed = 2,
 
             /// <summary>
-            /// Representa um erro de conexão com o banco de dados (Sufixo: 01).
+            /// Code '3'. Attempt to violate a rule (unique key, foreign key, etc.) of the database schema.
             /// </summary>
-            internal class ConnectionFailedError : Error
-            {
-                internal ConnectionFailedError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Database.CodePrefix, (int)Codes.ConnectionFailed, message, details) { }
-            }
+            ConstraintViolation = 3,
 
             /// <summary>
-            /// Representa um erro de execução de consulta (Sufixo: 02).
+            /// Code '4'. Temporary error that can be resolved with a retry.
             /// </summary>
-            internal class QueryExecutionFailedError : Error
-            {
-                internal QueryExecutionFailedError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Database.CodePrefix, (int)Codes.QueryExecutionFailed, message, details)
-                { }
-            }
+            Transient = 4,
 
             /// <summary>
-            /// Representa um erro de violação de restrição (Sufixo: 03).
+            /// Code '5'. Two or more transactions mutually blocked each other.
             /// </summary>
-            internal class ConstraintViolationError : Error
-            {
-                internal ConstraintViolationError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Database.CodePrefix, (int)Codes.ConstraintViolation, message, details)
-                { }
-            }
-
-            /// <summary>
-            /// Representa um erro temporário no banco de dados (Sufixo: 04).
-            /// </summary>
-            internal class TransientError : Error
-            {
-                internal TransientError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(Database.CodePrefix, (int)Codes.Transient, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de deadlock (Sufixo: 05).
-            /// </summary>
-            internal class DeadlockError : Error
-            {
-                internal DeadlockError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(Database.CodePrefix, (int)Codes.Deadlock, message, details) { }
-            }
-
-            // --- Construtores Estáticos ---
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de falha de conexão (código 01).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Falha ao conectar ao banco de dados."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de conexão.</returns>
-            public static Error ConnectionFailed(
-                string message = "Falha ao conectar ao banco de dados.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new ConnectionFailedError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de falha de execução de consulta (código 02).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Falha ao executar consulta no banco de dados."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de execução de consulta.</returns>
-            public static Error QueryExecutionFailed(
-                string message = "Falha ao executar consulta no banco de dados.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new QueryExecutionFailedError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de violação de restrição (código 03).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Violação de restrição do banco de dados."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma violação de restrição.</returns>
-            public static Error ConstraintViolation(
-                string message = "Violação de restrição do banco de dados.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new ConstraintViolationError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro temporário no banco de dados (código 04).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Erro temporário do banco de dados. Tente novamente."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um erro temporário.</returns>
-            public static Error Transient(
-                string message = "Erro temporário do banco de dados. Tente novamente.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new TransientError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de deadlock (código 05).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Ocorreu um deadlock."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um deadlock.</returns>
-            public static Error Deadlock(
-                string message = "Ocorreu um deadlock.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new DeadlockError(message, details);
+            Deadlock = 5,
         }
+
+        // --- Classes Internas de Erro ---
+
+        /// <summary>
+        /// Represents a database connection failed error (Suffix: 01).
+        /// </summary>
+        internal class ConnectionFailedError : Error
+        {
+            internal ConnectionFailedError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Database.CodePrefix, (int)Codes.ConnectionFailed, messageProvider, details)
+            { }
+        }
+
+        /// <summary>
+        /// Represents a query execution failed error (Suffix: 02).
+        /// </summary>
+        internal class QueryExecutionFailedError : Error
+        {
+            internal QueryExecutionFailedError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(
+                    Database.CodePrefix,
+                    (int)Codes.QueryExecutionFailed,
+                    messageProvider,
+                    details
+                ) { }
+        }
+
+        /// <summary>
+        /// Represents a constraint violation error (Suffix: 03).
+        /// </summary>
+        internal class ConstraintViolationError : Error
+        {
+            internal ConstraintViolationError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(
+                    Database.CodePrefix,
+                    (int)Codes.ConstraintViolation,
+                    messageProvider,
+                    details
+                ) { }
+        }
+
+        /// <summary>
+        /// Represents a transient database error (Suffix: 04).
+        /// </summary>
+        internal class TransientError : Error
+        {
+            internal TransientError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Database.CodePrefix, (int)Codes.Transient, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a deadlock error (Suffix: 05).
+        /// </summary>
+        internal class DeadlockError : Error
+        {
+            internal DeadlockError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Database.CodePrefix, (int)Codes.Deadlock, messageProvider, details) { }
+        }
+
+        // --- Construtores Estáticos ---
+
+        /// <summary>
+        /// Creates a new instance of a connection failed error (code 01).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a connection failure.</returns>
+        public static Error ConnectionFailed(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new ConnectionFailedError(
+                ErrorMessageFactory.CreateProvider(message, "Database_ConnectionFailed"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new instance of a query execution failed error (code 02).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a query execution failure.</returns>
+        public static Error QueryExecutionFailed(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new QueryExecutionFailedError(
+                ErrorMessageFactory.CreateProvider(message, "Database_QueryExecutionFailed"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new instance of a constraint violation error (code 03).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a constraint violation.</returns>
+        public static Error ConstraintViolation(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new ConstraintViolationError(
+                ErrorMessageFactory.CreateProvider(message, "Database_ConstraintViolation"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new instance of a transient database error (code 04).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a transient error.</returns>
+        public static Error Transient(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new TransientError(
+                ErrorMessageFactory.CreateProvider(message, "Database_Transient"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new instance of a deadlock error (code 05).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a deadlock.</returns>
+        public static Error Deadlock(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new DeadlockError(
+                ErrorMessageFactory.CreateProvider(message, "Database_Deadlock"),
+                details
+            );
     }
 }

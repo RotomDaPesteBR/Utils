@@ -1,200 +1,201 @@
-﻿namespace LightningArc.Utils.Results
+﻿using LightningArc.Utils.Results.Messages;
+
+namespace LightningArc.Utils.Results;
+
+public partial class Error
 {
-    public partial class Error
+    /// <summary>
+    /// Represents the external systems error module.
+    /// </summary>
+    /// <remarks>
+    /// This module contains errors that occur during interaction with third-party APIs or
+    /// services, such as usage limits or unexpected responses.
+    /// The code prefix for errors in this module is 8.
+    /// </remarks>
+    public partial class External : ErrorModule
     {
         /// <summary>
-        /// Representa o módulo de erros de sistemas externos.
+        /// Gets the error category code prefix.
         /// </summary>
         /// <remarks>
-        /// Este módulo contém erros que ocorrem durante a interação com APIs ou
-        /// serviços de terceiros, como limites de uso ou respostas inesperadas.
-        /// O prefixo de código para erros deste módulo é 8.
+        /// This value is used to categorize the error and is combined with a suffix to form the complete error code.
         /// </remarks>
-        public partial class External : ErrorModule
+        public new const int CodePrefix = (int)ModuleCodes.External;
+
+        /// <summary>
+        /// Defines the numeric suffixes for External module errors (prefix 8).
+        /// These values are used to compose the complete error code (e.g., 8001, 8002, etc.).
+        /// </summary>
+        public enum Codes
         {
             /// <summary>
-            /// Obtém o prefixo de código da categoria do erro.
+            /// Code '1'. The external service's request limit per time period has been exceeded.
             /// </summary>
-            /// <remarks>
-            /// Este valor é usado para categorizar o erro e é combinado com um sufixo para formar o código de erro completo.
-            /// </remarks>
-            public new const int CodePrefix = (int)ModuleCodes.External;
+            RateLimitExceeded = 1,
 
             /// <summary>
-            /// Define os sufixos numéricos para os erros do módulo External (prefixo 8).
-            /// Estes valores são usados para compor o código de erro completo (ex: 8001, 8002, etc.).
+            /// Code '2'. The total usage quota for the external API (monthly/daily) has been reached.
             /// </summary>
-            public enum Codes
-            {
-                /// <summary>
-                /// Código '1'. O limite de requisições por período de tempo do serviço externo foi excedido.
-                /// </summary>
-                RateLimitExceeded = 1,
-
-                /// <summary>
-                /// Código '2'. A cota de uso total da API externa (mensal/diária) foi atingida.
-                /// </summary>
-                ApiQuotaExceeded = 2,
-
-                /// <summary>
-                /// Código '3'. A resposta da API externa não estava no formato esperado ou continha dados inconsistentes.
-                /// </summary>
-                InvalidApiResponse = 3,
-
-                /// <summary>
-                /// Código '4'. O serviço externo está inoperante ou temporariamente indisponível.
-                /// </summary>
-                ServiceUnavailable = 4,
-
-                /// <summary>
-                /// Código '5'. A requisição para o serviço externo atingiu o tempo limite (timeout).
-                /// </summary>
-                Timeout = 5,
-
-                /// <summary>
-                /// Código '6'. Falha de comunicação de baixo nível (ex: erro de SSL/TLS, falha de handshake).
-                /// </summary>
-                Communication = 6,
-            }
-
-            // --- Classes Internas de Erro ---
+            ApiQuotaExceeded = 2,
 
             /// <summary>
-            /// Representa um erro de limite de taxa excedido (Sufixo: 01).
+            /// Code '3'. The external API response was not in the expected format or contained inconsistent data.
             /// </summary>
-            internal class RateLimitExceededError : Error
-            {
-                internal RateLimitExceededError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(External.CodePrefix, (int)Codes.RateLimitExceeded, message, details) { }
-            }
+            InvalidApiResponse = 3,
 
             /// <summary>
-            /// Representa um erro de cota de API excedida (Sufixo: 02).
+            /// Code '4'. The external service is inoperative or temporarily unavailable.
             /// </summary>
-            internal class ApiQuotaExceededError : Error
-            {
-                internal ApiQuotaExceededError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(External.CodePrefix, (int)Codes.ApiQuotaExceeded, message, details) { }
-            }
+            ServiceUnavailable = 4,
 
             /// <summary>
-            /// Representa um erro de resposta de API inválida (Sufixo: 03).
+            /// Code '5'. The request to the external service timed out.
             /// </summary>
-            internal class InvalidApiResponseError : Error
-            {
-                internal InvalidApiResponseError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(External.CodePrefix, (int)Codes.InvalidApiResponse, message, details) { }
-            }
+            Timeout = 5,
 
             /// <summary>
-            /// Representa um erro de serviço indisponível (Sufixo: 04).
+            /// Code '6'. Low-level communication failure (e.g., SSL/TLS error, handshake failure).
             /// </summary>
-            internal class ServiceUnavailableError : Error
-            {
-                internal ServiceUnavailableError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(External.CodePrefix, (int)Codes.ServiceUnavailable, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de timeout (Sufixo: 05).
-            /// </summary>
-            internal class TimeoutError : Error
-            {
-                internal TimeoutError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(External.CodePrefix, (int)Codes.Timeout, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de comunicação (Sufixo: 06).
-            /// </summary>
-            internal class CommunicationError : Error
-            {
-                internal CommunicationError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(External.CodePrefix, (int)Codes.Communication, message, details) { }
-            }
-
-            // --- Construtores Estáticos ---
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de limite de taxa excedido (código 01).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Limite de requisições excedido."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um limite de taxa excedido.</returns>
-            public static Error RateLimitExceeded(
-                string message = "Limite de requisições excedido.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new RateLimitExceededError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de cota de API excedida (código 02).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Cota de API excedida."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma cota de API excedida.</returns>
-            public static Error ApiQuotaExceeded(
-                string message = "Cota de API excedida.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new ApiQuotaExceededError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de resposta de API inválida (código 03).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Resposta inválida da API externa."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma resposta de API inválida.</returns>
-            public static Error InvalidApiResponse(
-                string message = "Resposta inválida da API externa.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new InvalidApiResponseError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de serviço indisponível (código 04).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O serviço solicitado não está disponível no momento."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um serviço indisponível.</returns>
-            public static Error ServiceUnavailable(
-                string message = "O serviço solicitado não está disponível no momento.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new ServiceUnavailableError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de tempo limite (código 05).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "A requisição para o serviço externo atingiu o tempo limite."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um tempo limite.</returns>
-            public static Error Timeout(
-                string message = "A requisição para o serviço externo atingiu o tempo limite.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new TimeoutError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de comunicação (código 06).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Falha de comunicação com o serviço externo."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma falha de comunicação.</returns>
-            public static Error Communication(
-                string message = "Falha de comunicação com o serviço externo.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new CommunicationError(message, details);
+            Communication = 6,
         }
+
+        // --- Classes Internas de Erro ---
+
+        /// <summary>
+        /// Represents a rate limit exceeded error (Suffix: 01).
+        /// </summary>
+        internal class RateLimitExceededError : Error
+        {
+            internal RateLimitExceededError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(External.CodePrefix, (int)Codes.RateLimitExceeded, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents an API quota exceeded error (Suffix: 02).
+        /// </summary>
+        internal class ApiQuotaExceededError : Error
+        {
+            internal ApiQuotaExceededError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(External.CodePrefix, (int)Codes.ApiQuotaExceeded, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents an invalid API response error (Suffix: 03).
+        /// </summary>
+        internal class InvalidApiResponseError : Error
+        {
+            internal InvalidApiResponseError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(External.CodePrefix, (int)Codes.InvalidApiResponse, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a service unavailable error (Suffix: 04).
+        /// </summary>
+        internal class ServiceUnavailableError : Error
+        {
+            internal ServiceUnavailableError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(External.CodePrefix, (int)Codes.ServiceUnavailable, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a timeout error (Suffix: 05).
+        /// </summary>
+        internal class TimeoutError : Error
+        {
+            internal TimeoutError(IMessageProvider messageProvider, IEnumerable<ErrorDetail>? details = null)
+                : base(External.CodePrefix, (int)Codes.Timeout, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a communication error (Suffix: 06).
+        /// </summary>
+        internal class CommunicationError : Error
+        {
+            internal CommunicationError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(External.CodePrefix, (int)Codes.Communication, messageProvider, details) { }
+        }
+
+        // --- Construtores Estáticos ---
+
+        /// <summary>
+        /// Creates a new instance of a rate limit exceeded error (code 01).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a rate limit exceeded.</returns>
+        public static Error RateLimitExceeded(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) => new RateLimitExceededError(ErrorMessageFactory.CreateProvider(message, "External_RateLimitExceeded"), details);
+
+        /// <summary>
+        /// Creates a new instance of an API quota exceeded error (code 02).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an API quota exceeded.</returns>
+        public static Error ApiQuotaExceeded(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) => new ApiQuotaExceededError(ErrorMessageFactory.CreateProvider(message, "External_ApiQuotaExceeded"), details);
+
+        /// <summary>
+        /// Creates a new instance of an invalid API response error (code 03).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an invalid API response.</returns>
+        public static Error InvalidApiResponse(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) => new InvalidApiResponseError(ErrorMessageFactory.CreateProvider(message, "External_InvalidApiResponse"), details);
+
+        /// <summary>
+        /// Creates a new instance of a service unavailable error (code 04).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a service unavailable.</returns>
+        public static Error ServiceUnavailable(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) => new ServiceUnavailableError(ErrorMessageFactory.CreateProvider(message, "External_ServiceUnavailable"), details);
+
+        /// <summary>
+        /// Creates a new instance of a timeout error (code 05).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a timeout.</returns>
+        public static Error Timeout(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) => new TimeoutError(ErrorMessageFactory.CreateProvider(message, "External_Timeout"), details);
+
+        /// <summary>
+        /// Creates a new instance of a communication error (code 06).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a communication failure.</returns>
+        public static Error Communication(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) => new CommunicationError(ErrorMessageFactory.CreateProvider(message, "External_Communication"), details);
     }
 }

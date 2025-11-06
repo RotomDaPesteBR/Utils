@@ -1,5 +1,4 @@
 using System.Net;
-using Utils.AspNet.Results.Results.Success;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -77,7 +76,7 @@ public sealed class EndpointResultOptions
     /// Gets or sets the function used to build the wrapped success response object.
     /// This function is only called if <see cref="WrapSuccessResponses"/> is <c>true</c>.
     /// </summary>
-    public Func<SuccessDetail, object?>? SuccessResponseBuilder { get; set; } = null;
+    public Func<SuccessDetail, HttpContext, object?>? SuccessResponseBuilder { get; set; } = null;
 
     /// <summary>
     /// Gets or sets the function used to build the error response object.

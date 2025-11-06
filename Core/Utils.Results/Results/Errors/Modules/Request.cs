@@ -1,176 +1,197 @@
-﻿namespace LightningArc.Utils.Results
+using LightningArc.Utils.Results.Messages;
+
+namespace LightningArc.Utils.Results;
+
+public partial class Error
 {
-    public partial class Error
+    /// <summary>
+    /// Represents the request error module.
+    /// </summary>
+    /// <remarks>
+    /// This module contains errors related to HTTP request processing,
+    /// such as format, size, and frequency limits. The code prefix
+    /// for errors in this module is 7.
+    /// </remarks>
+    public partial class Request : ErrorModule
     {
         /// <summary>
-        /// Representa o módulo de erros de requisição.
+        /// Gets the code prefix for the error category.
         /// </summary>
         /// <remarks>
-        /// Este módulo contém erros relacionados ao processamento da requisição HTTP,
-        /// como formato, tamanho e limites de frequência. O prefixo de código
-        /// para erros deste módulo é 7.
+        /// This value is used to categorize the error and is combined with a suffix to form the complete error code.
         /// </remarks>
-        public partial class Request : ErrorModule
+        public new const int CodePrefix = (int)ModuleCodes.Request;
+
+        /// <summary>
+        /// Defines the numeric suffixes for errors in the Request module (prefix 7).
+        /// These values are used to compose the complete error code (e.g., 7001, 7002, etc.).
+        /// </summary>
+        public enum Codes
         {
             /// <summary>
-            /// Obtém o prefixo de código da categoria do erro.
+            /// Code '1'. The request structure (URI, headers, body) is invalid.
             /// </summary>
-            /// <remarks>
-            /// Este valor é usado para categorizar o erro e é combinado com um sufixo para formar o código de erro completo.
-            /// </remarks>
-            public new const int CodePrefix = (int)ModuleCodes.Request;
+            InvalidRequest = 1,
 
             /// <summary>
-            /// Define os sufixos numéricos para os erros do módulo Request (prefixo 7).
-            /// Estes valores são usados para compor o código de erro completo (ex: 7001, 7002, etc.).
+            /// Code '2'. The total payload size exceeds the server's allowed limit.
             /// </summary>
-            public enum Codes
-            {
-                /// <summary>
-                /// Código '1'. A estrutura da requisição (URI, headers, body) é inválida.
-                /// </summary>
-                InvalidRequest = 1,
-
-                /// <summary>
-                /// Código '2'. O tamanho total da carga útil (payload) excede o limite permitido pelo servidor.
-                /// </summary>
-                TooLargeRequest = 2,
-
-                /// <summary>
-                /// Código '3'. O cliente excedeu o limite de requisições em um determinado período de tempo (Rate Limiting).
-                /// </summary>
-                TooManyRequests = 3,
-
-                /// <summary>
-                /// Código '4'. O formato de resposta solicitado (via header Accept) não é suportado pelo servidor.
-                /// </summary>
-                NotAcceptable = 4,
-
-                /// <summary>
-                /// Código '5'. O tipo de mídia (via header Content-Type) da requisição não é suportado para este endpoint.
-                /// </summary>
-                UnsupportedMediaType = 5,
-            }
-
-            // --- Classes Internas de Erro ---
+            TooLargeRequest = 2,
 
             /// <summary>
-            /// Representa um erro de requisição inválida (Sufixo: 01).
+            /// Code '3'. The client has exceeded the request limit within a given time period (Rate Limiting).
             /// </summary>
-            internal class InvalidRequestError : Error
-            {
-                internal InvalidRequestError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Request.CodePrefix, (int)Codes.InvalidRequest, message, details) { }
-            }
+            TooManyRequests = 3,
 
             /// <summary>
-            /// Representa um erro de requisição muito grande (Sufixo: 02).
+            /// Code '4'. The requested response format (via Accept header) is not supported by the server.
             /// </summary>
-            internal class TooLargeRequestError : Error
-            {
-                internal TooLargeRequestError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Request.CodePrefix, (int)Codes.TooLargeRequest, message, details) { }
-            }
+            NotAcceptable = 4,
 
             /// <summary>
-            /// Representa um erro de excesso de requisições (Sufixo: 03).
+            /// Code '5'. The media type (via Content-Type header) of the request is not supported for this endpoint.
             /// </summary>
-            internal class TooManyRequestsError : Error
-            {
-                internal TooManyRequestsError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Request.CodePrefix, (int)Codes.TooManyRequests, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de "não aceitável" (Sufixo: 04).
-            /// </summary>
-            internal class NotAcceptableError : Error
-            {
-                internal NotAcceptableError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Request.CodePrefix, (int)Codes.NotAcceptable, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de tipo de mídia não suportado (Sufixo: 05).
-            /// </summary>
-            internal class UnsupportedMediaTypeError : Error
-            {
-                internal UnsupportedMediaTypeError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Request.CodePrefix, (int)Codes.UnsupportedMediaType, message, details)
-                { }
-            }
-
-            // --- Construtores Estáticos ---
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de requisição inválida (código 01).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "A requisição possui um formato inválido."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma requisição inválida.</returns>
-            public static Error Invalid(
-                string message = "A requisição possui um formato inválido.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new InvalidRequestError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de requisição muito grande (código 02).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "A carga da requisição é muito grande."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma carga de requisição muito grande.</returns>
-            public static Error TooLarge(
-                string message = "A carga da requisição é muito grande.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new TooLargeRequestError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de excesso de requisições (código 03).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Número excessivo de requisições."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um excesso de requisições.</returns>
-            public static Error TooManyRequests(
-                string message = "Número excessivo de requisições.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new TooManyRequestsError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de "não aceitável" (código 04).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O formato da resposta não é aceitável."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um formato de resposta não aceitável.</returns>
-            public static Error NotAcceptable(
-                string message = "O formato da resposta não é aceitável.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new NotAcceptableError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de tipo de mídia não suportado (código 05).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O tipo de mídia da requisição não é suportado."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um tipo de mídia não suportado.</returns>
-            public static Error UnsupportedMediaType(
-                string message = "O tipo de mídia da requisição não é suportado.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new UnsupportedMediaTypeError(message, details);
+            UnsupportedMediaType = 5,
         }
+
+        // --- Internal Error Classes ---
+
+        /// <summary>
+        /// Represents an invalid request error (Suffix: 01).
+        /// </summary>
+        internal class InvalidRequestError : Error
+        {
+            internal InvalidRequestError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Request.CodePrefix, (int)Codes.InvalidRequest, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a too large request error (Suffix: 02).
+        /// </summary>
+        internal class TooLargeRequestError : Error
+        {
+            internal TooLargeRequestError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Request.CodePrefix, (int)Codes.TooLargeRequest, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a too many requests error (Suffix: 03).
+        /// </summary>
+        internal class TooManyRequestsError : Error
+        {
+            internal TooManyRequestsError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Request.CodePrefix, (int)Codes.TooManyRequests, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a "not acceptable" error (Suffix: 04).
+        /// </summary>
+        internal class NotAcceptableError : Error
+        {
+            internal NotAcceptableError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Request.CodePrefix, (int)Codes.NotAcceptable, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents an unsupported media type error (Suffix: 05).
+        /// </summary>
+        internal class UnsupportedMediaTypeError : Error
+        {
+            internal UnsupportedMediaTypeError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Request.CodePrefix, (int)Codes.UnsupportedMediaType, messageProvider, details)
+            { }
+        }
+
+        // --- Static Factory Methods ---
+
+        /// <summary>
+        /// Creates a new invalid request error instance (code 01).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an invalid request.</returns>
+        public static Error Invalid(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new InvalidRequestError(
+                ErrorMessageFactory.CreateProvider(message, "Request_InvalidRequest"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new too large request error instance (code 02).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a too large request.</returns>
+        public static Error TooLarge(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new TooLargeRequestError(
+                ErrorMessageFactory.CreateProvider(message, "Request_TooLargeRequest"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new too many requests error instance (code 03).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing too many requests.</returns>
+        public static Error TooManyRequests(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new TooManyRequestsError(
+                ErrorMessageFactory.CreateProvider(message, "Request_TooManyRequests"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new "not acceptable" error instance (code 04).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a "not acceptable" error.</returns>
+        public static Error NotAcceptable(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new NotAcceptableError(
+                ErrorMessageFactory.CreateProvider(message, "Request_NotAcceptable"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new unsupported media type error instance (code 05).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an unsupported media type.</returns>
+        public static Error UnsupportedMediaType(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new UnsupportedMediaTypeError(
+                ErrorMessageFactory.CreateProvider(message, "Request_UnsupportedMediaType"),
+                details
+            );
     }
 }

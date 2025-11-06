@@ -30,7 +30,16 @@ public class Result
     /// Este é um valor de conveniência que retorna o código do objeto <see cref="Results.Success"/> em caso de sucesso
     /// ou do objeto <see cref="Error"/> em caso de falha.
     /// </remarks>
-    public int Code => IsSuccess ? SuccessDetails!.Code : Error!.Code;
+    public int Code => IsSuccess ? SuccessDetails.Code : Error.Code;
+
+    /// <summary>
+    /// Gets the message associated with the result.
+    /// </summary>
+    /// <remarks>
+    /// This property returns the message from the <see cref="Results.Success"/> object if the operation was successful,
+    /// or the message from the <see cref="Error"/> object if the operation failed.
+    /// </remarks>
+    public string? Message => IsSuccess ? SuccessDetails.Message : Error.Message;
 
     /// <summary>
     /// Obtém o objeto <see cref="Error"/> associado a este resultado.

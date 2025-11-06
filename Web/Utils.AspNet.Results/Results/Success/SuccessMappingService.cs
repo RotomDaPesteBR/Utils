@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Net;
+using System.Reflection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -29,7 +30,10 @@ public class SuccessMappingService
     /// </summary>
     /// <param name="logger">O serviço de logging para registrar informações de mapeamento.</param>
     /// <param name="options"></param>
-    public SuccessMappingService(ILogger<SuccessMappingService> logger, IOptions<EndpointResultOptions> options)
+    public SuccessMappingService(
+        ILogger<SuccessMappingService> logger,
+        IOptions<EndpointResultOptions> options
+    )
     {
         _logger = logger;
         _logger.LogInformation("Iniciando o mapeamento de sucessos HTTP para a API...");
@@ -41,21 +45,36 @@ public class SuccessMappingService
         Map<Success.AcceptedSuccess>(HttpStatusCode.Accepted, "Aceito");
         Map<Success.NoContentSuccess>(HttpStatusCode.NoContent, "Sem Conteúdo");
 
-        MapGeneric(typeof(Success<>.OkSuccess), HttpStatusCode.OK, "OK");
-        MapGeneric(typeof(Success<>.CreatedSuccess), HttpStatusCode.Created, "Criado");
-        MapGeneric(typeof(Success<>.AcceptedSuccess), HttpStatusCode.Accepted, "Aceito");
-        MapGeneric(typeof(Success<>.NoContentSuccess), HttpStatusCode.NoContent, "Sem Conteúdo");
+        Map(typeof(Success<>.OkSuccess), HttpStatusCode.OK, "OK");
+        Map(typeof(Success<>.CreatedSuccess), HttpStatusCode.Created, "Criado");
+        Map(typeof(Success<>.AcceptedSuccess), HttpStatusCode.Accepted, "Aceito");
+        Map(typeof(Success<>.NoContentSuccess), HttpStatusCode.NoContent, "Sem Conteúdo");
 
         if (options.Value.SuccessMappings.Count > 0)
         {
-            _logger.LogInformation("Adicionando {Count} mapeamentos de sucesso personalizados.", options.Value.SuccessMappings.Count);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation(
+                    "Adicionando {Count} mapeamentos de sucesso personalizados.",
+                    options.Value.SuccessMappings.Count
+                );
+            }
             foreach (var mapping in options.Value.SuccessMappings)
             {
-                _mappings[mapping.SuccessType] = new SuccessMapping(mapping.StatusCode, mapping.Title);
+                _mappings[mapping.SuccessType] = new SuccessMapping(
+                    mapping.StatusCode,
+                    mapping.Title
+                );
             }
         }
 
-        _logger.LogInformation("Mapeamento de sucessos HTTP concluído. {Count} sucessos registrados.", _mappings.Count);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Mapeamento de sucessos HTTP concluído. {Count} sucessos registrados.",
+                _mappings.Count
+            );
+        }
     }
 
     /// <summary>
@@ -68,31 +87,35 @@ public class SuccessMappingService
         where TSuccess : Success
     {
         _mappings[typeof(TSuccess)] = new SuccessMapping(statusCode, title);
-        _logger.LogDebug(
-            "Mapeado sucesso {SuccessType} para Status {StatusCode} e Título '{Title}'.",
-            typeof(TSuccess).Name,
-            (int)statusCode,
-            title
-        );
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug(
+                "Mapeado sucesso {SuccessType} para Status {StatusCode} e Título '{Title}'.",
+                typeof(TSuccess).Name,
+                (int)statusCode,
+                title
+            );
+        }
     }
 
     /// <summary>
-    /// Adiciona um mapeamento para uma definição de tipo genérico.
+    /// Adiciona ou sobrescreve um mapeamento para um tipo de sucesso específico.
     /// </summary>
-    private void MapGeneric(Type successTypeDefinition, HttpStatusCode statusCode, string title)
+    /// <param name="successTypeDefinition">O tipo do sucesso a ser mapeado.</param>
+    /// <param name="statusCode">O código de status HTTP a ser retornado para este sucesso.</param>
+    /// <param name="title">O título do problema para este sucesso.</param>
+    private void Map(Type successTypeDefinition, HttpStatusCode statusCode, string title)
     {
-        if (!successTypeDefinition.IsGenericTypeDefinition)
-        {
-            throw new ArgumentException($"O tipo '{successTypeDefinition.Name}' não é uma definição de tipo genérico.", nameof(successTypeDefinition));
-        }
-
         _mappings[successTypeDefinition] = new SuccessMapping(statusCode, title);
-        _logger.LogDebug(
-            "Mapeado sucesso genérico {SuccessType} para Status {StatusCode} e Título '{Title}'.",
-            successTypeDefinition.Name,
-            (int)statusCode,
-            title
-        );
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug(
+                "Mapeado sucesso {SuccessType} para Status {StatusCode} e Título '{Title}'.",
+                successTypeDefinition.Name,
+                (int)statusCode,
+                title
+            );
+        }
     }
 
     /// <summary>
@@ -124,17 +147,28 @@ public class SuccessMappingService
                     // 2a. Obtém o tipo de definição genérica do pai (ex: Success<>)
                     var genericParentDef = declaringType.GetGenericTypeDefinition();
 
-                    // 2b. Encontra o tipo aninhado correspondente na definição genérica do pai.
-                    // Isso nos dá Success<>.OkSuccess.
-                    var genericTypeDefinition = genericParentDef.GetNestedType(successType.Name)!;
+                    // 2b. Encontra o tipo aninhado correspondente na definição genérica do pai (ex: Success<>.{Operation}Success)
+                    var genericTypeDefinition = genericParentDef.GetNestedType(
+                        successType.Name,
+                        BindingFlags.Public | BindingFlags.NonPublic
+                    )!;
                     typeToLookup = genericTypeDefinition;
                 }
                 catch (Exception ex)
                 {
                     // Log de erro se a reflexão falhar de forma inesperada.
-                    _logger.LogError(ex, "Erro ao tentar obter a definição de tipo genérico para o sucesso aninhado '{SuccessType}'.", successType.Name);
-                    typeToLookup = successType; // Fallback
+                    if (_logger.IsEnabled(LogLevel.Error))
+                    {
+                        _logger.LogError(
+                            ex,
+                            "Erro ao tentar obter a definição de tipo genérico para o sucesso aninhado '{SuccessType}'.",
+                            successType.Name
+                        );
+                    }
                 }
+
+                // Fallback
+                typeToLookup ??= successType;
             }
         }
 
@@ -151,10 +185,13 @@ public class SuccessMappingService
         }
 
         // Ação de Log para sucessos não mapeados
-        _logger.LogWarning(
-            "Nenhum mapeamento HTTP encontrado para o tipo de sucesso '{SuccessType}'. Retornando padrão.",
-            success.GetType().Name
-        );
+        if (_logger.IsEnabled(LogLevel.Warning))
+        {
+            _logger.LogWarning(
+                "Nenhum mapeamento HTTP encontrado para o tipo de sucesso '{SuccessType}'. Retornando padrão.",
+                success.GetType().Name
+            );
+        }
 
         return null;
     }

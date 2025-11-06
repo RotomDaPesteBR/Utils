@@ -1,27 +1,51 @@
-﻿namespace LightningArc.Utils.Results;
+﻿using System.Globalization;
+using LightningArc.Utils.Results.Messages;
+
+namespace LightningArc.Utils.Results;
 
 /// <summary>
-/// Representa um resultado de sucesso genérico.
-/// Esta classe base é usada para padronizar as respostas de sucesso, permitindo que as subclasses
-/// definam tipos específicos de sucesso.
+/// Represents a generic success result.
+/// This base class is used to standardize success responses, allowing subclasses
+/// to define specific types of success.
 /// </summary>
 public abstract class Success
 {
     /// <summary>
-    /// Obtém o código numérico do sucesso.
+    /// Gets the numeric code of the success.
     /// </summary>
     public int Code { get; }
 
     /// <summary>
-    /// Obtém a mensagem de sucesso opcional.
+    /// Gets the message provider for this success.
     /// </summary>
-    public string? Message { get; }
+    internal readonly IMessageProvider? MessageProvider;
 
-    /// <remarks>
-    /// Construtor protegido para inicializar a instância base de <see cref="Success"/>.
-    /// </remarks>
-    /// <param name="code">O código numérico do sucesso.</param>
-    /// <param name="message">A mensagem opcional de sucesso.</param>
+    /// <summary>
+    /// Gets the optional success message.
+    /// </summary>
+    public string? Message => MessageProvider?.GetMessage(CultureInfo.CurrentCulture);
+
+    /// <summary>
+    /// Protected constructor to initialize the base <see cref="Success"/> instance with a message provider.
+    /// </summary>
+    /// <param name="code">The numeric code of the success.</param>
+    /// <param name="messageProvider">The message provider for this success.</param>
+    protected Success(int code, IMessageProvider? messageProvider)
+    {
+        if (code <= 0)
+        {
+            throw new ArgumentOutOfRangeException(
+                nameof(code),
+                "Success code must be a positive integer."
+            );
+        }
+
+        Code = code;
+        MessageProvider = messageProvider;
+    }
+
+    /// <param name="code">The numeric code of the success.</param>
+    /// <param name="message">The optional literal success message. Will be used to create a LiteralMessageProvider.</param>
     protected Success(int code, string? message)
     {
         if (code <= 0)
@@ -33,261 +57,274 @@ public abstract class Success
         }
 
         Code = code;
-        Message = message;
+        MessageProvider = message is not null ? new LiteralMessageProvider(message) : null;
     }
 
     /// <summary>
-    /// Cria uma instância de sucesso com o código genérico para "OK".
+    /// Creates a success instance with the generic code for "OK".
     /// </summary>
-    /// <param name="message">A mensagem opcional de sucesso. O padrão é "Operação concluída com sucesso."</param>
-    /// <returns>Uma nova instância de <see cref="Success"/>.</returns>
-    public static Success Ok(string? message = "Operação concluída com sucesso.") =>
-        new OkSuccess(message);
+    /// <param name="message">The optional success message. If not provided, the default localized message will be used.</param>
+    /// <returns>A new <see cref="Success"/> instance.</returns>
+    public static Success Ok(string? message = null) =>
+        new OkSuccess(SuccessMessageFactory.CreateProvider(message, "Success_Ok"));
 
     /// <summary>
-    /// Cria uma instância de sucesso com o código genérico para "Created".
+    /// Creates a success instance with the generic code for "Created".
     /// </summary>
-    /// <param name="message">A mensagem opcional de sucesso. O padrão é "Recurso criado com sucesso."</param>
-    /// <returns>Uma nova instância de <see cref="Success"/>.</returns>
-    public static Success Created(string? message = "Recurso criado com sucesso.") =>
-        new CreatedSuccess(message);
+    /// <param name="message">The optional success message. If not provided, the default localized message will be used.</param>
+    /// <returns>A new <see cref="Success"/> instance.</returns>
+    public static Success Created(string? message = null) =>
+        new CreatedSuccess(SuccessMessageFactory.CreateProvider(message, "Success_Created"));
 
     /// <summary>
-    /// Cria uma instância de sucesso com o código genérico para "Accepted".
+    /// Creates a success instance with the generic code for "Accepted".
     /// </summary>
-    /// <param name="message">A mensagem opcional de sucesso. O padrão é "A solicitação foi aceita para processamento."</param>
-    /// <returns>Uma nova instância de <see cref="Success"/>.</returns>
-    public static Success Accepted(
-        string? message = "A solicitação foi aceita para processamento."
-    ) => new AcceptedSuccess(message);
+    /// <param name="message">The optional success message. If not provided, the default localized message will be used.</param>
+    /// <returns>A new <see cref="Success"/> instance.</returns>
+    public static Success Accepted(string? message = null) =>
+        new AcceptedSuccess(SuccessMessageFactory.CreateProvider(message, "Success_Accepted"));
 
     /// <summary>
-    /// Cria uma instância de sucesso com o código genérico para "No Content".
+    /// Creates a success instance with the generic code for "No Content".
     /// </summary>
-    /// <param name="message">A mensagem opcional de sucesso. O padrão é null, pois esta resposta geralmente não deve ter corpo.</param>
-    /// <returns>Uma nova instância de <see cref="Success"/>.</returns>
-    public static Success NoContent(string? message = null) => new NoContentSuccess(message);
+    /// <param name="message">The optional success message. If not provided, the default localized message will be used.</param>
+    /// <returns>A new <see cref="Success"/> instance.</returns>
+    public static Success NoContent(string? message = null) =>
+        new NoContentSuccess(SuccessMessageFactory.CreateProvider(message, "Success_NoContent"));
 
     /// <summary>
-    /// Cria uma instância de sucesso com o código genérico para "OK" e encapsula um valor.
+    /// Creates a success instance with the generic code for "OK" and encapsulates a value.
     /// </summary>
-    /// <param name="value">O valor a ser encapsulado no sucesso.</param>
-    /// <param name="message">A mensagem opcional de sucesso. O padrão é "Operação concluída com sucesso."</param>
-    /// <returns>Uma nova instância de <see cref="Success{TValue}"/>.</returns>
+    /// <typeparam name="TValue">The type of the value to be encapsulated in the success.</typeparam>
+    /// <param name="value">The value to be encapsulated in the success.</param>
+    /// <param name="message">The optional success message. If not provided, the default localized message will be used.</param>
+    /// <returns>A new <see cref="Success{TValue}"/> instance.</returns>
     public static Success<TValue> Ok<TValue>(
         TValue value,
-        string? message = "Operação concluída com sucesso."
-    ) => new Success<TValue>.OkSuccess(value, message);
+        string? message = null
+    ) =>
+        new Success<TValue>.OkSuccess(
+            value,
+            SuccessMessageFactory.CreateProvider(message, "Success_Ok")
+        );
 
     /// <summary>
-    /// Cria uma instância de sucesso com o código genérico para "Created" e encapsula um valor.
+    /// Creates a success instance with the generic code for "Created" and encapsulates a value.
     /// </summary>
-    /// <param name="value">O valor a ser encapsulado no sucesso.</param>
-    /// <param name="message">A mensagem opcional de sucesso. O padrão é "Recurso criado com sucesso."</param>
-    /// <returns>Uma nova instância de <see cref="Success{TValue}"/>.</returns>
+    /// <typeparam name="TValue">The type of the value to be encapsulated in the success.</typeparam>
+    /// <param name="value">The value to be encapsulated in the success.</param>
+    /// <param name="message">The optional success message. If not provided, the default localized message will be used.</param>
+    /// <returns>A new <see cref="Success{TValue}"/> instance.</returns>
     public static Success<TValue> Created<TValue>(
         TValue value,
-        string? message = "Recurso criado com sucesso."
-    ) => new Success<TValue>.CreatedSuccess(value, message);
+        string? message = null
+    ) =>
+        new Success<TValue>.CreatedSuccess(
+            value,
+            SuccessMessageFactory.CreateProvider(message, "Success_Created")
+        );
 
     /// <summary>
-    /// Cria uma instância de sucesso com o código genérico para "Accepted" e encapsula um valor.
+    /// Creates a success instance with the generic code for "Accepted" and encapsulates a value.
     /// </summary>
-    /// <param name="value">O valor a ser encapsulado no sucesso.</param>
-    /// <param name="message">A mensagem opcional de sucesso. O padrão é "A solicitação foi aceita para processamento."</param>
-    /// <returns>Uma nova instância de <see cref="Success{TValue}"/>.</returns>
+    /// <typeparam name="TValue">The type of the value to be encapsulated in the success.</typeparam>
+    /// <param name="value">The value to be encapsulated in the success.</param>
+    /// <param name="message">The optional success message. If not provided, the default localized message will be used.</param>
+    /// <returns>A new <see cref="Success{TValue}"/> instance.</returns>
     public static Success<TValue> Accepted<TValue>(
         TValue value,
-        string? message = "A solicitação foi aceita para processamento."
-    ) => new Success<TValue>.AcceptedSuccess(value, message);
+        string? message = null
+    ) =>
+        new Success<TValue>.AcceptedSuccess(
+            value,
+            SuccessMessageFactory.CreateProvider(message, "Success_Accepted")
+        );
 
     /// <summary>
-    /// Cria uma instância de sucesso com o código genérico para "No Content".
+    /// Creates a success instance with the generic code for "No Content".
     /// </summary>
-    /// <param name="value">O valor de sucesso.</param>
-    /// <param name="message">A mensagem opcional de sucesso. O padrão é null, pois esta resposta geralmente não deve ter corpo.</param>
-    /// <returns>Uma nova instância de <see cref="Success"/>.</returns>
+    /// <typeparam name="TValue">The type of the value to be encapsulated in the success.</typeparam>
+    /// <param name="value">The success value.</param>
+    /// <param name="message">The optional success message. If not provided, the default localized message will be used.</param>
+    /// <returns>A new <see cref="Success"/> instance.</returns>
     public static Success<TValue> NoContent<TValue>(TValue value, string? message = null) =>
-        new Success<TValue>.NoContentSuccess(value, message);
+        new Success<TValue>.NoContentSuccess(
+            value,
+            SuccessMessageFactory.CreateProvider(message, "Success_NoContent")
+        );
 
     /// <summary>
-    /// Cria um novo sucesso tipado (<see cref="Success{TValue}"/>) com base nos metadados 
-    /// deste sucesso (código e mensagem), adicionando um valor tipado.
+    /// Creates a new typed success (<see cref="Success{TValue}"/>) based on the metadata
+    /// of this success (code and message), adding a typed value.
     /// </summary>
-    /// <typeparam name="TValue">O tipo do valor a ser encapsulado no novo sucesso.</typeparam>
-    /// <param name="value">O valor a ser encapsulado.</param>
-    /// <returns>Uma nova instância de <see cref="Success{TValue}"/> com os mesmos metadados.</returns>
+    /// <typeparam name="TValue">The type of the value to be encapsulated in the new success.</typeparam>
+    /// <param name="value">The value to be encapsulated.</param>
+    /// <returns>A new <see cref="Success{TValue}"/> instance with the same metadata.</returns>
     public abstract Success<TValue> WithValue<TValue>(TValue value);
 
     /// <summary>
-    /// Representa o tipo de sucesso para uma operação "Ok".
+    /// Represents the success type for an "Ok" operation.
     /// </summary>
-    public sealed class OkSuccess : Success
+    internal sealed class OkSuccess : Success
     {
-        internal OkSuccess(string? message = null)
-            : base(100, message) { }
+        internal OkSuccess(IMessageProvider? messageProvider)
+            : base(100, messageProvider) { }
 
         /// <inheritdoc/>
         public override Success<TValue> WithValue<TValue>(TValue value) =>
-            new Success<TValue>.OkSuccess(value, Message);
+            new Success<TValue>.OkSuccess(value, MessageProvider);
     }
 
     /// <summary>
-    /// Representa o tipo de sucesso para uma operação "Created".
+    /// Represents the success type for a "Created" operation.
     /// </summary>
-    public sealed class CreatedSuccess : Success
+    internal sealed class CreatedSuccess : Success
     {
-        internal CreatedSuccess(string? message = null)
-            : base(101, message) { }
+        internal CreatedSuccess(IMessageProvider? messageProvider)
+            : base(101, messageProvider) { }
 
         /// <inheritdoc/>
         public override Success<TValue> WithValue<TValue>(TValue value) =>
-            new Success<TValue>.CreatedSuccess(value, Message);
+            new Success<TValue>.CreatedSuccess(value, MessageProvider);
     }
 
     /// <summary>
-    /// Representa o tipo de sucesso para uma operação "Accepted".
+    /// Represents the success type for an "Accepted" operation.
     /// </summary>
-    public sealed class AcceptedSuccess : Success
+    internal sealed class AcceptedSuccess : Success
     {
-        internal AcceptedSuccess(string? message = null)
-            : base(102, message) { }
+        internal AcceptedSuccess(IMessageProvider? messageProvider)
+            : base(102, messageProvider) { }
 
         /// <inheritdoc/>
         public override Success<TValue> WithValue<TValue>(TValue value) =>
-            new Success<TValue>.AcceptedSuccess(value, Message);
+            new Success<TValue>.AcceptedSuccess(value, MessageProvider);
     }
 
     /// <summary>
-    /// Representa o tipo de sucesso para uma operação "No Content".
+    /// Represents the success type for a "No Content" operation.
     /// </summary>
     public sealed class NoContentSuccess : Success
     {
-        internal NoContentSuccess(string? message = null)
-            : base(103, message) { }
+        internal NoContentSuccess(IMessageProvider? messageProvider)
+            : base(103, messageProvider) { }
 
         /// <inheritdoc/>
         public override Success<TValue> WithValue<TValue>(TValue value) =>
-            new Success<TValue>.NoContentSuccess(value, Message);
+            new Success<TValue>.NoContentSuccess(value, MessageProvider);
     }
 }
 
 /// <summary>
-/// Representa um resultado de sucesso que encapsula um valor específico junto com os metadados de sucesso.
-/// Esta classe estende <see cref="Success"/> para fornecer um valor tipado.
+/// Represents a success result that encapsulates a specific value along with success metadata.
+/// This class extends <see cref="Success"/> to provide a typed value.
 /// </summary>
-/// <typeparam name="TValue">O tipo do valor de sucesso que este objeto encapsula.</typeparam>
+/// <typeparam name="TValue">The type of the success value that this object encapsulates.</typeparam>
 public abstract class Success<TValue> : Success
 {
     /// <summary>
-    /// Obtém o valor de sucesso encapsulado.
+    /// Gets the encapsulated success value.
     /// </summary>
     public TValue Value { get; }
 
     /// <remarks>
-    /// Construtor interno para inicializar a instância de <see cref="Success{TValue}"/>.
+    /// Internal constructor to initialize the <see cref="Success{TValue}"/> instance.
     /// </remarks>
-    /// <param name="code">O código numérico do sucesso.</param>
-    /// <param name="message">A mensagem opcional de sucesso.</param>
-    /// <param name="value">O valor de sucesso a ser encapsulado.</param>
-    internal Success(int code, string? message, TValue value)
-        : base(code, message)
+    /// <param name="code">The numeric code of the success.</param>
+    /// <param name="messageProvider">The message provider for this success.</param>
+    /// <param name="value">The success value to be encapsulated.</param>
+    internal Success(int code, IMessageProvider? messageProvider, TValue value)
+        : base(code, messageProvider)
     {
         Value = value;
     }
 
     /// <remarks>
-    /// Construtor interno para inicializar a instância de <see cref="Success{TValue}"/> 
-    /// a partir de um <see cref="Success"/> não genérico.
+    /// Internal constructor to initialize the <see cref="Success{TValue}"/> instance
+    /// from a non-generic <see cref="Success"/>.
     /// </remarks>
-    /// <param name="existingSuccess">O objeto <see cref="Success"/> existente.</param>
-    /// <param name="value">O valor de sucesso a ser encapsulado.</param>
+    /// <param name="existingSuccess">The existing <see cref="Success"/> object.</param>
+    /// <param name="value">The success value to be encapsulated.</param>
     internal Success(Success existingSuccess, TValue value)
-        : base(existingSuccess.Code, existingSuccess.Message)
+        : base(existingSuccess.Code, existingSuccess.MessageProvider)
     {
         // Este construtor é chamado pelas subclasses internas (OkSuccess, CreatedSuccess, etc.)
         Value = value;
     }
 
     /// <summary>
-    /// Representa o tipo de sucesso para uma operação "Ok" com um valor de <typeparamref name="TValue"/>.
+    /// Represents the success type for an "Ok" operation with a <typeparamref name="TValue"/> value.
     /// </summary>
-    public new sealed class OkSuccess : Success<TValue>
+    internal new sealed class OkSuccess : Success<TValue>
     {
-        /// <summary>
-        /// Inicializa uma nova instância da classe <see cref="OkSuccess"/>.
-        /// </summary>
-        /// <param name="value">O valor de sucesso.</param>
-        /// <param name="message">A mensagem opcional.</param>
-        internal OkSuccess(TValue value, string? message = null)
-            : base(100, message, value) { }
+        /// <param name="value">The success value.</param>
+        /// <param name="messageProvider">The optional message provider.</param>
+        internal OkSuccess(TValue value, IMessageProvider? messageProvider)
+            : base(100, messageProvider, value) { }
 
-        internal OkSuccess(int code, string? message, TValue value) // Para códigos customizados
-            : base(code, message, value) { }
+        internal OkSuccess(int code, IMessageProvider? messageProvider, TValue value) // Para códigos customizados
+            : base(code, messageProvider, value) { }
 
         internal OkSuccess(Success existingSuccess, TValue value)
             : base(existingSuccess, value) { }
 
         /// <inheritdoc/>
         public override Success<TMappedValue> WithValue<TMappedValue>(TMappedValue value) =>
-            new Success<TMappedValue>.OkSuccess(value, Message);
+            new Success<TMappedValue>.OkSuccess(value, MessageProvider);
     }
 
     /// <summary>
-    /// Representa o tipo de sucesso para uma operação "Created" com um valor de <typeparamref name="TValue"/>.
+    /// Represents the success type for a "Created" operation with a <typeparamref name="TValue"/> value.
     /// </summary>
-    public new sealed class CreatedSuccess : Success<TValue>
+    internal new sealed class CreatedSuccess : Success<TValue>
     {
-        /// <summary>
-        /// Inicializa uma nova instância da classe <see cref="CreatedSuccess"/>.
-        /// </summary>
-        /// <param name="value">O valor de sucesso.</param>
-        /// <param name="message">A mensagem opcional.</param>
-        internal CreatedSuccess(TValue value, string? message = null)
-            : base(101, message, value) { }
+        /// <param name="value">The success value.</param>
+        /// <param name="messageProvider">The optional message provider.</param>
+        internal CreatedSuccess(TValue value, IMessageProvider? messageProvider)
+            : base(101, messageProvider, value) { }
 
         internal CreatedSuccess(Success existingSuccess, TValue value)
             : base(existingSuccess, value) { }
 
         /// <inheritdoc/>
         public override Success<TMappedValue> WithValue<TMappedValue>(TMappedValue value) =>
-            new Success<TMappedValue>.CreatedSuccess(value, Message);
+            new Success<TMappedValue>.CreatedSuccess(value, MessageProvider);
     }
 
     /// <summary>
-    /// Representa o tipo de sucesso para uma operação "Accepted" com um valor de <typeparamref name="TValue"/>.
+    /// Represents the success type for an "Accepted" operation with a <typeparamref name="TValue"/> value.
     /// </summary>
-    public new sealed class AcceptedSuccess : Success<TValue>
+    internal new sealed class AcceptedSuccess : Success<TValue>
     {
         /// <summary>
-        /// Inicializa uma nova instância da classe <see cref="AcceptedSuccess"/>.
+        /// Initializes a new instance of the <see cref="AcceptedSuccess"/> class.
         /// </summary>
-        /// <param name="value">O valor de sucesso.</param>
-        /// <param name="message">A mensagem opcional.</param>
-        internal AcceptedSuccess(TValue value, string? message = null)
-            : base(102, message, value) { }
+        /// <param name="value">The success value.</param>
+        /// <param name="messageProvider">The optional message provider.</param>
+        internal AcceptedSuccess(TValue value, IMessageProvider? messageProvider)
+            : base(102, messageProvider, value) { }
 
         internal AcceptedSuccess(Success existingSuccess, TValue value)
             : base(existingSuccess, value) { }
 
         /// <inheritdoc/>
         public override Success<TMappedValue> WithValue<TMappedValue>(TMappedValue value) =>
-            new Success<TMappedValue>.AcceptedSuccess(value, Message);
+            new Success<TMappedValue>.AcceptedSuccess(value, MessageProvider);
     }
 
     /// <summary>
-    /// Representa o tipo de sucesso para uma operação "No Content".
+    /// Represents the success type for a "No Content" operation.
     /// </summary>
-    public new sealed class NoContentSuccess : Success<TValue>
+    internal new sealed class NoContentSuccess : Success<TValue>
     {
-        internal NoContentSuccess(TValue value, string? message = null)
-            : base(103, message, value) { }
+        internal NoContentSuccess(TValue value, IMessageProvider? messageProvider)
+            : base(103, messageProvider, value) { }
 
         internal NoContentSuccess(Success existingSuccess, TValue value)
             : base(existingSuccess, value) { }
 
         /// <inheritdoc/>
         public override Success<TMappedValue> WithValue<TMappedValue>(TMappedValue value) =>
-            new Success<TMappedValue>.NoContentSuccess(value, Message);
+            new Success<TMappedValue>.NoContentSuccess(value, MessageProvider);
     }
 }

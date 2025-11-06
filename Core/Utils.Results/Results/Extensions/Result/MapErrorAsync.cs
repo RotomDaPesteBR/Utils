@@ -7,14 +7,14 @@ namespace LightningArc.Utils.Results
     public static partial class ResultExtensions
     {
         /// <summary>
-        ///     Asynchronously maps the error of a <see cref="Result{T}" /> to a new <see cref="Error" />.
+        ///     Asynchronously maps the error of a <see cref="Result{TValue}" /> to a new <see cref="Error" />.
         /// </summary>
-        /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="result">The input <see cref="Result{T}" />.</param>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="result">The input <see cref="Result{TValue}" />.</param>
         /// <param name="mapper">The asynchronous function to apply to the error.</param>
-        /// <returns>A new <see cref="Result{T}" /> with the mapped error, or the original success.</returns>
-        public static async Task<Result<T>> MapErrorAsync<T>(
-            this Result<T> result,
+        /// <returns>A new <see cref="Result{TValue}" /> with the mapped error, or the original success.</returns>
+        public static async Task<Result<TValue>> MapErrorAsync<TValue>(
+            this Result<TValue> result,
             Func<Error, Task<Error>> mapper
         ) => result.IsFailure ? await mapper(result.Error).ConfigureAwait(false) : result;
 
@@ -30,14 +30,14 @@ namespace LightningArc.Utils.Results
         ) => result.IsFailure ? await mapper(result.Error).ConfigureAwait(false) : result;
 
         /// <summary>
-        ///     Asynchronously maps the error of a <see cref="Result{T}" /> to a new <see cref="Error" />.
+        ///     Asynchronously maps the error of a <see cref="Result{TValue}" /> to a new <see cref="Error" />.
         /// </summary>
-        /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{TValue}" />.</param>
         /// <param name="mapper">The function to apply to the error.</param>
-        /// <returns>A new <see cref="Result{T}" /> with the mapped error, or the original success.</returns>
-        public static async Task<Result<T>> MapErrorAsync<T>(
-            this Task<Result<T>> resultTask,
+        /// <returns>A new <see cref="Result{TValue}" /> with the mapped error, or the original success.</returns>
+        public static async Task<Result<TValue>> MapErrorAsync<TValue>(
+            this Task<Result<TValue>> resultTask,
             Func<Error, Error> mapper
         ) => (await resultTask.ConfigureAwait(false)).MapError(mapper);
 
@@ -53,14 +53,14 @@ namespace LightningArc.Utils.Results
         ) => (await resultTask.ConfigureAwait(false)).MapError(mapper);
 
         /// <summary>
-        ///     Asynchronously maps the error of a <see cref="Result{T}" /> to a new <see cref="Error" />.
+        ///     Asynchronously maps the error of a <see cref="Result{TValue}" /> to a new <see cref="Error" />.
         /// </summary>
-        /// <typeparam name="T">The type of the value.</typeparam>
-        /// <param name="resultTask">The input <see cref="Result{T}" />.</param>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="resultTask">The input <see cref="Result{TValue}" />.</param>
         /// <param name="mapper">The asynchronous function to apply to the error.</param>
-        /// <returns>A new <see cref="Result{T}" /> with the mapped error, or the original success.</returns>
-        public static async Task<Result<T>> MapErrorAsync<T>(
-            this Task<Result<T>> resultTask,
+        /// <returns>A new <see cref="Result{TValue}" /> with the mapped error, or the original success.</returns>
+        public static async Task<Result<TValue>> MapErrorAsync<TValue>(
+            this Task<Result<TValue>> resultTask,
             Func<Error, Task<Error>> mapper
         ) =>
             await (await resultTask.ConfigureAwait(false))

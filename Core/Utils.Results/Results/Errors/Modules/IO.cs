@@ -1,169 +1,192 @@
-﻿namespace LightningArc.Utils.Results
+﻿using LightningArc.Utils.Results.Messages;
+
+namespace LightningArc.Utils.Results;
+
+public partial class Error
 {
-    public partial class Error
+    /// <summary>
+    /// Represents the input/output (I/O) error module.
+    /// </summary>
+    /// <remarks>
+    /// This module contains errors that occur during operations with files,
+    /// directories, or streams, such as file not found, permission denied, or disk issues.
+    /// The code prefix for errors in this module is 11.
+    /// </remarks>
+    public partial class IO : ErrorModule
     {
         /// <summary>
-        /// Representa o módulo de erros de entrada/saída (I/O).
+        /// Gets the error category code prefix.
         /// </summary>
         /// <remarks>
-        /// Este módulo contém erros que ocorrem durante operações com arquivos,
-        /// diretórios ou streams, como arquivos não encontrados, permissões negadas ou problemas de disco.
-        /// O prefixo de código para erros deste módulo é 11.
+        /// This value is used to categorize the error and is combined with a suffix to form the complete error code.
         /// </remarks>
-        public partial class IO : ErrorModule
+        public new const int CodePrefix = (int)ModuleCodes.IO;
+
+        /// <summary>
+        /// Defines the numeric suffixes for IO module errors (prefix 11).
+        /// These values are used to compose the complete error code (e.g., 11001, 11002, etc.).
+        /// </summary>
+        public enum Codes
         {
             /// <summary>
-            /// Obtém o prefixo de código da categoria do erro.
+            /// Code '1'. The specified file does not exist at the provided path.
             /// </summary>
-            /// <remarks>
-            /// Este valor é usado para categorizar o erro e é combinado com um sufixo para formar o código de erro completo.
-            /// </remarks>
-            public new const int CodePrefix = (int)ModuleCodes.IO;
+            FileNotFound = 1,
 
             /// <summary>
-            /// Define os sufixos numéricos para os erros do módulo IO (prefixo 11).
-            /// Estes valores são usados para compor o código de erro completo (ex: 11001, 11002, etc.).
+            /// Code '2'. The specified directory path does not exist.
             /// </summary>
-            public enum Codes
-            {
-                /// <summary>
-                /// Código '1'. O arquivo especificado não existe no caminho fornecido.
-                /// </summary>
-                FileNotFound = 1,
-
-                /// <summary>
-                /// Código '2'. O usuário ou processo não tem as permissões necessárias para ler/escrever/acessar o recurso.
-                /// </summary>
-                PermissionDenied = 2,
-
-                /// <summary>
-                /// Código '3'. O arquivo foi lido, mas seu conteúdo está em um formato inválido ou ilegível.
-                /// </summary>
-                CorruptedFile = 3,
-
-                /// <summary>
-                /// Código '4'. A operação de escrita falhou porque não há espaço em disco disponível.
-                /// </summary>
-                DiskFull = 4,
-
-                /// <summary>
-                /// Código '5'. O caminho do diretório especificado não existe.
-                /// </summary>
-                DirectoryNotFound = 5,
-            }
-
-            // --- Classes Internas de Erro ---
+            DirectoryNotFound = 2,
 
             /// <summary>
-            /// Representa um erro de arquivo não encontrado (Sufixo: 01).
+            /// Code '3'. The user or process does not have the necessary permissions to read/write/access the resource.
             /// </summary>
-            internal class FileNotFoundError : Error
-            {
-                internal FileNotFoundError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(IO.CodePrefix, (int)Codes.FileNotFound, message, details) { }
-            }
+            PermissionDenied = 3,
 
             /// <summary>
-            /// Representa um erro de permissão negada (Sufixo: 02).
+            /// Code '4'. The write operation failed because there is no available disk space.
             /// </summary>
-            internal class PermissionDeniedError : Error
-            {
-                internal PermissionDeniedError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(IO.CodePrefix, (int)Codes.PermissionDenied, message, details) { }
-            }
+            DiskFull = 4,
 
             /// <summary>
-            /// Representa um erro de arquivo corrompido (Sufixo: 03).
+            /// Code '5'. The file was read, but its content is in an invalid or unreadable format.
             /// </summary>
-            internal class CorruptedFileError : Error
-            {
-                internal CorruptedFileError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(IO.CodePrefix, (int)Codes.CorruptedFile, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de disco cheio (Sufixo: 04).
-            /// </summary>
-            internal class DiskFullError : Error
-            {
-                internal DiskFullError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(IO.CodePrefix, (int)Codes.DiskFull, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de caminho não encontrado (Sufixo: 05).
-            /// </summary>
-            internal class DirectoryNotFoundError : Error
-            {
-                internal DirectoryNotFoundError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(IO.CodePrefix, (int)Codes.DirectoryNotFound, message, details) { }
-            }
-
-            // --- Construtores Estáticos ---
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de arquivo não encontrado (código 01).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Arquivo não encontrado."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um arquivo não encontrado.</returns>
-            public static Error FileNotFound(
-                string message = "Arquivo não encontrado.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new FileNotFoundError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de permissão negada (código 02).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Permissão negada para acessar o arquivo ou diretório."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando uma permissão negada.</returns>
-            public static Error PermissionDenied(
-                string message = "Permissão negada para acessar o arquivo ou diretório.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new PermissionDeniedError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de arquivo corrompido (código 03).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Arquivo corrompido ou ilegível."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um arquivo corrompido.</returns>
-            public static Error CorruptedFile(
-                string message = "Arquivo corrompido ou ilegível.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new CorruptedFileError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de disco cheio (código 04).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "Não há espaço em disco suficiente para completar a operação."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um disco cheio.</returns>
-            public static Error DiskFull(
-                string message = "Não há espaço em disco suficiente para completar a operação.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new DiskFullError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de caminho não encontrado (código 05).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O caminho do diretório não foi encontrado."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um caminho inválido.</returns>
-            public static Error DirectoryNotFound(
-                string message = "O caminho do diretório não foi encontrado.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new DirectoryNotFoundError(message, details);
+            CorruptedFile = 5,
         }
+
+        // --- Internal Error Classes ---
+
+        /// <summary>
+        /// Represents a file not found error (Suffix: 01).
+        /// </summary>
+        internal class FileNotFoundError : Error
+        {
+            internal FileNotFoundError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(IO.CodePrefix, (int)Codes.FileNotFound, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a directory not found error (Suffix: 05).
+        /// </summary>
+        internal class DirectoryNotFoundError : Error
+        {
+            internal DirectoryNotFoundError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(IO.CodePrefix, (int)Codes.DirectoryNotFound, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a permission denied error (Suffix: 02).
+        /// </summary>
+        internal class PermissionDeniedError : Error
+        {
+            internal PermissionDeniedError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(IO.CodePrefix, (int)Codes.PermissionDenied, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a disk full error (Suffix: 04).
+        /// </summary>
+        internal class DiskFullError : Error
+        {
+            internal DiskFullError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(IO.CodePrefix, (int)Codes.DiskFull, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a corrupted file error (Suffix: 03).
+        /// </summary>
+        internal class CorruptedFileError : Error
+        {
+            internal CorruptedFileError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(IO.CodePrefix, (int)Codes.CorruptedFile, messageProvider, details) { }
+        }
+
+        // --- Static Factory Methods ---
+
+        /// <summary>
+        /// Creates a new file not found error instance (code 01).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a file not found error.</returns>
+        public static Error FileNotFound(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new FileNotFoundError(
+                ErrorMessageFactory.CreateProvider(message, "IO_FileNotFound"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new directory not found error instance (code 02).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a directory not found error.</returns>
+        public static Error DirectoryNotFound(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new DirectoryNotFoundError(
+                ErrorMessageFactory.CreateProvider(message, "IO_DirectoryNotFound"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new permission denied error instance (code 03).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a permission denied error.</returns>
+        public static Error PermissionDenied(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new PermissionDeniedError(
+                ErrorMessageFactory.CreateProvider(message, "IO_PermissionDenied"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new disk full error instance (code 04).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a disk full error.</returns>
+        public static Error DiskFull(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) => new DiskFullError(ErrorMessageFactory.CreateProvider(message, "IO_DiskFull"), details);
+
+        /// <summary>
+        /// Creates a new corrupted file error instance (code 05).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a corrupted file error.</returns>
+        public static Error CorruptedFile(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new CorruptedFileError(
+                ErrorMessageFactory.CreateProvider(message, "IO_CorruptedFile"),
+                details
+            );
     }
 }

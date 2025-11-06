@@ -1,163 +1,196 @@
-﻿namespace LightningArc.Utils.Results
+﻿using LightningArc.Utils.Results.Messages;
+
+namespace LightningArc.Utils.Results;
+
+public partial class Error
 {
-    public partial class Error
+    /// <summary>
+    /// Represents the resource error module.
+    /// </summary>
+    /// <remarks>
+    /// This module contains errors that occur when there are problems
+    /// managing a resource, such as it not being found or
+    /// already existing. The code prefix for errors in this module is 5.
+    /// </remarks>
+    public partial class Resource : ErrorModule
     {
         /// <summary>
-        /// Representa o módulo de erros de recurso.
+        /// Gets the code prefix for the error category.
         /// </summary>
         /// <remarks>
-        /// Este módulo contém erros que ocorrem quando há problemas
-        /// na gestão de um recurso, como ele não ser encontrado ou
-        /// já existir. O prefixo de código para erros deste módulo é 5.
+        /// This value is used to categorize the error and is combined with a suffix to form the complete error code.
         /// </remarks>
-        public partial class Resource : ErrorModule
+        public new const int CodePrefix = (int)ModuleCodes.Resource;
+
+        /// <summary>
+        /// Defines the numeric suffixes for errors in the Resource module (prefix 5).
+        /// These values are used to compose the complete error code (e.g., 5001, 5002, etc.).
+        /// </summary>
+        public enum Codes
         {
             /// <summary>
-            /// Obtém o prefixo de código da categoria do erro.
+            /// Code '1'. The requested resource does not exist.
             /// </summary>
-            /// <remarks>
-            /// Este valor é usado para categorizar o erro e é combinado com um sufixo para formar o código de erro completo.
-            /// </remarks>
-            public new const int CodePrefix = (int)ModuleCodes.Resource;
+            NotFound = 1,
 
             /// <summary>
-            /// Define os sufixos numéricos para os erros do módulo Resource (prefixo 5).
-            /// Estes valores são usados para compor o código de erro completo (ex: 5001, 5002, etc.).
+            /// Code '2'. Attempt to create a resource that already exists.
             /// </summary>
-            public enum Codes
-            {
-                /// <summary>
-                /// Código '1'. O recurso solicitado não existe.
-                /// </summary>
-                NotFound = 1,
-
-                /// <summary>
-                /// Código '2'. Tentativa de criar um recurso que já existe.
-                /// </summary>
-                AlreadyExists = 2,
-
-                /// <summary>
-                /// Código '3'. O recurso existe, mas não pode ser acessado ou utilizado no momento.
-                /// </summary>
-                Unavailable = 3,
-
-                /// <summary>
-                /// Código '4'. O recurso não está no estado esperado para a operação (ex: tentar deletar um recurso já excluído).
-                /// </summary>
-                InvalidState = 4,
-
-                /// <summary>
-                /// Código '5'. O recurso solicitado está obsoleto ou descontinuado.
-                /// </summary>
-                Obsolete = 5,
-            }
-
-            // --- Classes Internas de Erro ---
+            AlreadyExists = 2,
 
             /// <summary>
-            /// Representa um erro de recurso não encontrado (Sufixo: 01).
+            /// Code '3'. The resource exists but cannot be accessed or used at the moment.
             /// </summary>
-            internal class NotFoundError : Error
-            {
-                internal NotFoundError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(Resource.CodePrefix, (int)Codes.NotFound, message, details) { }
-            }
+            Unavailable = 3,
 
             /// <summary>
-            /// Representa um erro de recurso já existente (Sufixo: 02).
+            /// Code '4'. The resource is not in the expected state for the operation (e.g., trying to delete an already deleted resource).
             /// </summary>
-            internal class AlreadyExistsError : Error
-            {
-                internal AlreadyExistsError(
-                    string message,
-                    IEnumerable<ErrorDetail>? details = null
-                )
-                    : base(Resource.CodePrefix, (int)Codes.AlreadyExists, message, details) { }
-            }
+            InvalidState = 4,
 
             /// <summary>
-            /// Representa um erro de recurso indisponível (Sufixo: 03).
+            /// Code '5'. The requested resource is obsolete or discontinued.
             /// </summary>
-            internal class UnavailableError : Error
-            {
-                internal UnavailableError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(Resource.CodePrefix, (int)Codes.Unavailable, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de estado de recurso inválido (Sufixo: 04).
-            /// </summary>
-            internal class InvalidStateError : Error
-            {
-                internal InvalidStateError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(Resource.CodePrefix, (int)Codes.InvalidState, message, details) { }
-            }
-
-            /// <summary>
-            /// Representa um erro de recurso obsoleto (Sufixo: 05).
-            /// </summary>
-            internal class ObsoleteError : Error
-            {
-                internal ObsoleteError(string message, IEnumerable<ErrorDetail>? details = null)
-                    : base(Resource.CodePrefix, (int)Codes.Obsolete, message, details) { }
-            }
-
-            // --- Construtores Estáticos ---
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de recurso não encontrado (código 01).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O recurso solicitado não foi encontrado."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso não encontrado.</returns>
-            public static Error NotFound(
-                string message = "O recurso solicitado não foi encontrado.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new NotFoundError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de recurso já existente (código 02).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O recurso já existe."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso já existente.</returns>
-            public static Error AlreadyExists(
-                string message = "O recurso já existe.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new AlreadyExistsError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de recurso indisponível (código 03).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O recurso está indisponível no momento."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso indisponível.</returns>
-            public static Error Unavailable(
-                string message = "O recurso está indisponível no momento.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new UnavailableError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de estado de recurso inválido (código 04).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O recurso não está em um estado válido para a operação."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um estado de recurso inválido.</returns>
-            public static Error InvalidState(
-                string message = "O recurso não está em um estado válido para a operação.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new InvalidStateError(message, details);
-
-            /// <summary>
-            /// Cria uma nova instância de um erro de recurso obsoleto (código 05).
-            /// </summary>
-            /// <param name="message">A mensagem descritiva do erro. O valor padrão é "O recurso solicitado está obsoleto ou descontinuado."</param>
-            /// <param name="details">Uma lista de detalhes adicionais do erro.</param>
-            /// <returns>Uma nova instância de <see cref="Error"/> representando um recurso obsoleto.</returns>
-            public static Error Obsolete(
-                string message = "O recurso solicitado está obsoleto ou descontinuado.",
-                params IEnumerable<ErrorDetail>? details
-            ) => new ObsoleteError(message, details);
+            Obsolete = 5,
         }
+
+        // --- Internal Error Classes ---
+
+        /// <summary>
+        /// Represents a resource not found error (Suffix: 01).
+        /// </summary>
+        internal class NotFoundError : Error
+        {
+            internal NotFoundError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Resource.CodePrefix, (int)Codes.NotFound, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a resource already exists error (Suffix: 02).
+        /// </summary>
+        internal class AlreadyExistsError : Error
+        {
+            internal AlreadyExistsError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Resource.CodePrefix, (int)Codes.AlreadyExists, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents a resource unavailable error (Suffix: 03).
+        /// </summary>
+        internal class UnavailableError : Error
+        {
+            internal UnavailableError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Resource.CodePrefix, (int)Codes.Unavailable, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents an invalid resource state error (Suffix: 04).
+        /// </summary>
+        internal class InvalidStateError : Error
+        {
+            internal InvalidStateError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Resource.CodePrefix, (int)Codes.InvalidState, messageProvider, details) { }
+        }
+
+        /// <summary>
+        /// Represents an obsolete resource error (Suffix: 05).
+        /// </summary>
+        internal class ObsoleteError : Error
+        {
+            internal ObsoleteError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(Resource.CodePrefix, (int)Codes.Obsolete, messageProvider, details) { }
+        }
+
+        // --- Static Factory Methods ---
+
+        /// <summary>
+        /// Creates a new resource not found error instance (code 01).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a resource not found error.</returns>
+        public static Error NotFound(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new NotFoundError(
+                ErrorMessageFactory.CreateProvider(message, "Resource_NotFound"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new resource already exists error instance (code 02).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing a resource that already exists.</returns>
+        public static Error AlreadyExists(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new AlreadyExistsError(
+                ErrorMessageFactory.CreateProvider(message, "Resource_AlreadyExists"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new resource unavailable error instance (code 03).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an unavailable resource.</returns>
+        public static Error Unavailable(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new UnavailableError(
+                ErrorMessageFactory.CreateProvider(message, "Resource_Unavailable"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new invalid resource state error instance (code 04).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an invalid resource state.</returns>
+        public static Error InvalidState(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new InvalidStateError(
+                ErrorMessageFactory.CreateProvider(message, "Resource_InvalidState"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new obsolete resource error instance (code 05).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an obsolete resource.</returns>
+        public static Error Obsolete(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new ObsoleteError(
+                ErrorMessageFactory.CreateProvider(message, "Resource_Obsolete"),
+                details
+            );
     }
 }

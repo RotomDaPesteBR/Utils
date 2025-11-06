@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Application_InternalError" xml:space="preserve">
+    <value>Ocorreu um erro interno.</value>
+  </data>
+  <data name="Application_ValidationError" xml:space="preserve">
+    <value>Ocorreu um erro de validação.</value>
+  </data>
+  <data name="Application_NotFound" xml:space="preserve">
+    <value>O recurso solicitado não foi encontrado.</value>
+  </data>
+  <data name="Application_InvalidOperation" xml:space="preserve">
+    <value>A operação solicitada é inválida no estado atual do sistema.</value>
+  </data>
+  <data name="Application_TaskCanceled" xml:space="preserve">
+    <value>A operação foi cancelada.</value>
+  </data>
+  <data name="Application_NotImplemented" xml:space="preserve">
+    <value>A funcionalidade ainda não foi implementada.</value>
+  </data>
+  <data name="Authentication_Unauthorized" xml:space="preserve">
+    <value>Acesso não autorizado. Credenciais ausentes ou inválidas.</value>
+  </data>
+  <data name="Authentication_Forbidden" xml:space="preserve">
+    <value>Acesso proibido. Permissão insuficiente.</value>
+  </data>
+  <data name="Authentication_TokenExpired" xml:space="preserve">
+    <value>O token de autenticação expirou.</value>
+  </data>
+  <data name="Authentication_InvalidCredentials" xml:space="preserve">
+    <value>As credenciais fornecidas são inválidas.</value>
+  </data>
+  <data name="Authentication_InactiveAccount" xml:space="preserve">
+    <value>A conta de usuário está inativa.</value>
+  </data>
+  <data name="Authentication_ExpiredSession" xml:space="preserve">
+    <value>A sessão de usuário expirou.</value>
+  </data>
+  <data name="Concurrency_Conflict" xml:space="preserve">
+    <value>Conflito de concorrência detectado.</value>
+  </data>
+  <data name="Concurrency_Locked" xml:space="preserve">
+    <value>O recurso está bloqueado por outro processo.</value>
+  </data>
+  <data name="Concurrency_StaleData" xml:space="preserve">
+    <value>Os dados estão desatualizados devido à concorrência.</value>
+  </data>
+  <data name="Concurrency_ResourceInUse" xml:space="preserve">
+    <value>O recurso já está em uso por outra operação.</value>
+  </data>
+  <data name="Database_ConnectionFailed" xml:space="preserve">
+    <value>Falha ao conectar ao banco de dados.</value>
+  </data>
+  <data name="Database_QueryExecutionFailed" xml:space="preserve">
+    <value>Falha ao executar consulta no banco de dados.</value>
+  </data>
+  <data name="Database_ConstraintViolation" xml:space="preserve">
+    <value>Violação de restrição do banco de dados.</value>
+  </data>
+  <data name="Database_Transient" xml:space="preserve">
+    <value>Erro temporário do banco de dados. Tente novamente.</value>
+  </data>
+  <data name="Database_Deadlock" xml:space="preserve">
+    <value>Ocorreu um deadlock.</value>
+  </data>
+  <data name="External_RateLimitExceeded" xml:space="preserve">
+    <value>Limite de requisições excedido.</value>
+  </data>
+  <data name="External_ApiQuotaExceeded" xml:space="preserve">
+    <value>Cota de API excedida.</value>
+  </data>
+  <data name="External_InvalidApiResponse" xml:space="preserve">
+    <value>Resposta inválida da API externa.</value>
+  </data>
+  <data name="External_ServiceUnavailable" xml:space="preserve">
+    <value>O serviço solicitado não está disponível no momento.</value>
+  </data>
+  <data name="External_Timeout" xml:space="preserve">
+    <value>A requisição para o serviço externo atingiu o tempo limite.</value>
+  </data>
+  <data name="External_Communication" xml:space="preserve">
+    <value>Falha de comunicação com o serviço externo.</value>
+  </data>
+  <data name="IO_FileNotFound" xml:space="preserve">
+    <value>O arquivo especificado não foi encontrado.</value>
+  </data>
+  <data name="IO_PermissionDenied" xml:space="preserve">
+    <value>Permissão negada para acessar o arquivo ou diretório.</value>
+  </data>
+  <data name="IO_CorruptedFile" xml:space="preserve">
+    <value>O arquivo está corrompido ou ilegível.</value>
+  </data>
+  <data name="IO_DiskFull" xml:space="preserve">
+    <value>Não há espaço suficiente no disco para completar a operação.</value>
+  </data>
+  <data name="IO_DirectoryNotFound" xml:space="preserve">
+    <value>O caminho do diretório não foi encontrado.</value>
+  </data>
+  <data name="Network_ConnectionFailed" xml:space="preserve">
+    <value>Falha ao conectar à rede.</value>
+  </data>
+  <data name="Network_RequestTimeout" xml:space="preserve">
+    <value>Tempo limite de requisição excedido.</value>
+  </data>
+  <data name="Network_ServiceUnavailable" xml:space="preserve">
+    <value>Serviço de rede indisponível no momento.</value>
+  </data>
+  <data name="Network_DnsFailure" xml:space="preserve">
+    <value>Falha na resolução de nome de domínio (DNS).</value>
+  </data>
+  <data name="Network_SslHandshakeFailed" xml:space="preserve">
+    <value>Falha na validação do certificado SSL/TLS.</value>
+  </data>
+  <data name="Network_ProxyFailure" xml:space="preserve">
+    <value>Falha na conexão ou autenticação do proxy.</value>
+  </data>
+  <data name="Request_InvalidRequest" xml:space="preserve">
+    <value>A requisição possui um formato inválido.</value>
+  </data>
+  <data name="Request_TooLargeRequest" xml:space="preserve">
+    <value>A carga da requisição é muito grande.</value>
+  </data>
+  <data name="Request_TooManyRequests" xml:space="preserve">
+    <value>Número excessivo de requisições.</value>
+  </data>
+  <data name="Request_NotAcceptable" xml:space="preserve">
+    <value>O formato da resposta não é aceitável.</value>
+  </data>
+  <data name="Request_UnsupportedMediaType" xml:space="preserve">
+    <value>O tipo de mídia da requisição não é suportado.</value>
+  </data>
+  <data name="Resource_NotFound" xml:space="preserve">
+    <value>O recurso solicitado não foi encontrado.</value>
+  </data>
+  <data name="Resource_AlreadyExists" xml:space="preserve">
+    <value>O recurso já existe.</value>
+  </data>
+  <data name="Resource_Unavailable" xml:space="preserve">
+    <value>O recurso está indisponível no momento.</value>
+  </data>
+  <data name="Resource_InvalidState" xml:space="preserve">
+    <value>O recurso não está em um estado válido para a operação.</value>
+  </data>
+  <data name="Resource_Obsolete" xml:space="preserve">
+    <value>O recurso solicitado está obsoleto ou descontinuado.</value>
+  </data>
+  <data name="System_Configuration" xml:space="preserve">
+    <value>Configuração do sistema inválida ou ausente.</value>
+  </data>
+  <data name="System_DependencyNotRegistered" xml:space="preserve">
+    <value>Dependência de sistema não registrada ou ausente.</value>
+  </data>
+  <data name="System_OutOfMemory" xml:space="preserve">
+    <value>Não há memória suficiente para completar a operação.</value>
+  </data>
+  <data name="System_ThreadAborted" xml:space="preserve">
+    <value>A thread de execução foi abortada.</value>
+  </data>
+  <data name="System_SystemMaintenance" xml:space="preserve">
+    <value>O sistema está em manutenção.</value>
+  </data>
+  <data name="Validation_InvalidFormat" xml:space="preserve">
+    <value>Formato de dados inválido.</value>
+  </data>
+  <data name="Validation_InvalidSchema" xml:space="preserve">
+    <value>Esquema de dados inválido.</value>
+  </data>
+  <data name="Validation_DeserializationFailed" xml:space="preserve">
+    <value>Falha na desserialização dos dados.</value>
+  </data>
+  <data name="Validation_MissingField" xml:space="preserve">
+    <value>Um ou mais campos obrigatórios estão ausentes.</value>
+  </data>
+  <data name="Validation_ValueOutOfRange" xml:space="preserve">
+    <value>Um ou mais valores estão fora do intervalo permitido.</value>
+  </data>
+</root>

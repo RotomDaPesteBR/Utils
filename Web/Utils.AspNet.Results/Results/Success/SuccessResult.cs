@@ -1,7 +1,6 @@
+using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Net;
-using Utils.AspNet.Results.Results.Success;
 
 namespace LightningArc.Utils.Results.AspNet;
 
@@ -18,8 +17,11 @@ public sealed class SuccessResult(Success success) : IResult
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     public Task ExecuteAsync(HttpContext httpContext)
     {
-        var mappingService = httpContext.RequestServices.GetRequiredService<SuccessMappingService>();
-        var options = httpContext.RequestServices.GetRequiredService<IOptions<EndpointResultOptions>>().Value;
+        var mappingService =
+            httpContext.RequestServices.GetRequiredService<SuccessMappingService>();
+        var options = httpContext
+            .RequestServices.GetRequiredService<IOptions<EndpointResultOptions>>()
+            .Value;
 
         var mapping = mappingService.GetMapping(success);
         var statusCode = (int)(mapping?.StatusCode ?? HttpStatusCode.OK);
@@ -37,10 +39,10 @@ public sealed class SuccessResult(Success success) : IResult
             {
                 Status = mapping?.StatusCode ?? HttpStatusCode.OK,
                 Message = success.Message ?? "",
-                Data = null
+                Data = null,
             };
 
-            var response = options.SuccessResponseBuilder(successDetails);
+            var response = options.SuccessResponseBuilder(successDetails, httpContext);
             return httpContext.Response.WriteAsJsonAsync(response);
         }
 
@@ -62,8 +64,11 @@ public sealed class SuccessResult<TValue>(Success<TValue> success, string? conte
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     public Task ExecuteAsync(HttpContext httpContext)
     {
-        var mappingService = httpContext.RequestServices.GetRequiredService<SuccessMappingService>();
-        var options = httpContext.RequestServices.GetRequiredService<IOptions<EndpointResultOptions>>().Value;
+        var mappingService =
+            httpContext.RequestServices.GetRequiredService<SuccessMappingService>();
+        var options = httpContext
+            .RequestServices.GetRequiredService<IOptions<EndpointResultOptions>>()
+            .Value;
 
         var mapping = mappingService.GetMapping(success);
         var statusCode = (int)(mapping?.StatusCode ?? HttpStatusCode.OK);
@@ -79,7 +84,8 @@ public sealed class SuccessResult<TValue>(Success<TValue> success, string? conte
         {
             if (contentType.Contains("text/") && !contentType.Contains("charset"))
             {
-                httpContext.Response.ContentType = $"{contentType}; charset={options.DefaultCharset}";
+                httpContext.Response.ContentType =
+                    $"{contentType}; charset={options.DefaultCharset}";
             }
             else
             {
@@ -94,10 +100,11 @@ public sealed class SuccessResult<TValue>(Success<TValue> success, string? conte
             {
                 Status = mapping?.StatusCode ?? HttpStatusCode.OK,
                 Message = success.Message ?? "",
+                Instance = httpContext.Request.Path,
                 Data = success.Value,
             };
 
-            var response = options.SuccessResponseBuilder(successDetails);
+            var response = options.SuccessResponseBuilder(successDetails, httpContext);
             return httpContext.Response.WriteAsJsonAsync(response);
         }
         else
