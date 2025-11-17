@@ -36,14 +36,14 @@
   <ItemGroup>
     <PackageReference Include="Metalama.Framework" />
 
-    <PackageReference Include="PolySharp" />
+	<PackageReference Include="PolySharp" Condition="'$(TargetFramework)' == 'netstandard2.0'" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <MetalamaCompileTimePackage Include="PolySharp" />
   </ItemGroup>
 

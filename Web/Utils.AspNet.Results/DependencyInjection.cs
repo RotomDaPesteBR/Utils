@@ -1,15 +1,14 @@
 global using Microsoft.AspNetCore.Http;
-using System.Collections.ObjectModel;
-using System.IO;
 using LightningArc.Utils.Results;
 using LightningArc.Utils.Results.AspNet;
 using LightningArc.Utils.Results.AspNet.Interfaces;
 using LightningArc.Utils.Results.AspNet.Services;
-using LightningArc.Utils.Results.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ResultsAspNetLocalization = LightningArc.Utils.Results.AspNet.Localization;
+using ResultsLocalization = LightningArc.Utils.Results.Localization;
 
 namespace LightningArc.Utils.AspNet;
 
@@ -50,22 +49,16 @@ public static class ServiceCollectionExtensions
             options.SuccessResponseBuilder = successResponseBuilder ?? ((success, _) => success);
         }
 
-        //new
-        //{
-        //    success.Status,
-        //    success.Message,
-        //    success.Data,
-        //}
-
         if (defaultCharset is not null)
         {
             options.DefaultCharset = defaultCharset;
         }
 
-        // Configure the localization manager for the core library
+        // Configure the localization manager for the library
         if (defaultCulture is not null)
         {
-            LocalizationManager.Configure(defaultCulture);
+            ResultsLocalization.LocalizationManager.Configure(defaultCulture);
+            ResultsAspNetLocalization.LocalizationManager.Configure(defaultCulture);
         }
 
         services.AddSingleton(Options.Create(options));

@@ -35,8 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\..\Core\Utils\Utils.csproj" ExcludeAssets="runtime" />
-	<ProjectReference Include="..\Utils.Metalama.Extensions\Utils.Metalama.Extensions.csproj" ExcludeAssets="runtime" />
-	<ProjectReference Include="..\Utils.Metalama.Factories\Utils.Metalama.Factories.csproj" ExcludeAssets="runtime" />
+	<ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
+	<ProjectReference Include="..\Utils.Metalama.Extensions\Utils.Metalama.Extensions.csproj" />
+	<ProjectReference Include="..\Utils.Metalama.Factories\Utils.Metalama.Factories.csproj" />
   </ItemGroup>
 </Project>
