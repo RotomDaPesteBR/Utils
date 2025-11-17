@@ -27,7 +27,7 @@
 	  
 	<IsPackable>true</IsPackable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IncludeBuildOutput>false</IncludeBuildOutput> 
+	<IncludeBuildOutput>false</IncludeBuildOutput> 
   </PropertyGroup>
 
   <ItemGroup>

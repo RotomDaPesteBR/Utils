@@ -1,24 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+	<TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
 	<LangVersion>latest</LangVersion>
 	<OutputType>Library</OutputType>
-	  
+
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
-	  
+
 	<Configurations>Debug;Release;LamaDebug;Test</Configurations>
-	  
+
 	<RootNamespace>LightningArc.Metalama.Factories</RootNamespace>
-	  
+
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>IDE0130</NoWarn>
-	  
+
 	<MetalamaCompileTimeProject>true</MetalamaCompileTimeProject>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>LightningArc.Utils.Metalama.Factories</PackageId>
+	<PackageId>LightningArc.Utils.Metalama.Factories</PackageId>
 	<AssemblyName>LightningArc.Utils.Metalama.Factories</AssemblyName>
 	<Version>$(PackageVersion)</Version>
 
@@ -28,23 +28,23 @@
 	<IsPackable>true</IsPackable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(TargetFramework)' == 'net9.0'">
-    <NoWarn>$(NoWarn);CA1865</NoWarn>
+	<NoWarn>$(NoWarn);CA1865</NoWarn>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="Metalama.Framework" />
+	<PackageReference Include="Metalama.Framework" />
 
 	<PackageReference Include="PolySharp" Condition="'$(TargetFramework)' == 'netstandard2.0'" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
+	<ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <MetalamaCompileTimePackage Include="PolySharp" />
+	<MetalamaCompileTimePackage Include="PolySharp" />
   </ItemGroup>
 
 </Project>
