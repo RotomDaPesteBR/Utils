@@ -1,6 +1,5 @@
 ﻿using Metalama.Framework.Aspects;
 using Metalama.Framework.Code.DeclarationBuilders;
-using System.Collections.Generic;
 
 namespace LightningArc.Utils.Metalama;
 

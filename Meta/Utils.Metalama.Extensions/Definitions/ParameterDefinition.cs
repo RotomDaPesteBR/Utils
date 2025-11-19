@@ -12,12 +12,12 @@ public class ParameterDefinition
     /// <summary>
     /// Gets or sets the name of the parameter.
     /// </summary>
-    public required string Name { get; set; }
+    public string Name { get; init; }
 
     /// <summary>
     /// Gets or sets the type of the parameter.
     /// </summary>
-    public required IType Type { get; set; }
+    public IType Type { get; init; }
 
     /// <summary>
     /// Gets or sets the reference kind of the parameter (e.g., in, out, ref). Defaults to <see cref="RefKind.None"/>.
@@ -28,6 +28,15 @@ public class ParameterDefinition
     /// Gets or sets the default value of the parameter. Defaults to <see langword="null"/>.
     /// </summary>
     public TypedConstant? DefaultValue { get; set; } = null;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ParameterDefinition"/> class/>.
+    /// </summary>
+    public ParameterDefinition()
+    {
+        Name = null!;
+        Type = null!;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ParameterDefinition"/> class with an <see cref="IType"/>.
