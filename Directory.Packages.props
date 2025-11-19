@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageVersion>1.2.0-preview</PackageVersion> 
+    <PackageVersion>1.1.0</PackageVersion> 
   </PropertyGroup>
 
   <!-- Compatibility -->
@@ -36,8 +36,8 @@
   
   <!-- Metalama -->
   <ItemGroup>
-    <PackageVersion Include="Metalama.Framework" Version="2026.0.5-preview" />
-    <PackageVersion Include="Metalama.Extensions.DependencyInjection" Version="2026.0.5-preview" />
+    <PackageVersion Include="Metalama.Framework" Version="2025.1.16" />
+    <PackageVersion Include="Metalama.Extensions.DependencyInjection" Version="2025.1.16" />
   </ItemGroup>
   
   <!-- Tests -->

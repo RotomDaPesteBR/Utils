@@ -40,7 +40,8 @@ public static class IAspectBuilderExtensions
     /// <param name="methodName">O nome que o novo método deve ter.</param>
     /// <param name="returnType">O tipo de retorno do novo método.</param>
     /// <param name="parameters">Uma Ação opcional para configurar os parâmetros do método.</param>
-    /// <param name="args">Um objeto anônimo que passa os valores atribuídos aos campos, 
+    /// <param name="args">Um objeto anônimo que passa os valores atribuídos aos parâmetros que possuem <see cref="CompileTimeAttribute" />,
+    /// <param name="methodBuilder">Uma Ação opcional para configurações avançadas do método.</param>
     /// para os parâmetros de mesmo nome do método introduzido.</param>
     /// <returns>O construtor do aspecto (builder) para permitir o encadeamento de chamadas.</returns>
     [CompileTime]
@@ -50,7 +51,8 @@ public static class IAspectBuilderExtensions
         string methodName,
         IType returnType,
         Action<IParameterBuilderList>? parameters = null,
-        object? args = null
+        object? args = null,
+        Action<IMethodBuilder>? methodBuilder = null
     )
     {
         builder.IntroduceMethod(
@@ -62,6 +64,11 @@ public static class IAspectBuilderExtensions
                 m.Name = methodName;
                 m.ReturnType = returnType;
                 parameters?.Invoke(m.Parameters);
+
+                if (methodBuilder is not null)
+                {
+                    methodBuilder(m);
+                }
             },
             args: args
         );
@@ -78,7 +85,8 @@ public static class IAspectBuilderExtensions
     /// <param name="methodName">O nome base do método (a parte antes de "Async").</param>
     /// <param name="returnType">O tipo de valor real a ser retornado (TResult), antes de ser envolvido em Task/ValueTask.</param>
     /// <param name="parameters">Uma Ação opcional para configurar os parâmetros do método.</param>
-    /// <param name="args">Um objeto anônimo que passa os valores atribuídos aos campos, 
+    /// <param name="args">Um objeto anônimo que passa os valores atribuídos aos parâmetros que possuem <see cref="CompileTimeAttribute" />,
+    /// <param name="methodBuilder">Uma Ação opcional para configurações avançadas do método.</param>
     /// para os parâmetros de mesmo nome do método introduzido.</param>
     /// <param name="asyncType">O tipo de wrapper assíncrono a ser usado: <see cref="AsyncType.Task"/> (padrão) ou <see cref="AsyncType.ValueTask"/>.</param>
     /// <returns>O construtor do aspecto (builder) para permitir o encadeamento de chamadas.</returns>
@@ -90,17 +98,25 @@ public static class IAspectBuilderExtensions
         IType returnType,
         Action<IParameterBuilderList>? parameters = null,
         object? args = null,
+        Action<IMethodBuilder>? methodBuilder = null,
         AsyncType asyncType = AsyncType.Task
     )
     {
-        IType type = asyncType switch
+        IType asyncReturnType = asyncType switch
         {
             AsyncType.Task => TaskTypeFactory.GetTaskType(returnType),
             AsyncType.ValueTask => TaskTypeFactory.GetValueTaskType(returnType),
             _ => TaskTypeFactory.GetTaskType(returnType),
         };
 
-        builder.AddMethod(templateName, $"{methodName}Async", type, parameters, args);
+        builder.AddMethod(
+            templateName: templateName,
+            methodName: $"{methodName}Async",
+            returnType: asyncReturnType,
+            parameters: parameters,
+            args: args,
+            methodBuilder: methodBuilder
+        );
 
         return builder;
     }

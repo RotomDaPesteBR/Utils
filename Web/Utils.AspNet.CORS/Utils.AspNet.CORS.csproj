@@ -1,32 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFrameworks>net6.0;net9.0;net10.0</TargetFrameworks>
+	<TargetFrameworks>net6.0;net9.0</TargetFrameworks>
 	<LangVersion>latest</LangVersion>
 	<OutputType>Library</OutputType>
-	  
+
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
-	  
+
 	<Configurations>Debug;Release;Test</Configurations>
-	  
+
 	<RootNamespace>LightningArc.Utils.AspNet.CORS</RootNamespace>
-	  
+
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>IDE0130</NoWarn>
   </PropertyGroup>
-	
+
   <PropertyGroup>
 	<AssemblyName>LightningArc.Utils.AspNet.CORS</AssemblyName>
 	<PackageId>LightningArc.Utils.AspNet.CORS</PackageId>
 	<Version>$(PackageVersion)</Version>
-	  
-	<Authors>RotomDaPesteBR</Authors>
+
+	<Authors>João Pedro S. Souza</Authors>
 	<PackageTags>Metalama, PostSharp, Aspect, Attribute</PackageTags>
-	  
+
 	<IsPackable>true</IsPackable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-	
+
   <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

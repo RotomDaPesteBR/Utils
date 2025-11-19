@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+	<TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>
 	<LangVersion>latest</LangVersion>
 	<OutputType>Library</OutputType>
 	  
@@ -21,7 +21,7 @@
 	<AssemblyName>LightningArc.Utils.Results</AssemblyName>
 	<Version>$(PackageVersion)</Version>
 	  
-	<Authors>RotomDaPesteBR</Authors>
+	<Authors>João Pedro S. Souza</Authors>
 	<PackageTags>Utils</PackageTags>
 	  
 	<IsPackable>true</IsPackable>

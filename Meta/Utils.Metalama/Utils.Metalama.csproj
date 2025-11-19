@@ -3,17 +3,17 @@
 	<TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>
 	<LangVersion>latest</LangVersion>
 	<OutputType>Library</OutputType>
-	  
+
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
-	  
+
 	<Configurations>Debug;Release;LamaDebug;Test</Configurations>
-	  
-	<RootNamespace>LightningArc.Metalama</RootNamespace>
-	  
+
+	<RootNamespace>LightningArc.Utils.Metalama</RootNamespace>
+
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>IDE0130;NU5128</NoWarn>
-	  
+
 	<MetalamaCompileTimeProject>true</MetalamaCompileTimeProject>
   </PropertyGroup>
 
@@ -21,13 +21,13 @@
 	<PackageId>LightningArc.Utils.Metalama</PackageId>
 	<AssemblyName>LightningArc.Utils.Metalama</AssemblyName>
 	<Version>$(PackageVersion)</Version>
-	  
-	<Authors>RotomDaPesteBR</Authors>
+
+	<Authors>João Pedro S. Souza</Authors>
 	<PackageTags>Metalama, PostSharp, Aspect, Attribute</PackageTags>
-	  
+
 	<IsPackable>true</IsPackable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<IncludeBuildOutput>false</IncludeBuildOutput> 
+	<IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
 
   <ItemGroup>

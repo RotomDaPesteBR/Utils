@@ -11,7 +11,7 @@
 	<AssemblyName>LightningArc.Utils.Tests</AssemblyName>
 	<Version>$(PackageVersion)</Version>
 	  
-	<Authors>RotomDaPesteBR</Authors>
+	<Authors>João Pedro S. Souza</Authors>
 	<PackageTags>Utils</PackageTags>
 	  
 	<IsPackable>false</IsPackable>

@@ -1,32 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFrameworks>net6.0;net9.0;net10.0</TargetFrameworks>
+	<TargetFrameworks>net6.0;net9.0</TargetFrameworks>
 	<LangVersion>latest</LangVersion>
 	<OutputType>Library</OutputType>
-	  
+
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
-	  
+
 	<Configurations>Debug;Release;Test</Configurations>
-	  
+
 	<RootNamespace>LightningArc.Utils.Results.AspNet</RootNamespace>
-	  
+
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>IDE0130</NoWarn>
   </PropertyGroup>
-	
+
   <PropertyGroup>
 	<AssemblyName>LightningArc.Utils.AspNet.Results</AssemblyName>
 	<PackageId>LightningArc.Utils.AspNet.Results</PackageId>
 	<Version>$(PackageVersion)</Version>
-	  
-	<Authors>RotomDaPesteBR</Authors>
+
+	<Authors>João Pedro S. Souza</Authors>
 	<PackageTags>Utils</PackageTags>
-	  
+
 	<IsPackable>true</IsPackable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-	
+
   <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
@@ -34,11 +34,11 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="System.Text.Json"  />
 	</ItemGroup>
-	
+
   <ItemGroup>
 	<ProjectReference Include="..\..\Core\Utils.Results\Utils.Results.csproj" />
   </ItemGroup>
-	
+
   <ItemGroup>
 	<InternalsVisibleTo Include="LightningArc.Utils" />
   </ItemGroup>

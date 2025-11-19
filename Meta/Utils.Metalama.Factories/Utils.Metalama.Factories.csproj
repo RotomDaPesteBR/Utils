@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+	<TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>
 	<LangVersion>latest</LangVersion>
 	<OutputType>Library</OutputType>
 
@@ -9,7 +9,7 @@
 
 	<Configurations>Debug;Release;LamaDebug;Test</Configurations>
 
-	<RootNamespace>LightningArc.Metalama.Factories</RootNamespace>
+	<RootNamespace>LightningArc.Utils.Metalama.Factories</RootNamespace>
 
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>IDE0130</NoWarn>
@@ -22,7 +22,7 @@
 	<AssemblyName>LightningArc.Utils.Metalama.Factories</AssemblyName>
 	<Version>$(PackageVersion)</Version>
 
-	<Authors>RotomDaPesteBR</Authors>
+	<Authors>João Pedro S. Souza</Authors>
 	<PackageTags>Metalama, PostSharp, Aspect, Attribute</PackageTags>
 
 	<IsPackable>true</IsPackable>
