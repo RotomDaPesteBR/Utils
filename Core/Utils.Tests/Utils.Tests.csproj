@@ -10,31 +10,31 @@
   <PropertyGroup>
 	<AssemblyName>LightningArc.Utils.Tests</AssemblyName>
 	<Version>$(PackageVersion)</Version>
-	  
+
 	<Authors>João Pedro S. Souza</Authors>
 	<PackageTags>Utils</PackageTags>
-	  
+
 	<IsPackable>false</IsPackable>
 	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
-	
+
   <ItemGroup>
-	<PackageReference Include="coverlet.collector" >
+	<PackageReference Include="coverlet.collector">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
 	<PackageReference Include="Microsoft.NET.Test.Sdk" />
 	<PackageReference Include="xunit" />
-	<PackageReference Include="xunit.runner.visualstudio" >
+	<PackageReference Include="xunit.runner.visualstudio">
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
   </ItemGroup>
-  
+
   <ItemGroup>
 	<ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
-  
+
   <ItemGroup>
 	<Using Include="Xunit" />
   </ItemGroup>

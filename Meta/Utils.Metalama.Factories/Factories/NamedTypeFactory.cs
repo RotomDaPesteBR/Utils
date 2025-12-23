@@ -23,6 +23,7 @@ public static class NamedTypeFactory
     /// <exception cref="InvalidOperationException">
     /// Lançada se o <see cref="TypeFactory" /> não estiver disponível no contexto atual.
     /// </exception>
+    [CompileTime]
     public static INamedType GetType(Type type) => (INamedType)TypeFactory.GetType(type);
 
     /// <summary>
@@ -33,6 +34,7 @@ public static class NamedTypeFactory
     /// <exception cref="InvalidOperationException">
     /// Lançada se o <see cref="TypeFactory" /> não estiver disponível no contexto atual.
     /// </exception>
+    [CompileTime]
     public static INamedType GetType(SpecialType type) => TypeFactory.GetType(type);
 
     /// <summary>
@@ -44,13 +46,14 @@ public static class NamedTypeFactory
     /// <para>Para definições de tipo genérico, isso requer usar '`', por exemplo, para obter <c>List&lt;T&gt;</c>, use
     /// <c>System.Collections.Generic.List`1</c>.</para>
     /// <para>Tipos genéricos construídos (por exemplo, <c>List&lt;int&gt;</c>) não são suportados. Para estes, use
-    /// <c>GenericExtensions.WithTypeArguments</c>.</para>
+    /// <see cref="GenericExtensions.WithTypeArguments(INamedType, IType[])"/>.</para>
     /// </remarks>
     /// <param name="typeName">O nome completo do tipo (incluindo namespace e, para tipos aninhados, o caractere '+').</param>
     /// <returns>O <see cref="INamedType" /> que corresponde ao <paramref name="typeName" />.</returns>
     /// <exception cref="InvalidOperationException">
     /// Lançada se o tipo não for encontrado ou se o <see cref="TypeFactory" /> não estiver disponível no contexto atual.
     /// </exception>
+    [CompileTime]
     public static INamedType GetType(string typeName) => TypeFactory.GetType(typeName);
     #endregion
 
@@ -66,6 +69,7 @@ public static class NamedTypeFactory
     /// <param name="typeName">O nome completo do tipo (incluindo namespace e, para tipos aninhados, o caractere '+').</param>
     /// <param name="defaultType">O <see cref="INamedType"/> a ser retornado se o tipo não for encontrado. O padrão é <see langword="null"/>.</param>
     /// <returns>O <see cref="INamedType"/> que corresponde ao <paramref name="typeName"/>, ou <paramref name="defaultType"/> se não for encontrado.</returns>
+    [CompileTime]
     public static INamedType? GetTypeOrDefault(string typeName, INamedType? defaultType = null)
     {
         try

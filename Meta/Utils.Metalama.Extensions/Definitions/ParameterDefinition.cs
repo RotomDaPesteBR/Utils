@@ -27,11 +27,12 @@ public class ParameterDefinition
     /// <summary>
     /// Gets or sets the default value of the parameter. Defaults to <see langword="null"/>.
     /// </summary>
-    public TypedConstant? DefaultValue { get; set; } = null;
+    public TypedConstant? DefaultValue { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ParameterDefinition"/> class/>.
     /// </summary>
+    [CompileTime]
     public ParameterDefinition()
     {
         Name = null!;
@@ -45,6 +46,7 @@ public class ParameterDefinition
     /// <param name="type">The type of the parameter as an <see cref="IType"/>.</param>
     /// <param name="refKind">The reference kind of the parameter. Defaults to <see cref="RefKind.None"/>.</param>
     /// <param name="defaultValue">The default value of the parameter. Defaults to <see langword="null"/>.</param>
+    [CompileTime]
     public ParameterDefinition(
         string name,
         IType type,
@@ -65,6 +67,7 @@ public class ParameterDefinition
     /// <param name="type">The type of the parameter as a <see cref="Type"/>.</param>
     /// <param name="refKind">The reference kind of the parameter. Defaults to <see cref="RefKind.None"/>.</param>
     /// <param name="defaultValue">The default value of the parameter. Defaults to <see langword="null"/>.</param>
+    [CompileTime]
     public ParameterDefinition(
         string name,
         Type type,

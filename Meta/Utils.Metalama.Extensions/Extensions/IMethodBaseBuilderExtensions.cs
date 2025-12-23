@@ -15,6 +15,7 @@ public static class IMethodBaseBuilderExtensions
     /// <param name="methodBaseBuilder">The <see cref="IMethodBaseBuilder"/> to add the parameter to.</param>
     /// <param name="parameterDefinition">The definition of the parameter to add.</param>
     /// <returns>An <see cref="IParameterBuilder"/> for the new parameter.</returns>
+    [CompileTime]
     public static IParameterBuilder AddParameter(
         this IMethodBaseBuilder methodBaseBuilder,
         ParameterDefinition parameterDefinition
@@ -34,6 +35,7 @@ public static class IMethodBaseBuilderExtensions
     /// <param name="methodBaseBuilder">The <see cref="IMethodBaseBuilder"/> to add the parameters to.</param>
     /// <param name="parameterDefinitions">The definitions of the parameters to add.</param>
     /// <returns>A collection of <see cref="IParameterBuilder"/> objects for the new parameters.</returns>
+    [CompileTime]
     public static IEnumerable<IParameterBuilder> AddParameterRange(
         this IMethodBaseBuilder methodBaseBuilder,
         IEnumerable<ParameterDefinition> parameterDefinitions
