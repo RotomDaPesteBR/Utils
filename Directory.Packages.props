@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageVersion>1.2.0-rc</PackageVersion> 
+    <PackageVersion>1.3.0</PackageVersion> 
   </PropertyGroup>
 
   <!-- Compatibility -->
@@ -23,8 +23,33 @@
   
   <!-- Abstractions -->
   <ItemGroup>
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
+  </ItemGroup>
+
+  <!-- Mappers -->
+  <ItemGroup>
+    <PackageVersion Include="AutoMapper" Version="16.0.0" />
+    <PackageVersion Include="Mapster" Version="7.4.0" />
+    <PackageVersion Include="Mapster.DependencyInjection" Version="1.0.1" />
+  </ItemGroup>
+
+  <!-- Drivers -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.3" />
+    <PackageVersion Include="Oracle.ManagedDataAccess.Core" Version="23.26.0" />
+  </ItemGroup>
+  
+  <!-- ORMs -->
+  <ItemGroup>
+    <PackageVersion Include="Dapper" Version="2.1.66" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="3.1.32" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Condition="'$(TargetFramework)' == 'net9.0'" Version="9.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Condition="'$(TargetFramework)' == 'net10.0'" Version="10.0.1" />
   </ItemGroup>
 
   <!-- AspNetCore -->
@@ -43,6 +68,7 @@
   <!-- Tests -->
   <ItemGroup> 
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />

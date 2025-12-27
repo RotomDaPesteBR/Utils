@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+	<LangVersion>latest</LangVersion>
+	<OutputType>Library</OutputType>
+
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+
+	<Configurations>Debug;Release;LamaDebug;Test</Configurations>
+
+	<RootNamespace>LightningArc.Utils.Data.EntityFramework</RootNamespace>
+
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>IDE0130;NU5128</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<PackageId>LightningArc.Utils.Data.EntityFramework</PackageId>
+	<AssemblyName>LightningArc.Utils.Data.EntityFramework</AssemblyName>
+	<Version>$(PackageVersion)</Version>
+
+	<Authors>João Pedro S. Souza</Authors>
+	<PackageTags>Utils, Data, EntityFramework</PackageTags>
+
+	<IsPackable>true</IsPackable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+	<PackageReference Include="PolySharp" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utils.Data.Abstractions\Utils.Data.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

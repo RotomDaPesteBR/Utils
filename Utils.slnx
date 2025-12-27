@@ -16,6 +16,31 @@
     </Project>
     <Project Path="Core/Utils/Utils.csproj" />
   </Folder>
+  <Folder Name="/Data/">
+    <Project Path="Data/Utils.Data.Abstractions/Utils.Data.Abstractions.csproj" />
+    <Project Path="Data/Utils.Data.Tests/Utils.Data.Tests.csproj" >
+      <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/Data/ADO/">
+    <Project Path="Data/ADO/Utils.Data.ADO/Utils.Data.ADO.csproj" />
+    <Project Path="Data/ADO/Utils.Data.ADO.Oracle/Utils.Data.ADO.Oracle.csproj" />
+    <Project Path="Data/ADO/Utils.Data.ADO.SqlServer/Utils.Data.ADO.SqlServer.csproj" />
+  </Folder>
+  <Folder Name="/Data/EF/">
+    <Project Path="Data/EF/Utils.Data.EntityFramework/Utils.Data.EntityFramework.csproj" />
+  </Folder>
+  <Folder Name="/Data/Mappers/">
+    <Project Path="Data/Mappers/Utils.Mappers.AutoMapper/Utils.Mappers.AutoMapper.csproj" />
+    <Project Path="Data/Mappers/Utils.Mappers.Mapster/Utils.Mappers.Mapster.csproj" />
+    <Project Path="Data/Mappers/Utils.Mappers.Tests/Utils.Mappers.Tests.csproj" >
+      <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
+  </Folder>
   <Folder Name="/Meta/">
     <Project Path="Meta/Utils.Metalama.Extensions/Utils.Metalama.Extensions.csproj" />
     <Project Path="Meta/Utils.Metalama.Factories/Utils.Metalama.Factories.csproj" />
@@ -26,6 +51,7 @@
     </Project>
     <Project Path="Meta/Utils.Metalama/Utils.Metalama.csproj" />
   </Folder>
+  <Folder Name="/Meta/Aspects/" />
   <Folder Name="/Web/">
     <Project Path="Web/Utils.AspNet.CORS/Utils.AspNet.CORS.csproj" />
     <Project Path="Web/Utils.AspNet.OpenAPI/Utils.AspNet.OpenAPI.csproj" />
