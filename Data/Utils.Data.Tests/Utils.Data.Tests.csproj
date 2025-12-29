@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	<TargetFramework>net10.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<NoWarn>IDE0130</NoWarn>
+	<Configurations>Debug;Release;Test</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<AssemblyName>LightningArc.Utils.Data.Tests</AssemblyName>
+	<Version>$(PackageVersion)</Version>
+
+	<Authors>João Pedro S. Souza</Authors>
+	<PackageTags>Utils</PackageTags>
+
+	<IsPackable>false</IsPackable>
+	<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="coverlet.collector">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+	<PackageReference Include="xunit" />
+	<PackageReference Include="xunit.runner.visualstudio">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utils.Data.Abstractions\Utils.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\ADO\Utils.Data.ADO\Utils.Data.ADO.csproj" />
+    <ProjectReference Include="..\ADO\Utils.Data.ADO.Oracle\Utils.Data.ADO.Oracle.csproj" />
+    <ProjectReference Include="..\ADO\Utils.Data.ADO.SqlServer\Utils.Data.ADO.SqlServer.csproj" />
+    <ProjectReference Include="..\EF\Utils.Data.EntityFramework\Utils.Data.EntityFramework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<Using Include="Xunit" />
+  </ItemGroup>
+</Project>
