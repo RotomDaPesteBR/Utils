@@ -1,105 +1,79 @@
-# Documentação da Biblioteca Utils
+# LightningArc.Utils
 
-A biblioteca **`Utils`** é um conjunto de utilitários e padrões de software para C\#, com o objetivo de promover a criação de código **limpo, expressivo e robusto** em aplicações .NET. Ela é fundamentada em princípios de programação funcional para gerenciamento de resultados e na imutabilidade para definição de objetos de valor.
+**LightningArc.Utils** is a comprehensive set of C# utilities and patterns designed to promote clean, expressive, and robust code in .NET applications. It focuses on Functional Error Handling, Domain-Driven Design primitives, and seamless ASP.NET Core integration.
 
------
+## 📚 Documentation
 
-## Estrutura e Módulos
+Detailed documentation is available in the **[Docs](Docs/README.md)** directory.
 
-| Módulo | Descrição |
-| :--- | :--- |
-| **`Utils.Results`** | Implementação do Padrão Result (Either) para gerenciamento explícito de erros. |
-| **`Utils.ValueObjects`** | Coleção de *Records* imutáveis para tipos de valor comuns (`Email`, `CNPJ`). |
-| **`Utils.AspNet`** (Addon) | **Integração com ASP.NET Core**, fornecendo *middleware* e *mappers* para converter `Result<T>` em respostas HTTP (`IResult`). |
+*   **[Usage Guides](Docs/Usage/README.md)**: How to install and use the libraries.
+*   **[Implementation Details](Docs/Implementation/README.md)**: Deep dive into the source code and internal logic.
 
------
+## 📦 Modules
 
-## 1\. Módulo Utils.Results: Gerenciamento Funcional de Erros
+The solution is divided into three main layers:
 
-**(Manter a seção 1. Módulo Utils.Results, incluindo o Subtítulo "Extensibilidade de Erros (Módulos Customizados)")**
+### 1. Core Layer
+The foundation of the ecosystem, compatible with any .NET application.
 
------
+*   **`LightningArc.Utils.Results`**: A robust implementation of the **Result Pattern** (Success/Failure) to replace exceptions for flow control.
+*   **`LightningArc.Utils.Abstractions`**: Common base types and Value Objects (e.g., `Email`) with built-in validation.
+*   **`LightningArc.Utils.Json`**: `System.Text.Json` converters to serialize Value Objects as simple types.
 
-## 2\. Módulo Utils.ValueObjects: Imutabilidade de Dados
+### 2. Web Layer
+Extensions and adapters for ASP.NET Core applications.
 
-**(Manter a seção 2. Módulo Utils.ValueObjects)**
+*   **`LightningArc.Utils.AspNet.Results`**: Automatically translates domain `Result<T>` objects into HTTP Responses (`IResult`), supporting **RFC 7807 Problem Details**.
+*   **`LightningArc.Utils.AspNet.CORS`**: Pre-configured CORS policies (like "AllowAll" for development).
+*   **`LightningArc.Utils.AspNet.OpenAPI`**: Transformers to ensure your Value Objects are correctly documented in Swagger/OpenAPI.
 
------
+### 3. Meta Layer
+Metaprogramming tools powered by **Metalama**.
 
-## 3\. Módulo Utils.AspNet: Integração com ASP.NET Core
+*   **`LightningArc.Utils.Metalama`**: Extensions and Factories to simplify the creation of Aspects (AOP), such as generating async wrappers or injecting method parameters at compile time.
 
-O módulo **`Utils.AspNet`** (namespace `Utils.Results.AspNet`) fornece um conjunto de classes e métodos de extensão para integrar de forma limpa o **Padrão Result** do seu domínio com o *pipeline* de *endpoints* do ASP.NET Core. Ele resolve o desafio de converter um `Result<T>` interno em uma resposta HTTP externa (`IResult`).
+## 🚀 Quick Start
 
-### 3.1. Adaptadores de Endpoint (`EndpointResult<TValue>` e `EndpointResult`)
-
-As classes **`EndpointResult<TValue>`** e **`EndpointResult`** atuam como adaptadores. Elas implementam a interface `Microsoft.AspNetCore.Http.IResult`, permitindo que métodos de *endpoints* (sejam *Minimal APIs* ou *Controllers*) retornem diretamente um tipo `Result<T>` ou `Result`.
-
-| Recurso | Descrição |
-| :--- | :--- |
-| **Conversão Implícita** | Permite que você retorne um objeto `Result<T>` ou `Error` diretamente do seu *endpoint* sem *casting* explícito. |
-| **Mapeamento Automático**| Internamente, ele converte um **Sucesso** para um `SuccessResult<T>` e uma **Falha** para um `ErrorResult`. |
-
-**Exemplo de Uso em um Endpoint:**
+### Error Handling with Results
 
 ```csharp
-// Em vez de retornar IActionResult ou StatusCode, você retorna EndpointResult<T>
-public EndpointResult<User> Get(int id, [FromServices] UserService service)
+using LightningArc.Utils.Results;
+
+public Result<User> CreateUser(string email)
 {
-    // A conversão implícita de Result<User> para EndpointResult<User> acontece aqui.
-    return service.GetUser(id);
+    if (string.IsNullOrEmpty(email))
+    {
+        return Error.Validation("Email is required");
+    }
+
+    return new User(email); // Implicit conversion to Success
 }
 ```
 
-### 3.2. Mapeamento de Status HTTP
-
-O módulo utiliza serviços de mapeamento para traduzir a semântica interna do domínio (`Error` ou `Success`) para a sintaxe da web (Status Code, *Problem Details*).
-
-#### Mapeamento de Falhas (`ErrorMappingService` e `ErrorResult`)
-
-O **`ErrorResult`** serializa todas as falhas no formato padrão **Problem Details (RFC 7807)**.
-
-  * **Serviço de Mapeamento:** O **`ErrorMappingService`** é um serviço *Singleton* configurável que mantém um dicionário de mapeamentos: **Tipo do Erro (`System.Type`)** $\\to$ **Detalhes HTTP (`Status Code`, `Title`, `Problem Type` URL)**.
-  * **Tratamento de Falha:**
-      * O `Status Code` é determinado pelo mapeamento configurado (ex: `Error.NotFound` $\\to$ **404**).
-      * Erros não mapeados explicitamente retornam o padrão **500 Internal Server Error**.
-      * Detalhes de Validação (`ErrorDetail`) são incluídos na extensão `"errors"` do *Problem Details*.
-
-#### Mapeamento de Sucessos (`SuccessMappingService` e `SuccessResult<T>`)
-
-O **`SuccessResult<T>`** mapeia o `Success` interno para o *Status Code* e corpo da resposta.
-
-  * **Status Code:** Determinado pelo tipo de `Success` retornado (e.g., `Success.Created()` $\\to$ **201 Created**).
-  * **Corpo da Resposta:** No sucesso, o `TValue` é retornado no corpo da resposta, seguindo o `Status Code` mapeado.
-
-### 3.3. Configuração no Pipeline (DI e Startup)
-
-O registro e a inicialização dos serviços de mapeamento são realizados através de métodos de extensão no *startup* da aplicação.
-
-| Método de Extensão | Função |
-| :--- | :--- |
-| **`services.AddEndpointResultMappers()`** | Registra os serviços `SuccessMappingService` e `ErrorMappingService` no contêiner de Injeção de Dependência (DI). Permite configurar **mapeamentos customizados** no *startup*. |
-| **`app.UseEndpointResultMappers()`** | Força a inicialização dos serviços de mapeamento logo após a construção do `WebApplication` para garantir que todos os mapeamentos estejam prontos antes da primeira requisição. |
-| **`app.OutputErrorsList()`** | **Ferramenta de Desenvolvimento.** Gera e salva um arquivo Markdown contendo a lista completa de erros de domínio da biblioteca, incluindo seus códigos internos e os *Status Codes* HTTP mapeados. Essencial para a documentação da API. |
-
-**Exemplo de Configuração:**
+### ASP.NET Core Integration
 
 ```csharp
 // Program.cs
-builder.Services.AddEndpointResultMappers((successes, errors) =>
+builder.Services.AddEndpointResults();
+
+// Endpoint
+app.MapPost("/users", (UserDto dto) => 
 {
-    // Mapeamento de um erro de domínio customizado para um Status Code HTTP específico
-    errors.Map<Business.OrderRejectedError>(
-        HttpStatusCode.UnprocessableEntity, 
-        "Pedido Rejeitado", 
-        "urn:api-errors:order-rejected"
-    );
+    // Returns Result<User> -> converted to HTTP 200/400 automatically
+    return userService.Create(dto); 
 });
-
-var app = builder.Build();
-
-// Inicializa os Singletons e garante a prontidão dos mapeamentos
-app.UseEndpointResultMappers(); 
-
-// Gera a documentação dos erros
-app.OutputErrorsList(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ErrorsList.md"));
 ```
+
+## 🛠 Building
+
+The project uses a custom PowerShell script to build and pack all artifacts.
+
+```powershell
+.\publish.ps1
+```
+
+This will generate NuGet packages in `Publish/Packages/{Version}`.
+
+## 📄 License
+
+This project is proprietary/private. (Update this section if open source).
