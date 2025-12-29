@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net9.0;net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <OutputType>Library</OutputType>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <Configurations>Debug;Release;LamaDebug;Test</Configurations>
+
+    <RootNamespace>LightningArc.Utils.Mappers.Mapster</RootNamespace>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>IDE0130;NU5128</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>LightningArc.Utils.Mappers.Mapster</PackageId>
+    <AssemblyName>LightningArc.Utils.Mappers.Mapster</AssemblyName>
+    <Version>$(PackageVersion)</Version>
+
+    <Authors>João Pedro S. Souza</Authors>
+    <PackageTags>Utils, Mappers, Mapster, Adapter</PackageTags>
+
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" />
+    <PackageReference Include="Mapster.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utils.Data.Abstractions\Utils.Data.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
