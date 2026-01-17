@@ -5,7 +5,11 @@
     <BuildType Name="LamaDebug" />
     <BuildType Name="Test" />
   </Configurations>
-  <Folder Name="/Core/">
+  <Folder Name="/src/">
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/Core/">
     <Project Path="Core/Utils.Abstractions/Utils.Abstractions.csproj" />
     <Project Path="Core/Utils.Json/Utils.Json.csproj" />
     <Project Path="Core/Utils.Results/Utils.Results.csproj" />
@@ -16,32 +20,32 @@
     </Project>
     <Project Path="Core/Utils/Utils.csproj" />
   </Folder>
-  <Folder Name="/Data/">
+  <Folder Name="/src/Data/">
     <Project Path="Data/Utils.Data.Abstractions/Utils.Data.Abstractions.csproj" />
-    <Project Path="Data/Utils.Data.Tests/Utils.Data.Tests.csproj" >
+    <Project Path="Data/Utils.Data.Tests/Utils.Data.Tests.csproj">
       <Build Solution="Debug|*" Project="false" />
       <Build Solution="LamaDebug|*" Project="false" />
       <Build Solution="Release|*" Project="false" />
     </Project>
   </Folder>
-  <Folder Name="/Data/ADO/">
-    <Project Path="Data/ADO/Utils.Data.ADO/Utils.Data.ADO.csproj" />
+  <Folder Name="/src/Data/ADO/">
     <Project Path="Data/ADO/Utils.Data.ADO.Oracle/Utils.Data.ADO.Oracle.csproj" />
     <Project Path="Data/ADO/Utils.Data.ADO.SqlServer/Utils.Data.ADO.SqlServer.csproj" />
+    <Project Path="Data/ADO/Utils.Data.ADO/Utils.Data.ADO.csproj" />
   </Folder>
-  <Folder Name="/Data/EF/">
+  <Folder Name="/src/Data/EF/">
     <Project Path="Data/EF/Utils.Data.EntityFramework/Utils.Data.EntityFramework.csproj" />
   </Folder>
-  <Folder Name="/Data/Mappers/">
+  <Folder Name="/src/Data/Mappers/">
     <Project Path="Data/Mappers/Utils.Mappers.AutoMapper/Utils.Mappers.AutoMapper.csproj" />
     <Project Path="Data/Mappers/Utils.Mappers.Mapster/Utils.Mappers.Mapster.csproj" />
-    <Project Path="Data/Mappers/Utils.Mappers.Tests/Utils.Mappers.Tests.csproj" >
+    <Project Path="Data/Mappers/Utils.Mappers.Tests/Utils.Mappers.Tests.csproj">
       <Build Solution="Debug|*" Project="false" />
       <Build Solution="LamaDebug|*" Project="false" />
       <Build Solution="Release|*" Project="false" />
     </Project>
   </Folder>
-  <Folder Name="/Meta/">
+  <Folder Name="/src/Meta/">
     <Project Path="Meta/Utils.Metalama.Extensions/Utils.Metalama.Extensions.csproj" />
     <Project Path="Meta/Utils.Metalama.Factories/Utils.Metalama.Factories.csproj" />
     <Project Path="Meta/Utils.Metalama.Tests/Utils.Metalama.Tests.csproj">
@@ -51,8 +55,8 @@
     </Project>
     <Project Path="Meta/Utils.Metalama/Utils.Metalama.csproj" />
   </Folder>
-  <Folder Name="/Meta/Aspects/" />
-  <Folder Name="/Web/">
+  <Folder Name="/src/Meta/Aspects/" />
+  <Folder Name="/src/Web/">
     <Project Path="Web/Utils.AspNet.CORS/Utils.AspNet.CORS.csproj" />
     <Project Path="Web/Utils.AspNet.OpenAPI/Utils.AspNet.OpenAPI.csproj" />
     <Project Path="Web/Utils.AspNet.Results/Utils.AspNet.Results.csproj" />

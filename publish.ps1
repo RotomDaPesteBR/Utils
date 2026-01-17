@@ -43,18 +43,36 @@ Write-Host "Output Directory: $output_dir" -ForegroundColor Green
 
 # List of projects you want to pack (adjust these paths according to your libraries)
 $projects_to_pack = @(
+    # Core
     "Core\Utils.Abstractions\Utils.Abstractions.csproj",
     "Core\Utils.Json\Utils.Json.csproj",
     "Core\Utils.Results\Utils.Results.csproj",
+
     "Core\Utils\Utils.csproj",
 
+    # AspNet
     "Web\Utils.AspNet.CORS\Utils.AspNet.CORS.csproj",
     "Web\Utils.AspNet.Results\Utils.AspNet.Results.csproj",
     "Web\Utils.AspNet.OpenAPI\Utils.AspNet.OpenAPI.csproj",
+
     "Web\Utils.AspNet\Utils.AspNet.csproj",
 
+    # Data
+    "Data\Utils.Data.Abstractions\Utils.Data.Abstractions.csproj",
+
+    "Data\Mappers\Utils.Mappers.AutoMapper\Utils.Mappers.AutoMapper.csproj",
+    "Data\Mappers\Utils.Mappers.Mapster\Utils.Mappers.Mapster.csproj",
+
+    "Data\ADO\Utils.Data.ADO\Utils.Data.ADO.csproj",
+    "Data\ADO\Utils.Data.ADO.Oracle\Utils.Data.ADO.Oracle.csproj",
+    "Data\ADO\Utils.Data.ADO.SqlServer\Utils.Data.ADO.SqlServer.csproj",
+
+    "Data\EF\Utils.Data.EntityFramework\Utils.Data.EntityFramework.csproj",
+
+    # Meta
     "Meta\Utils.Metalama.Extensions\Utils.Metalama.Extensions.csproj",
     "Meta\Utils.Metalama.Factories\Utils.Metalama.Factories.csproj",
+
     "Meta\Utils.Metalama\Utils.Metalama.csproj"
 )
 
@@ -94,7 +112,7 @@ $pack_failure = $false
 
 foreach ($project in $projects_to_pack) { 
     Write-Host "`nPacking project: $project" -ForegroundColor DarkYellow
-    # The --output now directs to Publish\Packages\1.0.2-preview
+    # The --output directs to Publish\Packages\($current_version)
     dotnet pack $project --configuration $config --output $output_dir --no-build
     
     # Check the Pack result for each project
