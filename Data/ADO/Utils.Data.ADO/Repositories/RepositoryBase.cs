@@ -123,8 +123,8 @@ public abstract class RepositoryBase
     /// Closes and disposes of the provided database connection if it was not externally managed
     /// (i.e., if no transaction or persistent connection was provided).
     /// </summary>
-    /// <param name="dbConnection">The database connection to finalize.</param>
-    protected void FinalizeConnection(DbConnection? dbConnection)
+    /// <param name="dbConnection">The database connection to release.</param>
+    protected void ReleaseConnection(DbConnection? dbConnection)
     {
         if (Transaction != null || DbConnection != null)
             return;
