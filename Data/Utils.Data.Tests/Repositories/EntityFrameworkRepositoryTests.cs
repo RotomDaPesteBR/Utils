@@ -7,16 +7,13 @@ public class EntityFrameworkRepositoryTests
 {
     public class TestEntity { public int Id { get; set; } }
     
-    public class TestDbContext : DbContext
+    public class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
     {
-        public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
         public DbSet<TestEntity> TestEntities { get; set; } = null!;
     }
 
-    public class TestRepository : RepositoryBase<TestDbContext, TestEntity>
+    public class TestRepository(TestDbContext context) : RepositoryBase<TestDbContext, TestEntity>(context)
     {
-        public TestRepository(TestDbContext context) : base(context) { }
-        
         public DbSet<TestEntity> GetDbSet() => DbSet;
     }
 
@@ -28,8 +25,8 @@ public class EntityFrameworkRepositoryTests
             .UseInMemoryDatabase(databaseName: "TestDb")
             .Options;
 
-        using var context = new TestDbContext(options);
-        var repository = new TestRepository(context);
+        using TestDbContext context = new(options);
+        TestRepository repository = new(context);
 
         // Act
         var dbSet = repository.GetDbSet();

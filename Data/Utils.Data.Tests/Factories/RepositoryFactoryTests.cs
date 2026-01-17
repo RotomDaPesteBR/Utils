@@ -12,10 +12,10 @@ public class RepositoryFactoryTests
     public void Create_ShouldReturnRepositoryWithNullMapper_WhenNoMapperProvidedToFactory()
     {
         // Arrange
-        var factory = new RepositoryFactory(_connectionFactory);
+        RepositoryFactory factory = new(_connectionFactory);
 
         // Act
-        var repository = factory.Create<TestRepository>();
+        TestRepository repository = factory.Create<TestRepository>();
 
         // Assert
         Assert.NotNull(repository);
@@ -26,10 +26,10 @@ public class RepositoryFactoryTests
     public void Create_ShouldReturnRepositoryWithMapper_WhenMapperIsProvidedToFactory()
     {
         // Arrange
-        var factory = new RepositoryFactory(_connectionFactory, _mapper);
+        RepositoryFactory factory = new(_connectionFactory, _mapper);
 
         // Act
-        var repository = factory.Create<TestRepository>();
+        TestRepository repository = factory.Create<TestRepository>();
 
         // Assert
         Assert.NotNull(repository);

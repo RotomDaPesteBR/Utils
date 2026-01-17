@@ -1,3 +1,4 @@
+using System.Data.Common;
 using LightningArc.Utils.Data.ADO.Oracle.Factories;
 using Oracle.ManagedDataAccess.Client;
 using Microsoft.Extensions.Configuration;
@@ -10,11 +11,11 @@ public class OracleConnectionFactoryTests
     public void GetConnection_ShouldReturnOracleConnection()
     {
         // Arrange
-        var connectionString = "User Id=myUser;Password=myPassword;Data Source=myOracleDb;";
-        var factory = new OracleConnectionFactory(connectionString);
+        string connectionString = "User Id=myUser;Password=myPassword;Data Source=myOracleDb;";
+        OracleConnectionFactory factory = new(connectionString);
 
         // Act
-        var connection = factory.GetConnection();
+        DbConnection connection = factory.GetConnection();
 
         // Assert
         Assert.NotNull(connection);

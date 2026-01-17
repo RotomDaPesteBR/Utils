@@ -54,19 +54,19 @@ public class RepositoryBaseTests
 
         public new DbConnection GetConnection() => base.GetConnection();
 
-        public new void FinalizeConnection(DbConnection conn) => base.FinalizeConnection(conn);
+        public new void ReleaseConnection(DbConnection conn) => base.ReleaseConnection(conn);
     }
 
     [Fact]
     public void GetConnection_ShouldReturnFactoryConnection_WhenNoConnectionProvided()
     {
         // Arrange
-        var mockConn = new TestDbConnection();
-        var factory = new ConnectionFactoryStub(mockConn);
-        var repo = new InternalTestRepository(factory);
+        TestDbConnection mockConn = new();
+        ConnectionFactoryStub factory = new(mockConn);
+        InternalTestRepository repo = new(factory);
 
         // Act
-        var conn = repo.GetConnection();
+        DbConnection conn = repo.GetConnection();
 
         // Assert
         Assert.Equal(mockConn, conn);
@@ -76,40 +76,40 @@ public class RepositoryBaseTests
     public void GetConnection_ShouldReturnProvidedConnection_WhenConnectionProvidedInConstructor()
     {
         // Arrange
-        var mockConn = new TestDbConnection();
-        var repo = new InternalTestRepository(mockConn, null!);
+        TestDbConnection mockConn = new();
+        InternalTestRepository repo = new(mockConn, null!);
 
         // Act
-        var conn = repo.GetConnection();
+        DbConnection conn = repo.GetConnection();
 
         // Assert
         Assert.Equal(mockConn, conn);
     }
 
     [Fact]
-    public void FinalizeConnection_ShouldNotClose_WhenConnectionWasProvidedInConstructor()
+    public void ReleaseConnection_ShouldNotClose_WhenConnectionWasProvidedInConstructor()
     {
         // Arrange
-        var mockConn = new TestDbConnection();
-        var repo = new InternalTestRepository(mockConn, null!);
+        TestDbConnection mockConn = new();
+        InternalTestRepository repo = new(mockConn, null!);
 
         // Act
-        repo.FinalizeConnection(mockConn);
+        repo.ReleaseConnection(mockConn);
 
         // Assert
         Assert.Equal(0, mockConn.CloseCount);
     }
 
     [Fact]
-    public void FinalizeConnection_ShouldCloseAndDispose_WhenConnectionWasCreatedLocally()
+    public void ReleaseConnection_ShouldCloseAndDispose_WhenConnectionWasCreatedLocally()
     {
         // Arrange
-        var mockConn = new TestDbConnection();
-        var factory = new ConnectionFactoryStub(mockConn);
-        var repo = new InternalTestRepository(factory);
+        TestDbConnection mockConn = new();
+        ConnectionFactoryStub factory = new(mockConn);
+        InternalTestRepository repo = new(factory);
 
         // Act
-        repo.FinalizeConnection(mockConn);
+        repo.ReleaseConnection(mockConn);
 
         // Assert
         Assert.Equal(1, mockConn.CloseCount);
