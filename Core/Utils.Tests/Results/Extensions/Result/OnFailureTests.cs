@@ -11,7 +11,7 @@ namespace LightningArc.Utils.Tests.Results
         public void OnFailure_With_Value_OnFailure_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<int> result = TestError;
             void action(Error e) => executed = true;
 
@@ -26,7 +26,7 @@ namespace LightningArc.Utils.Tests.Results
         public void OnFailure_With_Value_OnSuccess_DoesNotExecuteAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<int> result = 123;
             void action(Error e) => executed = true;
 
@@ -41,7 +41,7 @@ namespace LightningArc.Utils.Tests.Results
         public void OnFailure_With_Value_And_Parameterless_Action_OnFailure_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<int> result = TestError;
             void action(Error error) => executed = true;
 
@@ -56,7 +56,7 @@ namespace LightningArc.Utils.Tests.Results
         public void OnFailure_No_Value_OnFailure_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result result = TestError;
             void action() => executed = true;
 
@@ -71,7 +71,7 @@ namespace LightningArc.Utils.Tests.Results
         public async Task OnFailureAsync_With_Value_OnFailure_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<int> result = TestError;
             async Task action(Error e)
             {
@@ -90,7 +90,7 @@ namespace LightningArc.Utils.Tests.Results
         public async Task OnFailureAsync_With_Value_And_Parameterless_Action_OnFailure_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<int> result = TestError;
             async Task action(Error error)
             {
@@ -109,7 +109,7 @@ namespace LightningArc.Utils.Tests.Results
         public async Task OnFailureAsync_No_Value_OnFailure_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result result = TestError;
             async Task action()
             {

@@ -13,16 +13,16 @@ public class AutoMapperAdapterTests
     public void Map_ShouldTransformSourceToDestination()
     {
         // Arrange
-        var configExpression = new MapperConfigurationExpression();
+        MapperConfigurationExpression configExpression = new();
         configExpression.CreateMap<Source, Destination>();
         
-        var config = new MapperConfiguration(configExpression, NullLoggerFactory.Instance);
-        var mapper = config.CreateMapper();
-        var adapter = new AutoMapperAdapter(mapper);
-        var source = new Source { Name = "Test" };
+        MapperConfiguration config = new(configExpression, NullLoggerFactory.Instance);
+        IMapper? mapper = config.CreateMapper();
+        AutoMapperAdapter adapter = new(mapper);
+        Source source = new() { Name = "Test" };
 
         // Act
-        var result = adapter.Map<Destination>(source);
+        Destination result = adapter.Map<Destination>(source);
 
         // Assert
         Assert.NotNull(result);

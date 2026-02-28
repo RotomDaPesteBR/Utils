@@ -58,7 +58,7 @@ public partial class Error
         /// <summary>
         /// Represents an invalid data format error (Suffix: 01).
         /// </summary>
-        internal class InvalidFormatError : Error
+        public sealed class InvalidFormatError : Error
         {
             internal InvalidFormatError(
                 IMessageProvider messageProvider,
@@ -71,7 +71,7 @@ public partial class Error
         /// <summary>
         /// Represents an invalid data schema error (Suffix: 02).
         /// </summary>
-        internal class InvalidSchemaError : Error
+        public sealed class InvalidSchemaError : Error
         {
             internal InvalidSchemaError(
                 IMessageProvider messageProvider,
@@ -84,7 +84,7 @@ public partial class Error
         /// <summary>
         /// Represents a deserialization failed error (Suffix: 03).
         /// </summary>
-        internal class DeserializationFailedError : Error
+        public sealed class DeserializationFailedError : Error
         {
             internal DeserializationFailedError(
                 IMessageProvider messageProvider,
@@ -101,7 +101,7 @@ public partial class Error
         /// <summary>
         /// Represents a missing required field error (Suffix: 04).
         /// </summary>
-        internal class MissingFieldError : Error
+        public sealed class MissingFieldError : Error
         {
             internal MissingFieldError(
                 IMessageProvider messageProvider,
@@ -113,7 +113,7 @@ public partial class Error
         /// <summary>
         /// Represents a value out of range error (Suffix: 05).
         /// </summary>
-        internal class ValueOutOfRangeError : Error
+        public sealed class ValueOutOfRangeError : Error
         {
             internal ValueOutOfRangeError(
                 IMessageProvider messageProvider,

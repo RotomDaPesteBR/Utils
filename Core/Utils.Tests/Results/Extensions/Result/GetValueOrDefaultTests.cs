@@ -14,7 +14,7 @@ namespace LightningArc.Utils.Tests.Results
             Result<int> result = 10;
 
             // Act
-            var value = result.GetValueOrDefault();
+            int value = result.GetValueOrDefault();
 
             // Assert
             Assert.Equal(10, value);
@@ -27,7 +27,7 @@ namespace LightningArc.Utils.Tests.Results
             Result<int> result = TestError;
 
             // Act
-            var value = result.GetValueOrDefault();
+            int value = result.GetValueOrDefault();
 
             // Assert
             Assert.Equal(default, value);
@@ -40,7 +40,7 @@ namespace LightningArc.Utils.Tests.Results
             Result<int> result = 10;
 
             // Act
-            var value = result.GetValueOrDefault(20);
+            int value = result.GetValueOrDefault(20);
 
             // Assert
             Assert.Equal(10, value);
@@ -53,7 +53,7 @@ namespace LightningArc.Utils.Tests.Results
             Result<int> result = TestError;
 
             // Act
-            var value = result.GetValueOrDefault(20);
+            int value = result.GetValueOrDefault(20);
 
             // Assert
             Assert.Equal(20, value);
@@ -67,7 +67,7 @@ namespace LightningArc.Utils.Tests.Results
             static int factory() => 30;
 
             // Act
-            var value = result.GetValueOrDefault(factory);
+            int value = result.GetValueOrDefault(factory);
 
             // Assert
             Assert.Equal(10, value);
@@ -81,7 +81,7 @@ namespace LightningArc.Utils.Tests.Results
             static int factory() => 30;
 
             // Act
-            var value = result.GetValueOrDefault(factory);
+            int value = result.GetValueOrDefault(factory);
 
             // Assert
             Assert.Equal(30, value);
@@ -94,7 +94,7 @@ namespace LightningArc.Utils.Tests.Results
             Result<int> result = 10;
 
             // Act
-            var value = await result.GetValueOrDefaultAsync(async () =>
+            int value = await result.GetValueOrDefaultAsync(async () =>
             {
                 await Task.Delay(1);
                 return 20;

@@ -59,7 +59,7 @@ public partial class Error
         /// <summary>
         /// Represents an invalid request error (Suffix: 01).
         /// </summary>
-        internal class InvalidRequestError : Error
+        public sealed class InvalidRequestError : Error
         {
             internal InvalidRequestError(
                 IMessageProvider messageProvider,
@@ -71,7 +71,7 @@ public partial class Error
         /// <summary>
         /// Represents a too large request error (Suffix: 02).
         /// </summary>
-        internal class TooLargeRequestError : Error
+        public sealed class TooLargeRequestError : Error
         {
             internal TooLargeRequestError(
                 IMessageProvider messageProvider,
@@ -83,7 +83,7 @@ public partial class Error
         /// <summary>
         /// Represents a too many requests error (Suffix: 03).
         /// </summary>
-        internal class TooManyRequestsError : Error
+        public sealed class TooManyRequestsError : Error
         {
             internal TooManyRequestsError(
                 IMessageProvider messageProvider,
@@ -95,7 +95,7 @@ public partial class Error
         /// <summary>
         /// Represents a "not acceptable" error (Suffix: 04).
         /// </summary>
-        internal class NotAcceptableError : Error
+        public sealed class NotAcceptableError : Error
         {
             internal NotAcceptableError(
                 IMessageProvider messageProvider,
@@ -107,7 +107,7 @@ public partial class Error
         /// <summary>
         /// Represents an unsupported media type error (Suffix: 05).
         /// </summary>
-        internal class UnsupportedMediaTypeError : Error
+        public sealed class UnsupportedMediaTypeError : Error
         {
             internal UnsupportedMediaTypeError(
                 IMessageProvider messageProvider,

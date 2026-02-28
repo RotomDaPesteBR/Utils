@@ -14,7 +14,7 @@ namespace LightningArc.Utils.Tests.Results
             Result<string> result = "ok";
 
             // Act
-            var matchedValue = result.Match(
+            string matchedValue = result.Match(
                 success: s => "SUCCESS",
                 failure: e => "FAILURE"
             );
@@ -30,7 +30,7 @@ namespace LightningArc.Utils.Tests.Results
             Result<string> result = TestError;
 
             // Act
-            var matchedValue = result.Match(
+            string matchedValue = result.Match(
                 success: s => "SUCCESS",
                 failure: e => "FAILURE"
             );
@@ -46,7 +46,7 @@ namespace LightningArc.Utils.Tests.Results
             Result result = Result.Success();
 
             // Act
-            var matchedValue = result.Match(
+            string matchedValue = result.Match(
                 success: () => "SUCCESS",
                 failure: e => "FAILURE"
             );

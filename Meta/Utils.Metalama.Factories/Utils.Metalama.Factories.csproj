@@ -9,7 +9,7 @@
 
 	<Configurations>Debug;Release;LamaDebug;Test</Configurations>
 
-	<RootNamespace>LightningArc.Utils.Metalama.Factories</RootNamespace>
+	<RootNamespace>LightningArc.Utils.Metalama</RootNamespace>
 
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>IDE0130</NoWarn>
@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-	<PackageId>LightningArc.Utils.Metalama.Factories</PackageId>
-	<AssemblyName>LightningArc.Utils.Metalama.Factories</AssemblyName>
+	<PackageId>LightningArc.Utils.Metalama.Results</PackageId>
+	<AssemblyName>LightningArc.Utils.Metalama.Results</AssemblyName>
 	<Version>$(PackageVersion)</Version>
 
 	<Authors>João Pedro S. Souza</Authors>
@@ -35,12 +35,13 @@
 
   <ItemGroup>
 	<PackageReference Include="Metalama.Framework" />
+	<PackageReference Include="Metalama.Framework.Sdk" PrivateAssets="all" />
 
 	<PackageReference Include="PolySharp" Condition="'$(TargetFramework)' == 'netstandard2.0'" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
+	<ProjectReference Include="..\..\Core\Utils.Results\Utils.Results.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

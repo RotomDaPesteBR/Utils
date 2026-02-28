@@ -16,7 +16,7 @@ namespace LightningArc.Utils.Tests.Results
             const string message = "Invalid value";
 
             // Act
-            var errorDetail = new ErrorDetail(context, message);
+            ErrorDetail errorDetail = new(context, message);
 
             // Assert
             Assert.Equal(context, errorDetail.Context);
@@ -46,7 +46,7 @@ namespace LightningArc.Utils.Tests.Results
             var details = new List<ErrorDetail> { ("Detail1", "Message1") };
 
             // Act
-            var error = Error.Application.Internal(message, details);
+            Error error = Error.Application.Internal(message, details);
 
             // Assert
             Assert.Equal(Error.Application.CodePrefix * 1000 + (int)Error.Application.Codes.Internal, error.Code);
@@ -61,7 +61,7 @@ namespace LightningArc.Utils.Tests.Results
             const string message = "Invalid ID";
 
             // Act
-            var error = Error.Application.InvalidParameter(message);
+            Error error = Error.Application.InvalidParameter(message);
 
             // Assert
             Assert.Equal(Error.Application.CodePrefix * 1000 + (int)Error.Application.Codes.InvalidParameter, error.Code);
@@ -75,7 +75,7 @@ namespace LightningArc.Utils.Tests.Results
             LocalizationManager.Configure("pt-BR");
 
             // Act
-            var error = Error.Application.InvalidOperation();
+            Error error = Error.Application.InvalidOperation();
 
             // Assert
             Assert.Equal(Error.Application.CodePrefix * 1000 + (int)Error.Application.Codes.InvalidOperation, error.Code);
@@ -86,7 +86,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Application_TaskCanceled_ShouldCreateCorrectError()
         {
             // Act
-            var error = Error.Application.TaskCanceled();
+            Error error = Error.Application.TaskCanceled();
 
             // Assert
             Assert.Equal(Error.Application.CodePrefix * 1000 + (int)Error.Application.Codes.TaskCanceled, error.Code);
@@ -96,7 +96,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Application_NotImplemented_ShouldCreateCorrectError()
         {
             // Act
-            var error = Error.Application.NotImplemented();
+            Error error = Error.Application.NotImplemented();
 
             // Assert
             Assert.Equal(Error.Application.CodePrefix * 1000 + (int)Error.Application.Codes.NotImplemented, error.Code);
@@ -107,11 +107,11 @@ namespace LightningArc.Utils.Tests.Results
         {
             // This test confirms the general calculation logic using one of the specific error types.
             // Arrange
-            var error = Error.Application.Internal();
-            var expectedCode = Error.Application.CodePrefix * 1000 + (int)Error.Application.Codes.Internal;
+            Error error = Error.Application.Internal();
+            int expectedCode = Error.Application.CodePrefix * 1000 + (int)Error.Application.Codes.Internal;
 
             // Act
-            var actualCode = error.Code;
+            int actualCode = error.Code;
 
             // Assert
             Assert.Equal(expectedCode, actualCode);

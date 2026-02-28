@@ -22,7 +22,7 @@ internal sealed class DefaultErrorListProvider(IServiceProvider serviceProvider)
         {
             foreach (var errorInfo in module.Value)
             {
-                httpMappings.TryGetValue(errorInfo.Key, out var httpMapping);
+                httpMappings.TryGetValue(errorInfo.Key, out ErrorMapping? httpMapping);
 
                 metadataList.Add(new ErrorMetadata
                 {
@@ -41,7 +41,7 @@ internal sealed class DefaultErrorListProvider(IServiceProvider serviceProvider)
     private ReadOnlyDictionary<Type, ErrorMapping> GetHttpMappings()
     {
         // We resolve the service here to avoid circular dependency issues during startup.
-        var mappingService = _serviceProvider.GetService<ErrorMappingService>();
+        ErrorMappingService? mappingService = _serviceProvider.GetService<ErrorMappingService>();
         return mappingService?.Mappings ?? new ReadOnlyDictionary<Type, ErrorMapping>(new Dictionary<Type, ErrorMapping>());
     }
 }

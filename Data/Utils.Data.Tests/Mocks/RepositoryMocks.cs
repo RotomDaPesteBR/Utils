@@ -23,7 +23,7 @@ public class MockMapper : IMapper
 public class TestRepository : RepositoryBase, IDbRepository<TestRepository>
 {
     public IConnectionFactory? InjectedConnectionFactory => ConnectionFactory;
-    public IMapper? InjectedMapper => Mapper;
+    public IMapper InjectedMapper => Mapper;
 
     public TestRepository(IConnectionFactory connectionFactory, IMapper? mapper = null)
         : base(connectionFactory, mapper) { }

@@ -12,7 +12,7 @@ namespace LightningArc.Utils.Tests.Results
         public void IsSuccess_ShouldBeTrue_ForSuccessResult()
         {
             // Arrange
-            var result = Result.Success();
+            Result result = Result.Success();
 
             // Assert
             Assert.True(result.IsSuccess);
@@ -23,7 +23,7 @@ namespace LightningArc.Utils.Tests.Results
         public void IsFailure_ShouldBeTrue_ForFailureResult()
         {
             // Arrange
-            var result = Result.Failure(TestError);
+            Result result = Result.Failure(TestError);
 
             // Assert
             Assert.False(result.IsSuccess);
@@ -34,7 +34,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Error_ShouldThrowException_WhenResultIsSuccess()
         {
             // Arrange
-            var result = Result.Success();
+            Result result = Result.Success();
 
             // Act & Assert
             Assert.Throws<ResultAccessFailedException>(() => result.Error);
@@ -44,7 +44,7 @@ namespace LightningArc.Utils.Tests.Results
         public void SuccessDetails_ShouldThrowException_WhenResultIsFailure()
         {
             // Arrange
-            var result = Result.Failure(TestError);
+            Result result = Result.Failure(TestError);
 
             // Act & Assert
             Assert.Throws<ResultAccessFailedException>(() => result.SuccessDetails);
@@ -110,8 +110,8 @@ namespace LightningArc.Utils.Tests.Results
         public void Code_ShouldReturnCorrectCode_ForSuccess()
         {
             // Arrange
-            var okResult = Result.Success();
-            var createdResult = Result.Created();
+            Result okResult = Result.Success();
+            Result createdResult = Result.Created();
 
             // Assert
             Assert.Equal(Success.Ok().Code, okResult.Code);
@@ -122,7 +122,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Code_ShouldReturnCorrectCode_ForFailure()
         {
             // Arrange
-            var result = Result.Failure(TestError);
+            Result result = Result.Failure(TestError);
 
             // Assert
             Assert.Equal(TestError.Code, result.Code);

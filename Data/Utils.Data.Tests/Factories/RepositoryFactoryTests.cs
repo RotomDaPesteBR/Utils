@@ -9,7 +9,7 @@ public class RepositoryFactoryTests
     private readonly MockMapper _mapper = new();
 
     [Fact]
-    public void Create_ShouldReturnRepositoryWithNullMapper_WhenNoMapperProvidedToFactory()
+    public void Create_ShouldReturnRepositoryWithoutMapper_WhenNoMapperProvidedToFactory()
     {
         // Arrange
         RepositoryFactory factory = new(_connectionFactory);
@@ -19,7 +19,7 @@ public class RepositoryFactoryTests
 
         // Assert
         Assert.NotNull(repository);
-        Assert.Null(repository.InjectedMapper);
+        Assert.Throws<InvalidOperationException>(() => repository.InjectedMapper);
     }
 
     [Fact]

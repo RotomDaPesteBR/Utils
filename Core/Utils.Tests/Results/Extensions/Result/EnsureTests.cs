@@ -57,7 +57,7 @@ namespace LightningArc.Utils.Tests.Results
             Result result = Result.Success();
 
             // Act
-            var ensuredResult = result.Ensure(true, TestError);
+            Result ensuredResult = result.Ensure(true, TestError);
 
             // Assert
             Assert.True(ensuredResult.IsSuccess);
@@ -70,7 +70,7 @@ namespace LightningArc.Utils.Tests.Results
             Result result = Result.Success();
 
             // Act
-            var ensuredResult = result.Ensure(false, TestError);
+            Result ensuredResult = result.Ensure(false, TestError);
 
             // Assert
             Assert.True(ensuredResult.IsFailure);
@@ -102,7 +102,7 @@ namespace LightningArc.Utils.Tests.Results
             Result result = Result.Success();
 
             // Act
-            var ensuredResult = await result.EnsureAsync(async () =>
+            Result ensuredResult = await result.EnsureAsync(async () =>
             {
                 await Task.Delay(1);
                 return true;

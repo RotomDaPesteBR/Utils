@@ -1,55 +1,71 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net10.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
-	<IsPackable>false</IsPackable>
-	<NoWarn>IDE0130</NoWarn>
-	<Configurations>Debug;Release;LamaDebug;Test</Configurations>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <NoWarn>IDE0130</NoWarn>
+    <Configurations>Debug;Release;LamaDebug;Test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="coverlet.collector" >
-	  <PrivateAssets>all</PrivateAssets>
-	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-	<PackageReference Include="Metalama.Framework" />
-	<PackageReference Include="Metalama.Extensions.DependencyInjection" />
-	<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-	<PackageReference Include="Microsoft.NET.Test.Sdk" />
-	<PackageReference Include="xunit" />
-	<PackageReference Include="xunit.runner.visualstudio" >
-	  <PrivateAssets>all</PrivateAssets>
-	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
+    <PackageReference Include="coverlet.collector" >
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" >
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Metalama.Framework" />
+    <PackageReference Include="Metalama.Extensions.DependencyInjection" />
   </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="LightningArc.Utils" />
-		<PackageReference Include="LightningArc.Utils.Metalama" />
-	</ItemGroup>
+    <!--
+    <ItemGroup>
+        <PackageReference Include="LightningArc.Utils" />
+        <PackageReference Include="LightningArc.Utils.Metalama" />
+    </ItemGroup>
+    -->
 
-	<ItemGroup>
-		<MetalamaCompileTimePackage Include="LightningArc.Utils" />
-		<MetalamaCompileTimePackage Include="LightningArc.Utils.Metalama" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
+        <ProjectReference Include="..\Utils.Metalama\Utils.Metalama.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <MetalamaCompileTimeAssembly Include="../../Core/Utils/bin/$(Configuration)/netstandard2.0/LightningArc.Utils.dll" />
+        <MetalamaCompileTimeAssembly Include="../Utils.Metalama/bin/$(Configuration)/netstandard2.0/LightningArc.Utils.Metalama.dll" />
+        <!--
+        <MetalamaCompileTimeAssembly Include="..\..\Core\Utils\bin\$(Configuration)\$(TargetFramework)\LightningArc.Utils.dll" />
+        <MetalamaCompileTimeAssembly Include="..\Utils.Metalama\bin\$(Configuration)\$(TargetFramework)\LightningArc.Utils.Metalama.dll" />
+        -->
+        <!--
+        <MetalamaCompileTimePackage Include="LightningArc.Utils" />
+        <MetalamaCompileTimePackage Include="LightningArc.Utils.Metalama" />
+        -->
+    </ItemGroup>
 
   <!--
   <ItemGroup>
-	<ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
-	<ProjectReference Include="..\..\Meta\Utils.Metalama\Utils.Metalama.csproj" />
+    <ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
+    <ProjectReference Include="..\..\Meta\Utils.Metalama\Utils.Metalama.csproj" />
   </ItemGroup>
   -->
 
   <ItemGroup>
-	<Using Include="Xunit" />
+    <Using Include="Xunit" />
   </ItemGroup>
 
   <ItemGroup>
-	<Folder Include="Extensions\" />
-	<Folder Include="Factories\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Factories\" />
   </ItemGroup>
 
 </Project>

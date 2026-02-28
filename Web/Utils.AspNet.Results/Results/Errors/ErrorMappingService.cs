@@ -70,7 +70,7 @@ public class ErrorMappingService
                 );
             }
 
-            foreach (var mapping in options.Value.ErrorMappings)
+            foreach (CustomErrorMapping mapping in options.Value.ErrorMappings)
             {
                 _mappings[mapping.ErrorType] = new ErrorMapping(
                     mapping.StatusCode,
@@ -132,7 +132,7 @@ public class ErrorMappingService
     /// </returns>
     public ErrorMapping? GetMapping(Error error)
     {
-        if (_mappings.TryGetValue(error.GetType(), out var mapping))
+        if (_mappings.TryGetValue(error.GetType(), out ErrorMapping? mapping))
         {
             if (_logger.IsEnabled(LogLevel.Information))
             {

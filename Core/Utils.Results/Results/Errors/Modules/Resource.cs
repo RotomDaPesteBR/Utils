@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.Messages;
+using LightningArc.Utils.Results.Messages;
 
 namespace LightningArc.Utils.Results;
 
@@ -59,7 +59,7 @@ public partial class Error
         /// <summary>
         /// Represents a resource not found error (Suffix: 01).
         /// </summary>
-        internal class NotFoundError : Error
+        public sealed class NotFoundError : Error
         {
             internal NotFoundError(
                 IMessageProvider messageProvider,
@@ -71,7 +71,7 @@ public partial class Error
         /// <summary>
         /// Represents a resource already exists error (Suffix: 02).
         /// </summary>
-        internal class AlreadyExistsError : Error
+        public sealed class AlreadyExistsError : Error
         {
             internal AlreadyExistsError(
                 IMessageProvider messageProvider,
@@ -83,7 +83,7 @@ public partial class Error
         /// <summary>
         /// Represents a resource unavailable error (Suffix: 03).
         /// </summary>
-        internal class UnavailableError : Error
+        public sealed class UnavailableError : Error
         {
             internal UnavailableError(
                 IMessageProvider messageProvider,
@@ -95,7 +95,7 @@ public partial class Error
         /// <summary>
         /// Represents an invalid resource state error (Suffix: 04).
         /// </summary>
-        internal class InvalidStateError : Error
+        public sealed class InvalidStateError : Error
         {
             internal InvalidStateError(
                 IMessageProvider messageProvider,
@@ -107,7 +107,7 @@ public partial class Error
         /// <summary>
         /// Represents an obsolete resource error (Suffix: 05).
         /// </summary>
-        internal class ObsoleteError : Error
+        public sealed class ObsoleteError : Error
         {
             internal ObsoleteError(
                 IMessageProvider messageProvider,

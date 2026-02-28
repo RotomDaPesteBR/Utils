@@ -15,7 +15,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Tap_OnSuccess_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             var result = Result.Success(42);
             void action(int x) => executed = true;
 
@@ -30,7 +30,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Tap_OnFailure_DoesNotExecuteAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             var result = Result<int>.Failure(TestError);
             void action(int x) => executed = true;
 
@@ -45,7 +45,7 @@ namespace LightningArc.Utils.Tests.Results
         public async Task TapAsync_OnSuccess_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             var result = Result.Success("test");
             async Task action(string s)
             {
@@ -133,7 +133,7 @@ namespace LightningArc.Utils.Tests.Results
             var result = Result.Success("ok");
 
             // Act
-            var matchedValue = result.Match(
+            string matchedValue = result.Match(
                 success: s => "SUCCESS",
                 failure: e => "FAILURE"
             );
@@ -149,7 +149,7 @@ namespace LightningArc.Utils.Tests.Results
             var result = Result<string>.Failure(TestError);
 
             // Act
-            var matchedValue = result.Match(
+            string matchedValue = result.Match(
                 success: s => "SUCCESS",
                 failure: e => "FAILURE"
             );
@@ -164,7 +164,7 @@ namespace LightningArc.Utils.Tests.Results
         public void OnFailure_OnFailure_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             var result = Result<int>.Failure(TestError);
             void action(Error e) => executed = true;
 
@@ -179,7 +179,7 @@ namespace LightningArc.Utils.Tests.Results
         public void OnFailure_OnSuccess_DoesNotExecuteAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             var result = Result.Success(123);
             void action(Error e) => executed = true;
 

@@ -30,7 +30,7 @@ public class OverrideMethodWithLoggingAspectAttribute : OverrideMethodAspect
 
     public override dynamic? OverrideMethod()
     {
-        var logger = meta.This._logger;
+        dynamic? logger = meta.This._logger;
 
         return meta.Proceed();
     }

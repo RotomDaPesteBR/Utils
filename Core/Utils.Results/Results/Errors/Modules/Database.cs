@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.Messages;
+using LightningArc.Utils.Results.Messages;
 
 namespace LightningArc.Utils.Results;
 
@@ -59,7 +59,7 @@ public partial class Error
         /// <summary>
         /// Represents a database connection failed error (Suffix: 01).
         /// </summary>
-        internal class ConnectionFailedError : Error
+        public sealed class ConnectionFailedError : Error
         {
             internal ConnectionFailedError(
                 IMessageProvider messageProvider,
@@ -72,7 +72,7 @@ public partial class Error
         /// <summary>
         /// Represents a query execution failed error (Suffix: 02).
         /// </summary>
-        internal class QueryExecutionFailedError : Error
+        public sealed class QueryExecutionFailedError : Error
         {
             internal QueryExecutionFailedError(
                 IMessageProvider messageProvider,
@@ -89,7 +89,7 @@ public partial class Error
         /// <summary>
         /// Represents a constraint violation error (Suffix: 03).
         /// </summary>
-        internal class ConstraintViolationError : Error
+        public sealed class ConstraintViolationError : Error
         {
             internal ConstraintViolationError(
                 IMessageProvider messageProvider,
@@ -106,7 +106,7 @@ public partial class Error
         /// <summary>
         /// Represents a transient database error (Suffix: 04).
         /// </summary>
-        internal class TransientError : Error
+        public sealed class TransientError : Error
         {
             internal TransientError(
                 IMessageProvider messageProvider,
@@ -118,7 +118,7 @@ public partial class Error
         /// <summary>
         /// Represents a deadlock error (Suffix: 05).
         /// </summary>
-        internal class DeadlockError : Error
+        public sealed class DeadlockError : Error
         {
             internal DeadlockError(
                 IMessageProvider messageProvider,
@@ -127,7 +127,7 @@ public partial class Error
                 : base(Database.CodePrefix, (int)Codes.Deadlock, messageProvider, details) { }
         }
 
-        // --- Construtores Estáticos ---
+        // --- Construtores Est�ticos ---
 
         /// <summary>
         /// Creates a new instance of a connection failed error (code 01).

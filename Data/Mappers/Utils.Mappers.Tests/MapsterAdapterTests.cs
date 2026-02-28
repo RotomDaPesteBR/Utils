@@ -13,13 +13,13 @@ public class MapsterAdapterTests
     public void Map_ShouldTransformSourceToDestination()
     {
         // Arrange
-        var config = new TypeAdapterConfig();
-        var mapper = new Mapper(config);
-        var adapter = new MapsterAdapter(mapper);
-        var source = new Source { Name = "Test" };
+        TypeAdapterConfig config = new();
+        Mapper mapper = new(config);
+        MapsterAdapter adapter = new(mapper);
+        Source source = new() { Name = "Test" };
 
         // Act
-        var result = adapter.Map<Destination>(source);
+        Destination result = adapter.Map<Destination>(source);
 
         // Assert
         Assert.NotNull(result);

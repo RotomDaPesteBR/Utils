@@ -51,7 +51,7 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result>> failure
         )
         {
-            var result = await resultTask.ConfigureAwait(false);
+            Result? result = await resultTask.ConfigureAwait(false);
 
             return result.IsSuccess
                 ? await success().ConfigureAwait(false)
@@ -72,7 +72,7 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result>> failure
         )
         {
-            var result = await resultTask.ConfigureAwait(false);
+            Result? result = await resultTask.ConfigureAwait(false);
 
             return result.IsSuccess ? success() : await failure(result.Error).ConfigureAwait(false);
         }
@@ -116,7 +116,7 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result>> failure
         )
         {
-            var result = await resultTask.ConfigureAwait(false);
+            Result? result = await resultTask.ConfigureAwait(false);
 
             return result.IsSuccess
                 ? await success(result).ConfigureAwait(false) // Passes the original Result for re-sending
@@ -241,7 +241,7 @@ namespace LightningArc.Utils.Results
             Func<Error, Task<Result<TOut>>> failure
         )
         {
-            var result = await resultTask.ConfigureAwait(false);
+            Result? result = await resultTask.ConfigureAwait(false);
 
             return result.IsSuccess
                 ? await success(result.SuccessDetails).ConfigureAwait(false)

@@ -14,7 +14,7 @@ public interface IUnitOfWork : IDisposable
     /// <summary>
     /// Asynchronously starts a new business transaction.
     /// </summary>
-    Task BeginAsync();
+    Task BeginAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Commits the changes made during the transaction.
@@ -24,7 +24,7 @@ public interface IUnitOfWork : IDisposable
     /// <summary>
     /// Asynchronously commits the changes made during the transaction.
     /// </summary>
-    Task CommitAsync();
+    Task CommitAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rolls back the changes made during the transaction.
@@ -34,5 +34,5 @@ public interface IUnitOfWork : IDisposable
     /// <summary>
     /// Asynchronously rolls back the changes made during the transaction.
     /// </summary>
-    Task RollbackAsync();
+    Task RollbackAsync(CancellationToken cancellationToken = default);
 }

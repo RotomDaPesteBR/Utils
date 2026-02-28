@@ -14,7 +14,7 @@ namespace LightningArc.Utils.Tests.Results
             LocalizationManager.Configure("pt-BR");
 
             // Act
-            var success = Success.Ok();
+            Success success = Success.Ok();
 
             // Assert
             Assert.IsType<Success.OkSuccess>(success);
@@ -29,7 +29,7 @@ namespace LightningArc.Utils.Tests.Results
             const string message = "Custom OK message";
 
             // Act
-            var success = Success.Ok(message);
+            Success success = Success.Ok(message);
 
             // Assert
             Assert.IsType<Success.OkSuccess>(success);
@@ -43,7 +43,7 @@ namespace LightningArc.Utils.Tests.Results
             LocalizationManager.Configure("pt-BR");
 
             // Act
-            var success = Success.Created();
+            Success success = Success.Created();
 
             // Assert
             Assert.IsType<Success.CreatedSuccess>(success);
@@ -58,7 +58,7 @@ namespace LightningArc.Utils.Tests.Results
             const string message = "Item was created";
 
             // Act
-            var success = Success.Created(message);
+            Success success = Success.Created(message);
 
             // Assert
             Assert.IsType<Success.CreatedSuccess>(success);
@@ -72,7 +72,7 @@ namespace LightningArc.Utils.Tests.Results
             LocalizationManager.Configure("pt-BR");
 
             // Act
-            var success = Success.Accepted();
+            Success success = Success.Accepted();
             
             // Assert
             Assert.IsType<Success.AcceptedSuccess>(success);
@@ -87,7 +87,7 @@ namespace LightningArc.Utils.Tests.Results
             const string message = "Request accepted";
 
             // Act
-            var success = Success.Accepted(message);
+            Success success = Success.Accepted(message);
 
             // Assert
             Assert.IsType<Success.AcceptedSuccess>(success);
@@ -101,7 +101,7 @@ namespace LightningArc.Utils.Tests.Results
             LocalizationManager.Configure("pt-BR");
 
             // Act
-            var success = Success.NoContent();
+            Success success = Success.NoContent();
 
             // Assert
             Assert.IsType<Success.NoContentSuccess>(success);
@@ -115,7 +115,7 @@ namespace LightningArc.Utils.Tests.Results
             const string message = "Should be null, but testing anyway";
 
             // Act
-            var success = Success.NoContent(message);
+            Success success = Success.NoContent(message);
 
             // Assert
             Assert.IsType<Success.NoContentSuccess>(success);

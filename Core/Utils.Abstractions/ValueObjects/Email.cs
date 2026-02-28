@@ -51,7 +51,7 @@ namespace LightningArc.Utils.Abstractions.ValueObjects
         /// <param name="value">A string que representa o endereço de e-mail.</param>
         /// <returns>Uma nova instância de <see cref="Email"/> se a string for um e-mail válido.</returns>
         /// <exception cref="ArgumentException">Lançada se a string fornecida não for um e-mail válido.</exception>
-        public static Email Create(string value) => new Email(value);
+        public static Email Create(string value) => new(value);
 
         /// <summary>
         /// Converte implicitamente um objeto <see cref="Email"/> para sua representação em <see cref="string"/>.

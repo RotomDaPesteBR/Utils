@@ -24,7 +24,7 @@ namespace LightningArc.Utils.Tests.Results
         public void SuccessMap_No_Value_OnSuccess_TransformsValue()
         {
             // Arrange
-            var success = Utils.Results.Success.Ok();
+            Success success = Utils.Results.Success.Ok();
             static string mapper() => "success";
 
             // Act
@@ -58,7 +58,7 @@ namespace LightningArc.Utils.Tests.Results
         public async Task SuccessMapAsync_No_Value_OnSuccess_TransformsValue()
         {
             // Arrange
-            var success = Utils.Results.Success.Ok();
+            Success success = Utils.Results.Success.Ok();
             static async Task<string> mapper()
             {
                 await Task.Delay(1);

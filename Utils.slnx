@@ -29,6 +29,7 @@
     </Project>
   </Folder>
   <Folder Name="/src/Data/ADO/">
+    <Project Path="Data/ADO/Utils.Data.ADO.SqlBuilder/Utils.Data.ADO.SqlBuilder.csproj" />
     <Project Path="Data/ADO/Utils.Data.ADO.Oracle/Utils.Data.ADO.Oracle.csproj" />
     <Project Path="Data/ADO/Utils.Data.ADO.SqlServer/Utils.Data.ADO.SqlServer.csproj" />
     <Project Path="Data/ADO/Utils.Data.ADO/Utils.Data.ADO.csproj" />
@@ -46,8 +47,7 @@
     </Project>
   </Folder>
   <Folder Name="/src/Meta/">
-    <Project Path="Meta/Utils.Metalama.Extensions/Utils.Metalama.Extensions.csproj" />
-    <Project Path="Meta/Utils.Metalama.Factories/Utils.Metalama.Factories.csproj" />
+    <Project Path="Meta/Utils.Metalama.Results/Utils.Metalama.Results.csproj" />
     <Project Path="Meta/Utils.Metalama.Tests/Utils.Metalama.Tests.csproj">
       <Build Solution="Debug|*" Project="false" />
       <Build Solution="LamaDebug|*" Project="false" />

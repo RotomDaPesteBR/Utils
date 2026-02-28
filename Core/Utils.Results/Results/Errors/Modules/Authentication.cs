@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.Messages;
+using LightningArc.Utils.Results.Messages;
 
 namespace LightningArc.Utils.Results;
 
@@ -63,7 +63,7 @@ public partial class Error
         /// <summary>
         /// Represents an authentication error (Suffix: 01).
         /// </summary>
-        internal class UnauthorizedError : Error
+        public sealed class UnauthorizedError : Error
         {
             internal UnauthorizedError(
                 IMessageProvider messageProvider,
@@ -80,7 +80,7 @@ public partial class Error
         /// <summary>
         /// Represents a forbidden access error (Suffix: 02).
         /// </summary>
-        internal class ForbiddenError : Error
+        public sealed class ForbiddenError : Error
         {
             internal ForbiddenError(
                 IMessageProvider messageProvider,
@@ -97,7 +97,7 @@ public partial class Error
         /// <summary>
         /// Represents an expired token error (Suffix: 03).
         /// </summary>
-        internal class TokenExpiredError : Error
+        public sealed class TokenExpiredError : Error
         {
             internal TokenExpiredError(
                 IMessageProvider messageProvider,
@@ -114,7 +114,7 @@ public partial class Error
         /// <summary>
         /// Represents an invalid credentials error (Suffix: 04).
         /// </summary>
-        internal class InvalidCredentialsError : Error
+        public sealed class InvalidCredentialsError : Error
         {
             internal InvalidCredentialsError(
                 IMessageProvider messageProvider,
@@ -131,7 +131,7 @@ public partial class Error
         /// <summary>
         /// Represents an inactive account error (Suffix: 05).
         /// </summary>
-        internal class InactiveAccountError : Error
+        public sealed class InactiveAccountError : Error
         {
             internal InactiveAccountError(
                 IMessageProvider messageProvider,
@@ -148,7 +148,7 @@ public partial class Error
         /// <summary>
         /// Represents an expired session error (Suffix: 06).
         /// </summary>
-        internal class ExpiredSessionError : Error
+        public sealed class ExpiredSessionError : Error
         {
             internal ExpiredSessionError(
                 IMessageProvider messageProvider,
@@ -162,7 +162,7 @@ public partial class Error
                 ) { }
         }
 
-        // --- Construtores Estáticos ---
+        // --- Construtores Est�ticos ---
 
         /// <summary>
         /// Creates a new instance of an authentication failure error (code 01).

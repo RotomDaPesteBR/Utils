@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.Messages;
+using LightningArc.Utils.Results.Messages;
 
 namespace LightningArc.Utils.Results;
 
@@ -54,7 +54,7 @@ public partial class Error
         /// <summary>
         /// Represents a concurrency conflict error (Suffix: 01).
         /// </summary>
-        internal class ConflictError : Error
+        public sealed class ConflictError : Error
         {
             internal ConflictError(
                 IMessageProvider messageProvider,
@@ -66,7 +66,7 @@ public partial class Error
         /// <summary>
         /// Represents a locked resource error (Suffix: 02).
         /// </summary>
-        internal class LockedError : Error
+        public sealed class LockedError : Error
         {
             internal LockedError(
                 IMessageProvider messageProvider,
@@ -78,7 +78,7 @@ public partial class Error
         /// <summary>
         /// Represents a stale data error (Suffix: 03).
         /// </summary>
-        internal class StaleDataError : Error
+        public sealed class StaleDataError : Error
         {
             internal StaleDataError(
                 IMessageProvider messageProvider,
@@ -90,7 +90,7 @@ public partial class Error
         /// <summary>
         /// Represents a resource in use error (Suffix: 04).
         /// </summary>
-        internal class ResourceInUseError : Error
+        public sealed class ResourceInUseError : Error
         {
             internal ResourceInUseError(
                 IMessageProvider messageProvider,
@@ -100,7 +100,7 @@ public partial class Error
             { }
         }
 
-        // --- Construtores Estáticos ---
+        // --- Construtores Est�ticos ---
 
         /// <summary>
         /// Creates a new instance of a conflict error (code 01).

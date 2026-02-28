@@ -17,5 +17,5 @@ public interface IDbUnitOfWork : IUnitOfWork
     /// <summary>
     /// Gets the active database transaction.
     /// </summary>
-    DbTransaction? Transaction { get; }
+    DbTransaction Transaction { get; }
 }

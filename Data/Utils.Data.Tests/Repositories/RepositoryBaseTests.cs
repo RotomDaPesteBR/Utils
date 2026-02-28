@@ -1,9 +1,11 @@
 using System.Data;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
+using LightningArc.Utils.Data.Abstractions.Mappers;
 using LightningArc.Utils.Data.ADO.Factories;
 using LightningArc.Utils.Data.ADO.Repositories;
 using LightningArc.Utils.Data.Tests.Mocks;
+using Microsoft.Extensions.Logging;
 
 namespace LightningArc.Utils.Data.Tests.Repositories;
 
@@ -49,12 +51,61 @@ public class RepositoryBaseTests
         public InternalTestRepository(IConnectionFactory factory)
             : base(factory) { }
 
+        public InternalTestRepository(IConnectionFactory factory, IMapper? mapper, ILogger? logger)
+            : base(factory, mapper, logger) { }
+
         public InternalTestRepository(DbConnection conn, DbTransaction trans)
             : base(conn, trans) { }
 
         public new DbConnection GetConnection() => base.GetConnection();
 
         public new void ReleaseConnection(DbConnection conn) => base.ReleaseConnection(conn);
+
+        public new ILogger Logger => base.Logger;
+        public new IMapper Mapper => base.Mapper;
+    }
+
+    [Fact]
+    public void Logger_ShouldNotBeNull_EvenWhenNullProvided()
+    {
+        // Arrange
+        TestDbConnection mockConn = new();
+        ConnectionFactoryStub factory = new(mockConn);
+        InternalTestRepository repo = new(factory, null, null);
+
+        // Act
+        ILogger logger = repo.Logger;
+
+        // Assert
+        Assert.NotNull(logger);
+    }
+
+    [Fact]
+    public void Mapper_ShouldThrow_WhenNotProvided()
+    {
+        // Arrange
+        TestDbConnection mockConn = new();
+        ConnectionFactoryStub factory = new(mockConn);
+        InternalTestRepository repo = new(factory);
+
+        // Act & Assert
+        Assert.Throws<InvalidOperationException>(() => repo.Mapper);
+    }
+
+    [Fact]
+    public void Mapper_ShouldReturnProvidedInstance()
+    {
+        // Arrange
+        TestDbConnection mockConn = new();
+        ConnectionFactoryStub factory = new(mockConn);
+        MockMapper mockMapper = new();
+        InternalTestRepository repo = new(factory, mockMapper, null);
+
+        // Act
+        IMapper mapper = repo.Mapper;
+
+        // Assert
+        Assert.Equal(mockMapper, mapper);
     }
 
     [Fact]

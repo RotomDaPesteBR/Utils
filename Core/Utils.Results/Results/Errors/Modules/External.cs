@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.Messages;
+using LightningArc.Utils.Results.Messages;
 
 namespace LightningArc.Utils.Results;
 
@@ -64,7 +64,7 @@ public partial class Error
         /// <summary>
         /// Represents a rate limit exceeded error (Suffix: 01).
         /// </summary>
-        internal class RateLimitExceededError : Error
+        public sealed class RateLimitExceededError : Error
         {
             internal RateLimitExceededError(
                 IMessageProvider messageProvider,
@@ -76,7 +76,7 @@ public partial class Error
         /// <summary>
         /// Represents an API quota exceeded error (Suffix: 02).
         /// </summary>
-        internal class ApiQuotaExceededError : Error
+        public sealed class ApiQuotaExceededError : Error
         {
             internal ApiQuotaExceededError(
                 IMessageProvider messageProvider,
@@ -88,7 +88,7 @@ public partial class Error
         /// <summary>
         /// Represents an invalid API response error (Suffix: 03).
         /// </summary>
-        internal class InvalidApiResponseError : Error
+        public sealed class InvalidApiResponseError : Error
         {
             internal InvalidApiResponseError(
                 IMessageProvider messageProvider,
@@ -100,7 +100,7 @@ public partial class Error
         /// <summary>
         /// Represents a service unavailable error (Suffix: 04).
         /// </summary>
-        internal class ServiceUnavailableError : Error
+        public sealed class ServiceUnavailableError : Error
         {
             internal ServiceUnavailableError(
                 IMessageProvider messageProvider,
@@ -112,7 +112,7 @@ public partial class Error
         /// <summary>
         /// Represents a timeout error (Suffix: 05).
         /// </summary>
-        internal class TimeoutError : Error
+        public sealed class TimeoutError : Error
         {
             internal TimeoutError(IMessageProvider messageProvider, IEnumerable<ErrorDetail>? details = null)
                 : base(External.CodePrefix, (int)Codes.Timeout, messageProvider, details) { }
@@ -121,7 +121,7 @@ public partial class Error
         /// <summary>
         /// Represents a communication error (Suffix: 06).
         /// </summary>
-        internal class CommunicationError : Error
+        public sealed class CommunicationError : Error
         {
             internal CommunicationError(
                 IMessageProvider messageProvider,
@@ -130,7 +130,7 @@ public partial class Error
                 : base(External.CodePrefix, (int)Codes.Communication, messageProvider, details) { }
         }
 
-        // --- Construtores Estáticos ---
+        // --- Construtores Est�ticos ---
 
         /// <summary>
         /// Creates a new instance of a rate limit exceeded error (code 01).

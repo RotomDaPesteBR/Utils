@@ -11,7 +11,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Tap_With_Value_OnSuccess_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<int> result = 42;
             void action(int x) => executed = true;
 
@@ -26,7 +26,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Tap_With_Value_OnFailure_DoesNotExecuteAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<int> result = TestError;
             void action(int x) => executed = true;
 
@@ -41,7 +41,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Tap_With_Value_And_Parameterless_Action_OnSuccess_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<int> result = 42;
             void action(int value) => executed = true;
 
@@ -56,7 +56,7 @@ namespace LightningArc.Utils.Tests.Results
         public void Tap_No_Value_OnSuccess_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result result = Result.Success();
             void action() => executed = true;
 
@@ -71,7 +71,7 @@ namespace LightningArc.Utils.Tests.Results
         public async Task TapAsync_With_Value_OnSuccess_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<string> result = "test";
             async Task action(string s)
             {
@@ -90,7 +90,7 @@ namespace LightningArc.Utils.Tests.Results
         public async Task TapAsync_With_Value_And_Parameterless_Action_OnSuccess_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result<string> result = "test";
             async Task action(string value)
             {
@@ -109,7 +109,7 @@ namespace LightningArc.Utils.Tests.Results
         public async Task TapAsync_No_Value_OnSuccess_ExecutesAction()
         {
             // Arrange
-            var executed = false;
+            bool executed = false;
             Result result = Result.Success();
             async Task action()
             {

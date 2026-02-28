@@ -59,7 +59,7 @@ public class SuccessMappingService
                     options.Value.SuccessMappings.Count
                 );
             }
-            foreach (var mapping in options.Value.SuccessMappings)
+            foreach (CustomSuccessMapping mapping in options.Value.SuccessMappings)
             {
                 _mappings[mapping.SuccessType] = new SuccessMapping(
                     mapping.StatusCode,
@@ -128,7 +128,7 @@ public class SuccessMappingService
     /// </returns>
     public SuccessMapping? GetMapping(Success success)
     {
-        var successType = success.GetType();
+        Type successType = success.GetType();
 
         Type? typeToLookup = successType;
 
@@ -137,7 +137,7 @@ public class SuccessMappingService
         if (successType.IsGenericType && successType.IsNested)
         {
             // Obtém o tipo pai (ex: Success<User>)
-            var declaringType = successType.DeclaringType;
+            Type? declaringType = successType.DeclaringType;
 
             // Se o tipo pai for genérico, precisamos construir o tipo de busca:
             if (declaringType?.IsGenericType == true)
@@ -145,10 +145,10 @@ public class SuccessMappingService
                 try
                 {
                     // 2a. Obtém o tipo de definição genérica do pai (ex: Success<>)
-                    var genericParentDef = declaringType.GetGenericTypeDefinition();
+                    Type genericParentDef = declaringType.GetGenericTypeDefinition();
 
                     // 2b. Encontra o tipo aninhado correspondente na definição genérica do pai (ex: Success<>.{Operation}Success)
-                    var genericTypeDefinition = genericParentDef.GetNestedType(
+                    Type genericTypeDefinition = genericParentDef.GetNestedType(
                         successType.Name,
                         BindingFlags.Public | BindingFlags.NonPublic
                     )!;
@@ -173,13 +173,13 @@ public class SuccessMappingService
         }
 
         // 3. Tenta obter o mapeamento com o tipo de lookup (que será o tipo exato, ou a definição genérica).
-        if (_mappings.TryGetValue(typeToLookup, out var mapping))
+        if (_mappings.TryGetValue(typeToLookup, out SuccessMapping? mapping))
         {
             return mapping;
         }
 
         // 4. Tenta obter o mapeamento pelo tipo exato (caso o mapeamento genérico falhe ou seja um mapeamento personalizado exato)
-        if (typeToLookup != successType && _mappings.TryGetValue(successType, out var exactMapping))
+        if (typeToLookup != successType && _mappings.TryGetValue(successType, out SuccessMapping? exactMapping))
         {
             return exactMapping;
         }

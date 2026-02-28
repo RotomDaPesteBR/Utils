@@ -6,7 +6,7 @@ using LightningArc.Utils.Json.Converters;
 using LightningArc.Utils.OpenAPI;
 using LightningArc.Utils.Results;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
@@ -61,7 +61,7 @@ builder.Services.AddEndpointResults(
     errors.Map<Business.OrderRejectedError>(HttpStatusCode.UnprocessableEntity, "Pedido Rejeitado", "urn:api-errors:order-rejected");
 });
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 app.UseStaticFiles();
 

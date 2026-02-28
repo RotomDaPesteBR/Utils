@@ -27,23 +27,23 @@ namespace LightningArc.Utils.Results
             var sortedModules = allModules
                 .Select(module =>
                 {
-                    var codePrefixProperty = module.GetField("CodePrefix", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
-                    var codePrefixValue = (int)(codePrefixProperty?.GetValue(null) ?? -1);
+                    FieldInfo? codePrefixProperty = module.GetField("CodePrefix", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+                    int codePrefixValue = (int)(codePrefixProperty?.GetValue(null) ?? -1);
                     return new { Module = module, CodePrefix = codePrefixValue };
                 })
                 .OrderBy(x => x.CodePrefix);
 
             foreach (var sortedModule in sortedModules)
             {
-                var module = sortedModule.Module;
+                Type module = sortedModule.Module;
                 var errorsDict = new Dictionary<Type, ErrorInformation>();
                 modulesDict[module.Name.ToUpperInvariant()] = errorsDict;
 
                 var errorFactories = GetErrorsForModule(module);
 
-                foreach (var factoryMethod in errorFactories)
+                foreach (MethodInfo factoryMethod in errorFactories)
                 {
-                    var args = CreateDefaultArgs(factoryMethod);
+                    object?[] args = CreateDefaultArgs(factoryMethod);
 
                     if (factoryMethod.Invoke(null, args) is Error errorInstance)
                     {
@@ -68,29 +68,29 @@ namespace LightningArc.Utils.Results
         /// <returns>A string with the complete error report.</returns>
         public static string GetErrorListAsMarkdown()
         {
-            var report = new StringBuilder();
+            StringBuilder report = new();
             var allModules = GetBuiltInErrorModules().Union(GetCustomErrorModules());
 
             var sortedModules = allModules
                 .Select(module =>
                 {
-                    var codePrefixProperty = module.GetProperty("CodePrefix", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
-                    var codePrefixValue = (int)(codePrefixProperty?.GetValue(null) ?? -1);
+                    PropertyInfo? codePrefixProperty = module.GetProperty("CodePrefix", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
+                    int codePrefixValue = (int)(codePrefixProperty?.GetValue(null) ?? -1);
                     return new { Module = module, CodePrefix = codePrefixValue };
                 })
                 .OrderBy(x => x.CodePrefix);
 
             foreach (var sortedModule in sortedModules)
             {
-                var module = sortedModule.Module;
+                Type module = sortedModule.Module;
                 report.AppendLine($"## {module.Name.ToUpperInvariant()}");
                 report.AppendLine();
 
                 var errorFactories = GetErrorsForModule(module);
 
-                foreach (var factoryMethod in errorFactories)
+                foreach (MethodInfo factoryMethod in errorFactories)
                 {
-                    var args = CreateDefaultArgs(factoryMethod);
+                    object?[] args = CreateDefaultArgs(factoryMethod);
 
                     if (factoryMethod.Invoke(null, args) is Error errorInstance)
                     {
@@ -110,11 +110,11 @@ namespace LightningArc.Utils.Results
         private static object?[] CreateDefaultArgs(MethodInfo factoryMethod)
         {
             var parameters = factoryMethod.GetParameters();
-            var args = new object?[parameters.Length];
+            object?[] args = new object?[parameters.Length];
 
             for (int i = 0; i < parameters.Length; i++)
             {
-                var p = parameters[i];
+                ParameterInfo p = parameters[i];
                 if (p.HasDefaultValue)
                 {
                     args[i] = p.DefaultValue;
@@ -166,7 +166,7 @@ namespace LightningArc.Utils.Results
                     var parameters = m.GetParameters();
                     if (parameters.Length == 0) return false;
 
-                    var firstParamType = parameters[0].ParameterType;
+                    Type firstParamType = parameters[0].ParameterType;
 
                     if (firstParamType.IsGenericType && firstParamType.GetGenericTypeDefinition() == typeof(ErrorModule<>))
                     {

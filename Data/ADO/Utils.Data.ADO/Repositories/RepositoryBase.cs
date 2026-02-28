@@ -3,6 +3,7 @@ using System.Data.Common;
 using LightningArc.Utils.Data.Abstractions.Mappers;
 using LightningArc.Utils.Data.ADO.Factories;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace LightningArc.Utils.Data.ADO.Repositories;
 
@@ -29,12 +30,16 @@ public abstract class RepositoryBase
     /// <summary>
     /// The logger instance for recording diagnostic and error information.
     /// </summary>
-    protected readonly ILogger? Logger;
+    protected readonly ILogger Logger;
 
     /// <summary>
     /// The mapper used for transforming data between models and entities.
     /// </summary>
-    protected readonly IMapper? Mapper;
+    protected IMapper Mapper =>
+        field
+        ?? throw new InvalidOperationException(
+            $"The Mapper instance has not been initialized for '{GetType().Name}'. Ensure that an IMapper implementation is provided via the constructor."
+        );
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RepositoryBase"/> class using a connection factory.
@@ -45,6 +50,7 @@ public abstract class RepositoryBase
     {
         ConnectionFactory = connectionFactory;
         Mapper = mapper;
+        Logger = NullLogger.Instance;
     }
 
     /// <summary>
@@ -54,7 +60,7 @@ public abstract class RepositoryBase
     /// <param name="mapper">An optional mapper for data transformation.</param>
     /// <param name="logger">The logger instance for this repository.</param>
     protected RepositoryBase(IConnectionFactory connectionFactory, IMapper? mapper, ILogger? logger)
-        : this(connectionFactory, mapper) => Logger = logger;
+        : this(connectionFactory, mapper) => Logger = logger ?? NullLogger.Instance;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RepositoryBase"/> class using an existing connection and transaction.
@@ -71,6 +77,7 @@ public abstract class RepositoryBase
         DbConnection = dbConnection;
         Transaction = transaction;
         Mapper = mapper;
+        Logger = NullLogger.Instance;
     }
 
     /// <summary>
@@ -86,7 +93,7 @@ public abstract class RepositoryBase
         IMapper? mapper,
         ILogger? logger
     )
-        : this(dbConnection, transaction, mapper) => Logger = logger;
+        : this(dbConnection, transaction, mapper) => Logger = logger ?? NullLogger.Instance;
 
     /// <summary>
     /// Retrieves a database connection. Returns the existing connection if provided,
@@ -111,9 +118,9 @@ public abstract class RepositoryBase
             dbConnection.Open();
         }
 
-        if (Logger?.IsEnabled(LogLevel.Debug) ?? false)
+        if (Logger.IsEnabled(LogLevel.Debug))
         {
-            Logger?.LogDebug("Connection opened");
+            Logger.LogDebug("Connection opened");
         }
 
         return dbConnection;

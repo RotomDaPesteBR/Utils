@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.Messages;
+using LightningArc.Utils.Results.Messages;
 
 namespace LightningArc.Utils.Results;
 
@@ -59,7 +59,7 @@ public partial class Error
         /// <summary>
         /// Represents a file not found error (Suffix: 01).
         /// </summary>
-        internal class FileNotFoundError : Error
+        public sealed class FileNotFoundError : Error
         {
             internal FileNotFoundError(
                 IMessageProvider messageProvider,
@@ -71,7 +71,7 @@ public partial class Error
         /// <summary>
         /// Represents a directory not found error (Suffix: 05).
         /// </summary>
-        internal class DirectoryNotFoundError : Error
+        public sealed class DirectoryNotFoundError : Error
         {
             internal DirectoryNotFoundError(
                 IMessageProvider messageProvider,
@@ -83,7 +83,7 @@ public partial class Error
         /// <summary>
         /// Represents a permission denied error (Suffix: 02).
         /// </summary>
-        internal class PermissionDeniedError : Error
+        public sealed class PermissionDeniedError : Error
         {
             internal PermissionDeniedError(
                 IMessageProvider messageProvider,
@@ -95,7 +95,7 @@ public partial class Error
         /// <summary>
         /// Represents a disk full error (Suffix: 04).
         /// </summary>
-        internal class DiskFullError : Error
+        public sealed class DiskFullError : Error
         {
             internal DiskFullError(
                 IMessageProvider messageProvider,
@@ -107,7 +107,7 @@ public partial class Error
         /// <summary>
         /// Represents a corrupted file error (Suffix: 03).
         /// </summary>
-        internal class CorruptedFileError : Error
+        public sealed class CorruptedFileError : Error
         {
             internal CorruptedFileError(
                 IMessageProvider messageProvider,

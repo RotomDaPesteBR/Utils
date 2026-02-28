@@ -26,7 +26,7 @@ public class ResourceMessageProvider(
     /// <inheritdoc/>
     public string GetMessage(CultureInfo culture)
     {
-        var localizedString = _localizationFunction(_resourceKey);
+        string? localizedString = _localizationFunction(_resourceKey);
         return (_formatArgs?.Length > 0)
             ? string.Format(culture, localizedString, _formatArgs)
             : localizedString;

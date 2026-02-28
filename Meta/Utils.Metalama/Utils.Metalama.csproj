@@ -12,11 +12,9 @@
 	<RootNamespace>LightningArc.Utils.Metalama</RootNamespace>
 
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<NoWarn>IDE0130;NU5128</NoWarn>
+	<NoWarn>IDE0130;NU5128;CA1865</NoWarn>
 
-	  <!--
-	  <MetalamaCompileTimeProject>true</MetalamaCompileTimeProject>
-	  -->
+	<MetalamaRemoveCompileTimeOnlyCode>false</MetalamaRemoveCompileTimeOnlyCode>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -29,16 +27,10 @@
 
 	<IsPackable>true</IsPackable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-
-  <ItemGroup>
-	<PackageReference Include="Metalama.Framework" />
-  </ItemGroup>
-
-  <ItemGroup>
-	<ProjectReference Include="..\..\Core\Utils\Utils.csproj" />
-	<ProjectReference Include="..\Utils.Metalama.Extensions\Utils.Metalama.Extensions.csproj" />
-	<ProjectReference Include="..\Utils.Metalama.Factories\Utils.Metalama.Factories.csproj" />
-  </ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Metalama.Framework" />
+		<PackageReference Include="Metalama.Framework.Sdk" PrivateAssets="all" />
+	</ItemGroup>
 </Project>

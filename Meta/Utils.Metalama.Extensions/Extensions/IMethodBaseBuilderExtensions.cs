@@ -41,15 +41,6 @@ public static class IMethodBaseBuilderExtensions
         IEnumerable<ParameterDefinition> parameterDefinitions
     )
     {
-        List<IParameterBuilder> parameterBuilders = [];
-
-        foreach (var parameterDefinition in parameterDefinitions)
-        {
-            var builder = methodBaseBuilder.AddParameter(parameterDefinition);
-
-            parameterBuilders.Add(builder);
-        }
-
-        return parameterBuilders;
+        return parameterDefinitions.Select(methodBaseBuilder.AddParameter);
     }
 }

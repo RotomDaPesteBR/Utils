@@ -19,6 +19,7 @@ public static class IAspectBuilderExtensions
     /// <summary>
     /// Especifica o tipo de retorno assíncrono a ser usado ao introduzir um método.
     /// </summary>
+    [CompileTime]
     public enum AsyncType
     {
         /// <summary>

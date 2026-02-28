@@ -42,7 +42,7 @@ namespace LightningArc.Utils.AspNet.Tests.API.Controllers
 
             return result.Bind(v => {
 
-                var value = v.FirstOrDefault();
+                string? value = v.FirstOrDefault();
 
                 return value is not null
                     ? Result.Success(value)

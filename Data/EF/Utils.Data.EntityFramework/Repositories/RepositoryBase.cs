@@ -1,6 +1,7 @@
+using LightningArc.Utils.Data.Abstractions.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using LightningArc.Utils.Data.Abstractions.Mappers;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace LightningArc.Utils.Data.EntityFramework.Repositories;
 
@@ -19,12 +20,16 @@ public abstract class RepositoryBase<TContext>
     /// <summary>
     /// The logger instance for recording diagnostic and error information.
     /// </summary>
-    protected readonly ILogger? Logger;
+    protected readonly ILogger Logger;
 
     /// <summary>
     /// The mapper used for transforming data between models and entities.
     /// </summary>
-    protected readonly IMapper? Mapper;
+    protected IMapper Mapper =>
+        field
+        ?? throw new InvalidOperationException(
+            $"The Mapper instance has not been initialized for '{GetType().Name}'. Ensure that an IMapper implementation is provided via the constructor."
+        );
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RepositoryBase{TContext}"/> class.
@@ -36,7 +41,7 @@ public abstract class RepositoryBase<TContext>
     {
         Context = context;
         Mapper = mapper;
-        Logger = logger;
+        Logger = logger ?? NullLogger.Instance;
     }
 }
 
@@ -84,7 +89,5 @@ public abstract class RepositoryBase<TContext, TEntity, TResult> : RepositoryBas
     /// <param name="mapper">An optional mapper for data transformation.</param>
     /// <param name="logger">An optional logger instance.</param>
     protected RepositoryBase(TContext context, IMapper? mapper = null, ILogger? logger = null)
-        : base(context, mapper, logger)
-    {
-    }
+        : base(context, mapper, logger) { }
 }

@@ -104,7 +104,7 @@ namespace LightningArc.Utils.Results
         /// </summary>
         /// <param name="task">A <see cref="Task{TResult}"/> a ser convertida.</param>
         /// <returns>Um TaskResult&lt;object&gt; encapsulando a tarefa.</returns>
-        public static TaskResult<object> FromTask(Task<Result> task) => new TaskResult<object>(
+        public static TaskResult<object> FromTask(Task<Result> task) => new(
                 task.ContinueWith(t =>
                 {
                     if (t.IsFaulted && t.Exception != null)

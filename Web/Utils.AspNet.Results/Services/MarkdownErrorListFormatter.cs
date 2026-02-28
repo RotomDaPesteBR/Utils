@@ -10,7 +10,7 @@ internal sealed class MarkdownErrorListFormatter : IErrorListFormatter
 {
     public string Format(IEnumerable<ErrorMetadata> errors)
     {
-        var markdownBuilder = new StringBuilder();
+        StringBuilder markdownBuilder = new();
         markdownBuilder.AppendLine("# Error List");
         markdownBuilder.AppendLine();
 
@@ -24,9 +24,9 @@ internal sealed class MarkdownErrorListFormatter : IErrorListFormatter
             markdownBuilder.AppendLine("| Code | Name | HTTP Status | Message |");
             markdownBuilder.AppendLine("|:---|:---|:---|:---|");
 
-            foreach (var error in moduleGroup.OrderBy(e => e.Code))
+            foreach (ErrorMetadata error in moduleGroup.OrderBy(e => e.Code))
             {
-                var httpStatus = error.HttpStatusCode.HasValue ? ((int)error.HttpStatusCode.Value).ToString() : "N/A";
+                string httpStatus = error.HttpStatusCode.HasValue ? ((int)error.HttpStatusCode.Value).ToString() : "N/A";
                 markdownBuilder.AppendLine($"| `{error.Code:D5}` | `{error.Name}` | `{httpStatus}` | {error.Message} |");
             }
             markdownBuilder.AppendLine();

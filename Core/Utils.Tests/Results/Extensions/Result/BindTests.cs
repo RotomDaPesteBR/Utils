@@ -47,7 +47,7 @@ namespace LightningArc.Utils.Tests.Results
             // Act
             var mappedResult = result.Bind(v =>
             {
-                var value = v.FirstOrDefault();
+                string? value = v.FirstOrDefault();
 
                 return value is not null
                     ? Result.Success(value)

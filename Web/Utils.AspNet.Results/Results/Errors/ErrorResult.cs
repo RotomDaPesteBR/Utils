@@ -18,25 +18,25 @@ public sealed class ErrorResult(Error error) : IResult
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     public Task ExecuteAsync(HttpContext httpContext)
     {
-        var mappingService = httpContext.RequestServices.GetRequiredService<ErrorMappingService>();
-        var options = httpContext.RequestServices.GetRequiredService<IOptions<EndpointResultOptions>>().Value;
+        ErrorMappingService mappingService = httpContext.RequestServices.GetRequiredService<ErrorMappingService>();
+        EndpointResultOptions? options = httpContext.RequestServices.GetRequiredService<IOptions<EndpointResultOptions>>().Value;
 
         if (options.ErrorResponseBuilder != null)
         {
-            var response = options.ErrorResponseBuilder(error, httpContext);
+            object response = options.ErrorResponseBuilder(error, httpContext);
             return httpContext.Response.WriteAsJsonAsync(response);
         }
 
         // Default behavior: create a ProblemDetails object.
-        var mapping = mappingService.GetMapping(error);
-        var statusCode = (int)(mapping?.StatusCode ?? HttpStatusCode.InternalServerError);
-        var title = mapping?.Title ?? "An unexpected error has occurred.";
-        var problemType = mapping?.Type ?? "about:blank";
+        ErrorMapping? mapping = mappingService.GetMapping(error);
+        int statusCode = (int)(mapping?.StatusCode ?? HttpStatusCode.InternalServerError);
+        string title = mapping?.Title ?? "An unexpected error has occurred.";
+        string problemType = mapping?.Type ?? "about:blank";
 
         httpContext.Response.StatusCode = statusCode;
         httpContext.Response.ContentType = "application/problem+json";
 
-        var problemDetails = new ProblemDetails
+        ProblemDetails problemDetails = new()
         {
             Status = statusCode,
             Title = title,

@@ -64,7 +64,7 @@ public partial class Error
         /// <summary>
         /// Represents a network connection failed error (Suffix: 01).
         /// </summary>
-        internal class ConnectionFailedError : Error
+        public sealed class ConnectionFailedError : Error
         {
             internal ConnectionFailedError(
                 IMessageProvider messageProvider,
@@ -76,7 +76,7 @@ public partial class Error
         /// <summary>
         /// Represents a request timeout error (Suffix: 02).
         /// </summary>
-        internal class RequestTimeoutError : Error
+        public sealed class RequestTimeoutError : Error
         {
             internal RequestTimeoutError(
                 IMessageProvider messageProvider,
@@ -88,7 +88,7 @@ public partial class Error
         /// <summary>
         /// Represents a service unavailable error (Suffix: 03).
         /// </summary>
-        internal class ServiceUnavailableError : Error
+        public sealed class ServiceUnavailableError : Error
         {
             internal ServiceUnavailableError(
                 IMessageProvider messageProvider,
@@ -100,7 +100,7 @@ public partial class Error
         /// <summary>
         /// Represents a DNS failure error (Suffix: 04).
         /// </summary>
-        internal class DnsFailureError : Error
+        public sealed class DnsFailureError : Error
         {
             internal DnsFailureError(IMessageProvider messageProvider, IEnumerable<ErrorDetail>? details = null)
                 : base(Network.CodePrefix, (int)Codes.DnsFailure, messageProvider, details) { }
@@ -109,7 +109,7 @@ public partial class Error
         /// <summary>
         /// Represents an SSL/TLS handshake failed error (Suffix: 05).
         /// </summary>
-        internal class SslHandshakeFailedError : Error
+        public sealed class SslHandshakeFailedError : Error
         {
             internal SslHandshakeFailedError(
                 IMessageProvider messageProvider,
@@ -121,7 +121,7 @@ public partial class Error
         /// <summary>
         /// Represents a proxy failure error (Suffix: 06).
         /// </summary>
-        internal class ProxyFailureError : Error
+        public sealed class ProxyFailureError : Error
         {
             internal ProxyFailureError(IMessageProvider messageProvider, IEnumerable<ErrorDetail>? details = null)
                 : base(Network.CodePrefix, (int)Codes.ProxyFailure, messageProvider, details) { }

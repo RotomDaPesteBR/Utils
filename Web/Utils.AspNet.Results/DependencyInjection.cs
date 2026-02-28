@@ -36,9 +36,9 @@ public static class ServiceCollectionExtensions
         Action<SuccessMappingConfigurator, ErrorMappingConfigurator>? configureMappings = null
     )
     {
-        var options = new EndpointResultOptions();
-        var errorConfigurator = new ErrorMappingConfigurator(options);
-        var successConfigurator = new SuccessMappingConfigurator(options);
+        EndpointResultOptions options = new();
+        ErrorMappingConfigurator errorConfigurator = new(options);
+        SuccessMappingConfigurator successConfigurator = new(options);
         configureMappings?.Invoke(successConfigurator, errorConfigurator);
 
         options.WrapSuccessResponses = wrapSuccessResponses;
@@ -105,10 +105,10 @@ public static class WebApplicationExtensions
                 logger.LogInformation("Starting generation of the error list file.");
             }
 
-            var provider = app.Services.GetRequiredService<IErrorListProvider>();
+            IErrorListProvider provider = app.Services.GetRequiredService<IErrorListProvider>();
             var errors = provider.GetErrorMetadata();
 
-            var listFormatter =
+            IErrorListFormatter listFormatter =
                 formatter ?? app.Services.GetRequiredService<MarkdownErrorListFormatter>();
             string formattedContent = listFormatter.Format(errors);
 

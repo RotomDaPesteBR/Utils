@@ -52,7 +52,10 @@ public partial class Error
 
         // --- Internal Error Classes ---
 
-        internal class InternalError : Error
+        /// <summary>
+        /// Represents an internal application error (Suffix: 01).
+        /// </summary>
+        public sealed class InternalError : Error
         {
             internal InternalError(
                 IMessageProvider messageProvider,
@@ -61,7 +64,10 @@ public partial class Error
                 : base(Application.CodePrefix, (int)Codes.Internal, messageProvider, details) { }
         }
 
-        internal class InvalidParameterError : Error
+        /// <summary>
+        /// Represents an invalid parameter error (Suffix: 02).
+        /// </summary>
+        public sealed class InvalidParameterError : Error
         {
             internal InvalidParameterError(
                 IMessageProvider messageProvider,
@@ -75,7 +81,10 @@ public partial class Error
                 ) { }
         }
 
-        internal class InvalidOperationError : Error
+        /// <summary>
+        /// Represents an invalid operation error (Suffix: 03).
+        /// </summary>
+        public sealed class InvalidOperationError : Error
         {
             internal InvalidOperationError(
                 IMessageProvider messageProvider,
@@ -89,7 +98,10 @@ public partial class Error
                 ) { }
         }
 
-        internal class TaskCanceledError : Error
+        /// <summary>
+        /// Represents a task canceled error (Suffix: 04).
+        /// </summary>
+        public sealed class TaskCanceledError : Error
         {
             internal TaskCanceledError(
                 IMessageProvider messageProvider,
@@ -99,7 +111,10 @@ public partial class Error
             { }
         }
 
-        internal class NotImplementedError : Error
+        /// <summary>
+        /// Represents a not implemented error (Suffix: 05).
+        /// </summary>
+        public sealed class NotImplementedError : Error
         {
             internal NotImplementedError(
                 IMessageProvider messageProvider,

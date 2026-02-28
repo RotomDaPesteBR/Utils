@@ -46,7 +46,7 @@ namespace LightningArc.Utils.Tests.Results
             static Error func(Error e) => AnotherError;
 
             // Act
-            var mappedResult = result.MapError(func);
+            Result mappedResult = result.MapError(func);
 
             // Assert
             Assert.True(mappedResult.IsFailure);
@@ -84,7 +84,7 @@ namespace LightningArc.Utils.Tests.Results
             }
 
             // Act
-            var mappedResult = await result.MapErrorAsync(func);
+            Result mappedResult = await result.MapErrorAsync(func);
 
             // Assert
             Assert.True(mappedResult.IsFailure);

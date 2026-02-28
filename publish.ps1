@@ -64,16 +64,15 @@ $projects_to_pack = @(
     "Data\Mappers\Utils.Mappers.Mapster\Utils.Mappers.Mapster.csproj",
 
     "Data\ADO\Utils.Data.ADO\Utils.Data.ADO.csproj",
+    "Data\ADO\Utils.Data.ADO.SqlBuilder\Utils.Data.ADO.SqlBuilder.csproj",
     "Data\ADO\Utils.Data.ADO.Oracle\Utils.Data.ADO.Oracle.csproj",
     "Data\ADO\Utils.Data.ADO.SqlServer\Utils.Data.ADO.SqlServer.csproj",
 
     "Data\EF\Utils.Data.EntityFramework\Utils.Data.EntityFramework.csproj",
 
     # Meta
-    "Meta\Utils.Metalama.Extensions\Utils.Metalama.Extensions.csproj",
-    "Meta\Utils.Metalama.Factories\Utils.Metalama.Factories.csproj",
-
-    "Meta\Utils.Metalama\Utils.Metalama.csproj"
+    "Meta\Utils.Metalama\Utils.Metalama.csproj",
+    "Meta\Utils.Metalama.Results\Utils.Metalama.Results.csproj"
 )
 
 # --- General Clean and Build ---
@@ -81,7 +80,7 @@ Write-Host "Cleaning up build artifacts..." -ForegroundColor Cyan
 dotnet clean --configuration $config
 
 Write-Host "`nBuilding all projects in the solution..." -ForegroundColor Yellow
-dotnet build --configuration $config /p:ExcludeRestorePackageImports=false /p:IsTestProject=false
+dotnet build --configuration $config /p:ExcludeRestorePackageImports=false /p:IsTestProject=false -m:16
 
 # Check the Build result
 if ($LASTEXITCODE -ne 0) {

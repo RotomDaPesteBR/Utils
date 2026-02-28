@@ -7,8 +7,21 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageVersion>1.3.0</PackageVersion> 
+    <PackageVersion>1.4.0</PackageVersion> 
   </PropertyGroup>
+  
+  <!-- Microsoft -->
+  <PropertyGroup>
+      <MicrosoftPackagesVersion>10.0.2</MicrosoftPackagesVersion> 
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(MicrosoftPackagesVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="$(MicrosoftPackagesVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="$(MicrosoftPackagesVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(MicrosoftPackagesVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="$(MicrosoftPackagesVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="$(MicrosoftPackagesVersion)" />
+  </ItemGroup>
 
   <!-- Compatibility -->
   <ItemGroup>
@@ -18,17 +31,7 @@
                                                        OR '$(TargetFramework)' == 'net8.0' 
                                                        OR '$(TargetFramework)' == 'net9.0' 
                                                        OR '$(TargetFramework)' == 'net10.0'" 
-    Version="10.0.1" />
-  </ItemGroup>
-  
-  <!-- Abstractions -->
-  <ItemGroup>
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
+    Version="$(MicrosoftPackagesVersion)" />
   </ItemGroup>
 
   <!-- Mappers -->
@@ -40,8 +43,8 @@
 
   <!-- Drivers -->
   <ItemGroup>
-    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.3" />
-    <PackageVersion Include="Oracle.ManagedDataAccess.Core" Version="23.26.0" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.4" />
+    <PackageVersion Include="Oracle.ManagedDataAccess.Core" Version="23.26.100" />
   </ItemGroup>
   
   <!-- ORMs -->
@@ -49,26 +52,37 @@
     <PackageVersion Include="Dapper" Version="2.1.66" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="3.1.32" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Condition="'$(TargetFramework)' == 'net9.0'" Version="9.0.11" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Condition="'$(TargetFramework)' == 'net10.0'" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Condition="'$(TargetFramework)' == 'net10.0'" Version="$(MicrosoftPackagesVersion)" />
   </ItemGroup>
 
   <!-- AspNetCore -->
   <ItemGroup>
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.0.20" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Condition="'$(TargetFramework)' == 'net9.0'" Version="9.0.10" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Condition="'$(TargetFramework)' == 'net10.0'" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Condition="'$(TargetFramework)' == 'net10.0'" Version="$(MicrosoftPackagesVersion)" />
   </ItemGroup>
   
   <!-- Metalama -->
   <ItemGroup>
-    <PackageVersion Include="Metalama.Framework" Version="2026.0.15" />
-    <PackageVersion Include="Metalama.Extensions.DependencyInjection" Version="2026.0.15" />
+    <PackageVersion Include="Metalama.Framework" Version="2026.0.16" />
+    <PackageVersion Include="Metalama.Framework.Sdk" Version="2026.0.16" />
+    <PackageVersion Include="Metalama.Extensions.DependencyInjection" Version="2026.0.16" />
+  </ItemGroup>
+  
+  <!-- Data Annotations -->
+  <ItemGroup>
+    <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
+  </ItemGroup>
+  
+  <!-- Utils -->
+  <ItemGroup>
+    <PackageVersion Include="Humanizer" Version="3.0.1" />
   </ItemGroup>
   
   <!-- Tests -->
   <ItemGroup> 
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(MicrosoftPackagesVersion)" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
@@ -76,7 +90,7 @@
   
   <!-- Self -->
   <ItemGroup> 
-    <PackageVersion Include="LightningArc.Utils" Version="1.3.0" />
-    <PackageVersion Include="LightningArc.Utils.Metalama" Version="1.3.0" />
+    <PackageVersion Include="LightningArc.Utils" Version="$(PackageVersion)" />
+    <PackageVersion Include="LightningArc.Utils.Metalama" Version="$(PackageVersion)" />
   </ItemGroup>
 </Project>

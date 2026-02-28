@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.Messages;
+using LightningArc.Utils.Results.Messages;
 
 namespace LightningArc.Utils.Results;
 
@@ -59,7 +59,7 @@ public partial class Error
         /// <summary>
         /// Represents a configuration error (001).
         /// </summary>
-        internal class ConfigurationError : Error
+        public sealed class ConfigurationError : Error
         {
             internal ConfigurationError(
                 IMessageProvider messageProvider,
@@ -71,7 +71,7 @@ public partial class Error
         /// <summary>
         /// Represents a dependency not registered error (002).
         /// </summary>
-        internal class DependencyNotRegisteredError : Error
+        public sealed class DependencyNotRegisteredError : Error
         {
             internal DependencyNotRegisteredError(
                 IMessageProvider messageProvider,
@@ -88,7 +88,7 @@ public partial class Error
         /// <summary>
         /// Represents an out of memory error (003).
         /// </summary>
-        internal class OutOfMemoryError : Error
+        public sealed class OutOfMemoryError : Error
         {
             internal OutOfMemoryError(
                 IMessageProvider messageProvider,
@@ -100,7 +100,7 @@ public partial class Error
         /// <summary>
         /// Represents a thread aborted error (004).
         /// </summary>
-        internal class ThreadAbortedError : Error
+        public sealed class ThreadAbortedError : Error
         {
             internal ThreadAbortedError(
                 IMessageProvider messageProvider,
@@ -112,7 +112,7 @@ public partial class Error
         /// <summary>
         /// Represents a system maintenance error (005).
         /// </summary>
-        internal class SystemMaintenanceError : Error
+        public sealed class SystemMaintenanceError : Error
         {
             internal SystemMaintenanceError(
                 IMessageProvider messageProvider,

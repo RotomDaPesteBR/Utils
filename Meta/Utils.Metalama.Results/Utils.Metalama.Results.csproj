@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	<TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+	<LangVersion>latest</LangVersion>
+	<OutputType>Library</OutputType>
+
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+
+	<Configurations>Debug;Release;LamaDebug;Test</Configurations>
+
+	<RootNamespace>LightningArc.Utils.Metalama</RootNamespace>
+
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>IDE0130;NU5128;CA1865</NoWarn>
+
+	<!--<MetalamaEnabled>false</MetalamaEnabled>-->
+	<!--<MetalamaCompileTimeProject>true</MetalamaCompileTimeProject>-->
+	<MetalamaRemoveCompileTimeOnlyCode>false</MetalamaRemoveCompileTimeOnlyCode>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<PackageId>LightningArc.Utils.Metalama.Results</PackageId>
+	<AssemblyName>LightningArc.Utils.Metalama.Results</AssemblyName>
+	<Version>$(PackageVersion)</Version>
+
+	<Authors>João Pedro S. Souza</Authors>
+	<PackageTags>Metalama, PostSharp, Aspect, Attribute, Results</PackageTags>
+
+	<IsPackable>true</IsPackable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Metalama.Framework" />
+		<PackageReference Include="Metalama.Framework.Sdk" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Utils.Metalama\Utils.Metalama.csproj" />
+		<ProjectReference Include="..\..\Core\Utils.Results\Utils.Results.csproj" />
+		<!--<MetalamaCompileTimeAssembly Include="..\Utils.Metalama\bin\$(Configuration)\netstandard2.0\LightningArc.Utils.Metalama.dll" />-->
+	</ItemGroup>
+
+	<!--
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="PolySharp" PrivateAssets="All" />
+		<MetalamaCompileTimePackage Include="PolySharp" />
+	</ItemGroup>
+	-->
+</Project>
