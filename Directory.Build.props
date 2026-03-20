@@ -1,0 +1,37 @@
+<Project>
+  <PropertyGroup>
+    <!-- SDK & Language -->
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Platform & Configuration -->
+    <Configurations>Debug;Release;LamaDebug;Test</Configurations>
+    <Platforms>AnyCPU</Platforms>
+
+    <!-- Code Analysis & Quality -->
+    <AnalysisLevel>latest</AnalysisLevel>
+    <NoWarn>$(NoWarn);IDE0130</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>$(PackageVersion)</Version>
+    <Authors>João Pedro S. Souza</Authors>
+    <Company>LightningArc</Company>
+    <Copyright>Copyright © $([System.DateTime]::Now.Year) João Pedro S. Souza</Copyright>
+  </PropertyGroup>
+
+  <!-- Release Optimization -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <DeterministicSourcePaths>true</DeterministicSourcePaths>
+    <PathMap>$(MSBuildThisFileDirectory)=/_/</PathMap>
+  </PropertyGroup>
+
+  <!-- Documentation artifacts -->
+  <PropertyGroup Condition="$([System.String]::new('$(MSBuildProjectName)').EndsWith('Documentation', System.StringComparison.OrdinalIgnoreCase))">
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory).artifacts\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory).artifacts\bin\$(MSBuildProjectName)\</OutputPath>
+  </PropertyGroup>
+</Project>

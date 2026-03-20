@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <NoWarn>IDE0130</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" >
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" >
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <PackageReference Include="Metalama.Framework" />
+    <PackageReference Include="Metalama.Extensions.DependencyInjection" />
+  </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\src\Core\Utils\Utils.csproj" />
+        <ProjectReference Include="..\..\..\src\Meta\Utils.Metalama\Utils.Metalama.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <MetalamaCompileTimeAssembly Include="../../../src/Core/Utils/bin/$(Configuration)/netstandard2.0/LightningArc.Utils.dll" />
+        <MetalamaCompileTimeAssembly Include="../../../src/Meta/Utils.Metalama/bin/$(Configuration)/netstandard2.0/LightningArc.Utils.Metalama.dll" />
+    </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Factories\" />
+  </ItemGroup>
+
+</Project>
+

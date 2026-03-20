@@ -5,66 +5,87 @@
     <BuildType Name="LamaDebug" />
     <BuildType Name="Test" />
   </Configurations>
-  <Folder Name="/src/">
+  <Folder Name="/root/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
+    <File Path="publish.ps1" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/docs/">
+    <File Path="Docs/README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
+  </Folder>
   <Folder Name="/src/Core/">
-    <Project Path="Core/Utils.Abstractions/Utils.Abstractions.csproj" />
-    <Project Path="Core/Utils.Json/Utils.Json.csproj" />
-    <Project Path="Core/Utils.Results/Utils.Results.csproj" />
-    <Project Path="Core/Utils.Tests/Utils.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
-    <Project Path="Core/Utils/Utils.csproj" />
+    <Project Path="src/Core/Utils.Abstractions/Utils.Abstractions.csproj" />
+    <Project Path="src/Core/Utils.Json/Utils.Json.csproj" />
+    <Project Path="src/Core/Utils.Results/Utils.Results.csproj" />
+    <Project Path="src/Core/Utils/Utils.csproj" />
   </Folder>
   <Folder Name="/src/Data/">
-    <Project Path="Data/Utils.Data.Abstractions/Utils.Data.Abstractions.csproj" />
-    <Project Path="Data/Utils.Data.Tests/Utils.Data.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
+    <Project Path="src/Data/Utils.Data.Abstractions/Utils.Data.Abstractions.csproj" />
   </Folder>
   <Folder Name="/src/Data/ADO/">
-    <Project Path="Data/ADO/Utils.Data.ADO.SqlBuilder/Utils.Data.ADO.SqlBuilder.csproj" />
-    <Project Path="Data/ADO/Utils.Data.ADO.Oracle/Utils.Data.ADO.Oracle.csproj" />
-    <Project Path="Data/ADO/Utils.Data.ADO.SqlServer/Utils.Data.ADO.SqlServer.csproj" />
-    <Project Path="Data/ADO/Utils.Data.ADO/Utils.Data.ADO.csproj" />
+    <Project Path="src/Data/ADO/Utils.Data.ADO.SqlBuilder/Utils.Data.ADO.SqlBuilder.csproj" />
+    <Project Path="src/Data/ADO/Utils.Data.ADO.Oracle/Utils.Data.ADO.Oracle.csproj" />
+    <Project Path="src/Data/ADO/Utils.Data.ADO.SqlServer/Utils.Data.ADO.SqlServer.csproj" />
+    <Project Path="src/Data/ADO/Utils.Data.ADO/Utils.Data.ADO.csproj" />
   </Folder>
   <Folder Name="/src/Data/EF/">
-    <Project Path="Data/EF/Utils.Data.EntityFramework/Utils.Data.EntityFramework.csproj" />
+    <Project Path="src/Data/EF/Utils.Data.EntityFramework/Utils.Data.EntityFramework.csproj" />
   </Folder>
   <Folder Name="/src/Data/Mappers/">
-    <Project Path="Data/Mappers/Utils.Mappers.AutoMapper/Utils.Mappers.AutoMapper.csproj" />
-    <Project Path="Data/Mappers/Utils.Mappers.Mapster/Utils.Mappers.Mapster.csproj" />
-    <Project Path="Data/Mappers/Utils.Mappers.Tests/Utils.Mappers.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
+    <Project Path="src/Data/Mappers/Utils.Mappers.AutoMapper/Utils.Mappers.AutoMapper.csproj" />
+    <Project Path="src/Data/Mappers/Utils.Mappers.Mapster/Utils.Mappers.Mapster.csproj" />
   </Folder>
   <Folder Name="/src/Meta/">
-    <Project Path="Meta/Utils.Metalama.Results/Utils.Metalama.Results.csproj" />
-    <Project Path="Meta/Utils.Metalama.Tests/Utils.Metalama.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
-    <Project Path="Meta/Utils.Metalama/Utils.Metalama.csproj" />
+    <Project Path="src/Meta/Utils.Metalama.Results/Utils.Metalama.Results.csproj" />
+    <Project Path="src/Meta/Utils.Metalama/Utils.Metalama.csproj" />
+    <Project Path="src/Meta/Utils.Metalama.Extensions/Utils.Metalama.Extensions.csproj" />
+    <Project Path="src/Meta/Utils.Metalama.Factories/Utils.Metalama.Factories.csproj" />
   </Folder>
-  <Folder Name="/src/Meta/Aspects/" />
   <Folder Name="/src/Web/">
-    <Project Path="Web/Utils.AspNet.CORS/Utils.AspNet.CORS.csproj" />
-    <Project Path="Web/Utils.AspNet.OpenAPI/Utils.AspNet.OpenAPI.csproj" />
-    <Project Path="Web/Utils.AspNet.Results/Utils.AspNet.Results.csproj" />
-    <Project Path="Web/Utils.AspNet.Tests/Utils.AspNet.Tests.csproj">
+    <Project Path="src/Web/Utils.AspNet.CORS/Utils.AspNet.CORS.csproj" />
+    <Project Path="src/Web/Utils.AspNet.OpenAPI/Utils.AspNet.OpenAPI.csproj" />
+    <Project Path="src/Web/Utils.AspNet.Results/Utils.AspNet.Results.csproj" />
+    <Project Path="src/Web/Utils.AspNet/Utils.AspNet.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <File Path="tests/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/tests/Core/">
+    <Project Path="tests/Core/Utils.Tests/Utils.Tests.csproj">
       <Build Solution="Debug|*" Project="false" />
       <Build Solution="LamaDebug|*" Project="false" />
       <Build Solution="Release|*" Project="false" />
     </Project>
-    <Project Path="Web/Utils.AspNet/Utils.AspNet.csproj" />
+  </Folder>
+  <Folder Name="/tests/Data/">
+    <Project Path="tests/Data/Utils.Data.Tests/Utils.Data.Tests.csproj">
+      <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
+    <Project Path="tests/Data/Utils.Mappers.Tests/Utils.Mappers.Tests.csproj">
+      <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/Meta/">
+    <Project Path="tests/Meta/Utils.Metalama.Tests/Utils.Metalama.Tests.csproj">
+      <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/Web/">
+    <Project Path="tests/Web/Utils.AspNet.Tests/Utils.AspNet.Tests.csproj">
+      <Build Solution="Debug|*" Project="false" />
+      <Build Solution="LamaDebug|*" Project="false" />
+      <Build Solution="Release|*" Project="false" />
+    </Project>
   </Folder>
 </Solution>

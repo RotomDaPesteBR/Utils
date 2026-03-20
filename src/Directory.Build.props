@@ -1,0 +1,23 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+  
+  <PropertyGroup>
+    <!-- Packaging -->
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>$(AssemblyName)</PackageId>
+    <PackageTags>Utils;LightningArc</PackageTags>
+    
+    <!-- Symbols (.snupkg) -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    
+    <!-- Output -->
+    <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    
+    <!-- Build -->
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+  </PropertyGroup>
+</Project>

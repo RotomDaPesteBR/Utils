@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	<TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+
+	<RootNamespace>LightningArc.Utils</RootNamespace>
+
+	<NoWarn>$(NoWarn);IDE0130</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<AssemblyName>LightningArc.Utils</AssemblyName>
+	<PackageTags>Utils</PackageTags>
+
+	<IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\Utils.Abstractions\Utils.Abstractions.csproj" />
+	<ProjectReference Include="..\Utils.Results\Utils.Results.csproj" />
+	<ProjectReference Include="..\Utils.Json\Utils.Json.csproj" />
+  </ItemGroup>
+</Project>
+

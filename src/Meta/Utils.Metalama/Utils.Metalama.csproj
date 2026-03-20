@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	<TargetFrameworks>netstandard2.0;net9.0;net10.0</TargetFrameworks>
+	<OutputType>Library</OutputType>
+
+	<RootNamespace>LightningArc.Utils.Metalama</RootNamespace>
+	<NoWarn>IDE0130;NU5128;CA1865</NoWarn>
+
+	<MetalamaRemoveCompileTimeOnlyCode>false</MetalamaRemoveCompileTimeOnlyCode>
+  </PropertyGroup>
+
+  <PropertyGroup>
+	<AssemblyName>LightningArc.Utils.Metalama</AssemblyName>
+	<PackageTags>Metalama, PostSharp, Aspect, Attribute</PackageTags>
+  </PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Metalama.Framework" />
+		<PackageReference Include="Metalama.Framework.Sdk" PrivateAssets="all" />
+	</ItemGroup>
+</Project>
+
