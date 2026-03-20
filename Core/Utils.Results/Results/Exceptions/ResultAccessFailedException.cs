@@ -1,33 +1,33 @@
-﻿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     /// <summary>
-    /// Exceção lançada quando uma tentativa de acessar o valor ou o erro de um <see cref="Result"/>
-    /// é feita de forma inválida (por exemplo, acessando o valor de um <see cref="Result"/> de falha).
+    /// Exception thrown when an attempt to access the value or error of a <see cref="Result"/>
+    /// is made in an invalid way (e.g., accessing the value of a failure <see cref="Result"/>).
     /// </summary>
     public class ResultAccessFailedException : InvalidOperationException
     {
         /// <summary>
-        /// Inicializa uma nova instância da classe <see cref="ResultAccessFailedException"/>.
+        /// Initializes a new instance of the <see cref="ResultAccessFailedException"/> class.
         /// </summary>
         public ResultAccessFailedException()
         {
         }
 
         /// <summary>
-        /// Inicializa uma nova instância da classe <see cref="ResultAccessFailedException"/> com uma mensagem de erro especificada.
+        /// Initializes a new instance of the <see cref="ResultAccessFailedException"/> class with a specified error message.
         /// </summary>
-        /// <param name="message">A mensagem que descreve a exceção.</param>
+        /// <param name="message">The message that describes the exception.</param>
         public ResultAccessFailedException(string message)
             : base(message)
         {
         }
 
         /// <summary>
-        /// Inicializa uma nova instância da classe <see cref="ResultAccessFailedException"/> com uma mensagem de erro
-        /// e uma referência à exceção interna que é a causa desta exceção.
+        /// Initializes a new instance of the <see cref="ResultAccessFailedException"/> class with an error message
+        /// and a reference to the inner exception that is the cause of this exception.
         /// </summary>
-        /// <param name="message">A mensagem de erro que descreve a exceção atual.</param>
-        /// <param name="innerException">A exceção que é a causa da exceção atual. Se a exceção interna não for especificada,
+        /// <param name="message">The error message that describes the current exception.</param>
+        /// <param name="innerException">The exception that is the cause of the current exception. If the inner exception is not specified,
         /// use <c>null</c>.</param>
         public ResultAccessFailedException(string message, Exception innerException)
             : base(message, innerException)

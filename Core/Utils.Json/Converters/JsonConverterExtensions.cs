@@ -1,18 +1,18 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using LightningArc.Utils.Abstractions.ValueObjects;
 
 namespace LightningArc.Utils.Json.Converters
 {
     /// <summary>
-    /// Métodos de extensão para JsonConverter
+    /// Extension methods for JsonConverter.
     /// </summary>
     public static class JsonConverterExtensions
     {
         /// <summary>
-        /// Adiciona e configura os JsonConverters para os ValueObjects.
+        /// Adds and configures JsonConverters for ValueObjects.
         /// </summary>
-        /// <param name="converters">A coleção de serviços a ser configurada.</param>
-        /// <returns>A mesma coleção de serviços com os serviços da Infraestrutura adicionados.</returns>
+        /// <param name="converters">The collection of converters to be configured.</param>
+        /// <returns>The same collection of converters with the infrastructure services added.</returns>
         public static ICollection<JsonConverter> AddJsonConverters(this ICollection<JsonConverter> converters)
         {
             converters.Add(new EmailJsonConverter());

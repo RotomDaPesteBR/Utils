@@ -103,6 +103,33 @@ namespace LightningArc.Utils.Tests.Results
         }
 
         [Fact]
+        public void Validation_InvalidParameter_ShouldCreateCorrectError()
+        {
+            // Arrange
+            LocalizationManager.Configure("en-US");
+
+            // Act
+            Error error = Error.Validation.InvalidParameter();
+
+            // Assert
+            Assert.Equal(Error.Validation.CodePrefix * 1000 + (int)Error.Validation.Codes.InvalidParameter, error.Code);
+            Assert.Equal("One or more parameters in the input are invalid.", error.Message);
+        }
+
+        [Fact]
+        public void Validation_InvalidParameter_Portuguese_ShouldCreateCorrectError()
+        {
+            // Arrange
+            LocalizationManager.Configure("pt-BR");
+
+            // Act
+            Error error = Error.Validation.InvalidParameter();
+
+            // Assert
+            Assert.Equal("Um ou mais parâmetros na entrada são inválidos.", error.Message);
+        }
+
+        [Fact]
         public void Code_Property_ShouldCalculateCorrectly()
         {
             // This test confirms the general calculation logic using one of the specific error types.

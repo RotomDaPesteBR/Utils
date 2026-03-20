@@ -1,21 +1,21 @@
-﻿using System.Net;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
 /// <summary>
-/// Representa as informações de mapeamento para um tipo de sucesso.
+/// Represents mapping information for a success type.
 /// </summary>
-/// <param name="statusCode">O código de status HTTP a ser retornado.</param>
-/// <param name="title">O título descritivo do sucesso, usado na resposta.</param>
+/// <param name="statusCode">The HTTP status code to be returned.</param>
+/// <param name="title">The descriptive success title, used in the response.</param>
 public sealed class SuccessMapping(HttpStatusCode statusCode, string title)
 {
     /// <summary>
-    /// Obtém o código de status HTTP do mapeamento.
+    /// Gets the HTTP status code of the mapping.
     /// </summary>
     public HttpStatusCode StatusCode { get; } = statusCode;
 
     /// <summary>
-    /// Obtém o título do mapeamento.
+    /// Gets the mapping title.
     /// </summary>
     public string Title { get; } = title;
 }

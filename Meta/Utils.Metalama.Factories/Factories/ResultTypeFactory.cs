@@ -1,13 +1,13 @@
-﻿using Metalama.Framework.Aspects;
+using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
 using LightningArc.Utils.Results;
 
 namespace LightningArc.Utils.Metalama;
 
 /// <summary>
-/// Uma fábrica de tipos em tempo de compilação para criar instâncias de 
-/// tipos <c>Result</c>, <c>Result&lt;T&gt;</c> e suas versões <c>Task</c> 
-/// correspondentes (como <c>Task&lt;Result&gt;</c>).
+/// A compile-time type factory for creating instances of 
+/// <c>Result</c>, <c>Result&lt;T&gt;</c> types, and their corresponding <c>Task</c> 
+/// versions (e.g., <c>Task&lt;Result&gt;</c>).
 /// </summary>
 [CompileTime]
 public static class ResultTypeFactory
@@ -24,45 +24,45 @@ public static class ResultTypeFactory
 
     #region GetType
     /// <summary>
-    /// Obtém o tipo <c>Result</c> não genérico.
+    /// Gets the non-generic <c>Result</c> type.
     /// </summary>
-    /// <returns>Um <see cref="INamedType"/> que representa o tipo <c>Result</c>.</returns>
+    /// <returns>An <see cref="INamedType"/> representing the <c>Result</c> type.</returns>
     public static new INamedType GetType() => _resultIType;
 
     /// <summary>
-    /// Cria uma instância genérica do tipo <c>Result&lt;T&gt;</c> com o tipo de sucesso especificado.
+    /// Creates a generic instance of the <c>Result&lt;T&gt;</c> type with the specified success type.
     /// </summary>
-    /// <param name="type">O tipo de sucesso (<c>T</c>) contido em <c>Result&lt;T&gt;</c>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>Result&lt;type&gt;</c>.</returns>
+    /// <param name="type">The success type (<c>T</c>) contained in <c>Result&lt;T&gt;</c>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>Result&lt;type&gt;</c>.</returns>
     public static INamedType GetType(Type type) => _genericResultIType.MakeGenericInstance(type);
 
     /// <summary>
-    /// Cria uma instância genérica do tipo <c>Result&lt;T&gt;</c> com o tipo de sucesso especificado.
+    /// Creates a generic instance of the <c>Result&lt;T&gt;</c> type with the specified success type.
     /// </summary>
-    /// <param name="type">O tipo de sucesso (<c>T</c>) contido em <c>Result&lt;T&gt;</c>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>Result&lt;type&gt;</c>.</returns>
+    /// <param name="type">The success type (<c>T</c>) contained in <c>Result&lt;T&gt;</c>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>Result&lt;type&gt;</c>.</returns>
     public static INamedType GetType(IType type) => _genericResultIType.MakeGenericInstance(type);
     #endregion
 
     #region GetTaskType
     /// <summary>
-    /// Obtém o tipo <see cref="Task{TResult}"/> onde o resultado genérico é o <c>Result</c> não genérico.
+    /// Gets the <see cref="Task{TResult}"/> type where the generic result is the non-generic <c>Result</c>.
     /// </summary>
-    /// <returns>Um <see cref="INamedType"/> que representa o tipo <c>Task&lt;Result&gt;</c>.</returns>
+    /// <returns>An <see cref="INamedType"/> representing the <c>Task&lt;Result&gt;</c> type.</returns>
     public static INamedType GetTaskType() => TaskTypeFactory.GetTaskType(_resultIType);
 
     /// <summary>
-    /// Obtém o tipo <see cref="Task{TResult}"/> onde o resultado genérico é o <c>Result&lt;T&gt;</c> especificado.
+    /// Gets the <see cref="Task{TResult}"/> type where the generic result is the specified <c>Result&lt;T&gt;</c>.
     /// </summary>
-    /// <param name="type">O tipo de sucesso (<c>T</c>) contido no <c>Result&lt;T&gt;</c>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa o tipo <c>Task&lt;Result&lt;type&gt;&gt;</c>.</returns>
+    /// <param name="type">The success type (<c>T</c>) contained in the <c>Result&lt;T&gt;</c>.</param>
+    /// <returns>An <see cref="INamedType"/> representing the <c>Task&lt;Result&lt;type&gt;&gt;</c> type.</returns>
     public static INamedType GetTaskType(Type type) => TaskTypeFactory.GetTaskType(GetType(type));
 
     /// <summary>
-    /// Obtém o tipo <see cref="Task{TResult}"/> onde o resultado genérico é o <c>Result&lt;T&gt;</c> especificado.
+    /// Gets the <see cref="Task{TResult}"/> type where the generic result is the specified <c>Result&lt;T&gt;</c>.
     /// </summary>
-    /// <param name="type">O tipo de sucesso (<c>T</c>) contido no <c>Result&lt;T&gt;</c>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa o tipo <c>Task&lt;Result&lt;type&gt;&gt;</c>.</returns>
+    /// <param name="type">The success type (<c>T</c>) contained in the <c>Result&lt;T&gt;</c>.</param>
+    /// <returns>An <see cref="INamedType"/> representing the <c>Task&lt;Result&lt;type&gt;&gt;</c> type.</returns>
     public static INamedType GetTaskType(IType type) => TaskTypeFactory.GetTaskType(GetType(type));
     #endregion
 }

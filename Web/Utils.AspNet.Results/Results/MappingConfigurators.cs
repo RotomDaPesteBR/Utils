@@ -1,19 +1,19 @@
-﻿using System.Net;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
 /// <summary>
-/// Proporciona uma API fluente para configurar mapeamentos de sucesso personalizados.
+/// Provides a fluent API for configuring custom success mappings.
 /// </summary>
-/// <param name="options">O objeto de opções onde os mapeamentos serão registrados.</param>
+/// <param name="options">The options object where mappings will be registered.</param>
 public sealed class SuccessMappingConfigurator(EndpointResultOptions options)
 {
     /// <summary>
-    /// Mapeia um tipo de sucesso para uma resposta HTTP.
+    /// Maps a success type to an HTTP response.
     /// </summary>
-    /// <typeparam name="TSuccess">O tipo do sucesso a ser mapeado.</typeparam>
-    /// <param name="statusCode">O código de status HTTP.</param>
-    /// <param name="title">O título do sucesso.</param>
+    /// <typeparam name="TSuccess">The type of success to map.</typeparam>
+    /// <param name="statusCode">The HTTP status code.</param>
+    /// <param name="title">The success title.</param>
     public void Map<TSuccess>(HttpStatusCode statusCode, string title)
         where TSuccess : Success => options.SuccessMappings.Add(new CustomSuccessMapping
         {
@@ -24,18 +24,18 @@ public sealed class SuccessMappingConfigurator(EndpointResultOptions options)
 }
 
 /// <summary>
-/// Proporciona uma API fluente para configurar mapeamentos de erro personalizados.
+/// Provides a fluent API for configuring custom error mappings.
 /// </summary>
-/// <param name="options">O objeto de opções onde os mapeamentos serão registrados.</param>
+/// <param name="options">The options object where mappings will be registered.</param>
 public sealed class ErrorMappingConfigurator(EndpointResultOptions options)
 {
     /// <summary>
-    /// Mapeia um tipo de erro para uma resposta HTTP.
+    /// Maps an error type to an HTTP response.
     /// </summary>
-    /// <typeparam name="TError">O tipo do erro a ser mapeado.</typeparam>
-    /// <param name="statusCode">O código de status HTTP.</param>
-    /// <param name="title">O título do problema.</param>
-    /// <param name="type">A URL do tipo do problema.</param>
+    /// <typeparam name="TError">The type of error to map.</typeparam>
+    /// <param name="statusCode">The HTTP status code.</param>
+    /// <param name="title">The problem title.</param>
+    /// <param name="type">The problem type URL.</param>
     public void Map<TError>(HttpStatusCode statusCode, string title, string type)
         where TError : Error => options.ErrorMappings.Add(new CustomErrorMapping
         {

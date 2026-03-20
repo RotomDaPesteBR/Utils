@@ -1,22 +1,22 @@
-﻿namespace LightningArc.Utils.Results.Errors;
+namespace LightningArc.Utils.Results.Errors;
 
 /// <summary>
-/// Classe para encapsular os detalhes de um erro específico.
+/// Class to encapsulate the details of a specific error.
 /// </summary>
 public class ErrorInformation
 {
     /// <summary>
-    /// O código numérico único do erro.
+    /// The unique numerical code of the error.
     /// </summary>
     public int Code { get; init; }
 
     /// <summary>
-    /// O nome do método de fábrica que cria o erro.
+    /// The name of the factory method that creates the error.
     /// </summary>
     public string Name { get; init; } = "Erro";
 
     /// <summary>
-    /// A mensagem padrão associada a este erro.
+    /// The default message associated with this error.
     /// </summary>
     public string Message { get; init; } = "";
 }

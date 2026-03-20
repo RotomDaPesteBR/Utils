@@ -1,11 +1,11 @@
-﻿using Metalama.Framework.Aspects;
+using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
 
 namespace LightningArc.Utils.Metalama;
 
 /// <summary>
-/// Uma fábrica de tipos em tempo de compilação para criar instâncias genéricas
-/// de coleções comuns como <see cref="IEnumerable{T}"/> e <see cref="List{T}"/>.
+/// A compile-time type factory for creating generic instances
+/// of common collections such as <see cref="IEnumerable{T}"/> and <see cref="List{T}"/>.
 /// </summary>
 [CompileTime]
 public static class CollectionTypeFactory
@@ -22,19 +22,19 @@ public static class CollectionTypeFactory
 
     #region GetIEnumerableType
     /// <summary>
-    /// Cria uma instância genérica de <see cref="IEnumerable{T}"/> com o tipo de elemento especificado.
+    /// Creates a generic instance of <see cref="IEnumerable{T}"/> with the specified element type.
     /// </summary>
-    /// <param name="type">O tipo de elemento (<c>T</c>) da <see cref="IEnumerable{T}"/>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>IEnumerable&lt;type&gt;</c>.</returns>
+    /// <param name="type">The element type (<c>T</c>) of the <see cref="IEnumerable{T}"/>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>IEnumerable&lt;type&gt;</c>.</returns>
 
     [CompileTime] 
     public static INamedType GetIEnumerableType(Type type) => _iEnumerableIType.MakeGenericInstance(type);
 
     /// <summary>
-    /// Cria uma instância genérica de <see cref="IEnumerable{T}"/> com o tipo de elemento especificado.
+    /// Creates a generic instance of <see cref="IEnumerable{T}"/> with the specified element type.
     /// </summary>
-    /// <param name="type">O tipo de elemento (<c>T</c>) da <see cref="IEnumerable{T}"/>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>IEnumerable&lt;type&gt;</c>.</returns>
+    /// <param name="type">The element type (<c>T</c>) of the <see cref="IEnumerable{T}"/>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>IEnumerable&lt;type&gt;</c>.</returns>
 
     [CompileTime] 
     public static INamedType GetIEnumerableType(IType type) => _iEnumerableIType.MakeGenericInstance(type);
@@ -42,18 +42,18 @@ public static class CollectionTypeFactory
 
     #region GetListType
     /// <summary>
-    /// Cria uma instância genérica de <see cref="List{T}"/> com o tipo de elemento especificado.
+    /// Creates a generic instance of <see cref="List{T}"/> with the specified element type.
     /// </summary>
-    /// <param name="type">O tipo de elemento (<c>T</c>) da <see cref="List{T}"/>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>List&lt;type&gt;</c>.</returns>
+    /// <param name="type">The element type (<c>T</c>) of the <see cref="List{T}"/>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>List&lt;type&gt;</c>.</returns>
     [CompileTime]
     public static INamedType GetListType(Type type) => _listIType.MakeGenericInstance(type);
 
     /// <summary>
-    /// Cria uma instância genérica de <see cref="List{T}"/> com o tipo de elemento especificado.
+    /// Creates a generic instance of <see cref="List{T}"/> with the specified element type.
     /// </summary>
-    /// <param name="type">O tipo de elemento (<c>T</c>) da <see cref="List{T}"/>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>List&lt;type&gt;</c>.</returns>
+    /// <param name="type">The element type (<c>T</c>) of the <see cref="List{T}"/>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>List&lt;type&gt;</c>.</returns>
 
     [CompileTime]
     public static INamedType GetListType(IType type) => _listIType.MakeGenericInstance(type);

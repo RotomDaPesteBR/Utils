@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Abstractions.ValueObjects;
+using LightningArc.Utils.Abstractions.ValueObjects;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
 
@@ -10,24 +10,24 @@ using Microsoft.OpenApi.Models;
 namespace LightningArc.Utils.OpenAPI.Filters
 {
     /// <summary>
-    /// Um transformador de esquema OpenAPI que garante que o tipo <see cref="Email"/>
-    /// seja representado como uma string simples no documento OpenAPI.
+    /// An OpenAPI schema transformer that ensures the <see cref="Email"/> type
+    /// is represented as a simple string in the OpenAPI document.
     /// </summary>
     public class EmailSchemaTransformer : IOpenApiSchemaTransformer
     {
 
         /// <summary>
-        /// Transforma o esquema OpenAPI para o tipo <see cref="Email"/>,
-        /// garantindo que ele seja representado como uma string com formato "email".
+        /// Transforms the OpenAPI schema for the <see cref="Email"/> type,
+        /// ensuring it is represented as a string with an "email" format.
         /// </summary>
-        /// <param name="schema">O esquema OpenAPI atual a ser transformado.</param>
-        /// <param name="context">O contexto do transformador de esquema, contendo informações sobre o esquema em processamento.</param>
-        /// <param name="cancellationToken">Um token para observar o cancelamento da operação.</param>
-        /// <returns>Uma <see cref="Task"/> que representa a operação assíncrona.</returns>
+        /// <param name="schema">The current OpenAPI schema to be transformed.</param>
+        /// <param name="context">The schema transformer context, containing information about the schema being processed.</param>
+        /// <param name="cancellationToken">A token to observe for operation cancellation.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// Se o <paramref name="context"/> indicar que o esquema pertence ao tipo <see cref="Email"/>,
-        /// suas propriedades serão removidas, seu tipo será definido como "string",
-        /// seu formato como "email" e um exemplo será adicionado para melhor documentação.
+        /// If the <paramref name="context"/> indicates that the schema belongs to the <see cref="Email"/> type,
+        /// its properties will be removed, its type will be set to "string",
+        /// its format to "email", and an example will be added for better documentation.
         /// </remarks>
         public Task TransformAsync(
             OpenApiSchema schema,

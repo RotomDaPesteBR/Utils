@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageVersion>1.4.0</PackageVersion> 
+    <PackageVersion>1.5.0</PackageVersion> 
   </PropertyGroup>
   
   <!-- Microsoft -->
   <PropertyGroup>
-      <MicrosoftPackagesVersion>10.0.2</MicrosoftPackagesVersion> 
+      <MicrosoftPackagesVersion>10.0.5</MicrosoftPackagesVersion> 
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="$(MicrosoftPackagesVersion)" />
@@ -36,14 +36,14 @@
 
   <!-- Mappers -->
   <ItemGroup>
-    <PackageVersion Include="AutoMapper" Version="16.0.0" />
-    <PackageVersion Include="Mapster" Version="7.4.0" />
-    <PackageVersion Include="Mapster.DependencyInjection" Version="1.0.1" />
+    <PackageVersion Include="AutoMapper" Version="16.1.1" />
+    <PackageVersion Include="Mapster" Version="10.0.1" />
+    <PackageVersion Include="Mapster.DependencyInjection" Version="10.0.0" />
   </ItemGroup>
 
   <!-- Drivers -->
   <ItemGroup>
-    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.4" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.0.0" />
     <PackageVersion Include="Oracle.ManagedDataAccess.Core" Version="23.26.100" />
   </ItemGroup>
   
@@ -63,10 +63,13 @@
   </ItemGroup>
   
   <!-- Metalama -->
+  <PropertyGroup>
+      <MetalamaPackagesVersion>2026.0.17</MetalamaPackagesVersion> 
+  </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Metalama.Framework" Version="2026.0.16" />
-    <PackageVersion Include="Metalama.Framework.Sdk" Version="2026.0.16" />
-    <PackageVersion Include="Metalama.Extensions.DependencyInjection" Version="2026.0.16" />
+    <PackageVersion Include="Metalama.Framework" Version="$(MetalamaPackagesVersion)" />
+    <PackageVersion Include="Metalama.Framework.Sdk" Version="$(MetalamaPackagesVersion)" />
+    <PackageVersion Include="Metalama.Extensions.DependencyInjection" Version="$(MetalamaPackagesVersion)" />
   </ItemGroup>
   
   <!-- Data Annotations -->
@@ -81,9 +84,12 @@
   
   <!-- Tests -->
   <ItemGroup> 
-    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="TUnit" Version="1.16.4" />
+    <PackageVersion Include="TUnit.AspNetCore" Version="1.16.4" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="coverlet.collector" Version="8.0.1" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(MicrosoftPackagesVersion)" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
   </ItemGroup>

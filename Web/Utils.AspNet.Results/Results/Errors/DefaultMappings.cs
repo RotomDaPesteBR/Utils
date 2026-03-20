@@ -1,16 +1,16 @@
-﻿namespace LightningArc.Utils.Results.AspNet;
+namespace LightningArc.Utils.Results.AspNet;
 
 /// <summary>
-/// Fornece métodos de extensão para o <see cref="ErrorMappingService"/>
-/// para agrupar e adicionar mapeamentos de erro de forma modular.
+/// Provides extension methods for the <see cref="ErrorMappingService"/>
+/// to group and add error mappings in a modular way.
 /// </summary>
 public static partial class ErrorMappingServiceExtensions
 {
     /// <summary>
-    /// Adiciona todos os mapeamentos de erro padrão da biblioteca.
+    /// Adds all of the library's default error mappings.
     /// </summary>
-    /// <param name="service">A instância do serviço de mapeamento de erros.</param>
-    /// <returns>A instância do serviço para encadeamento.</returns>
+    /// <param name="service">The error mapping service instance.</param>
+    /// <returns>The service instance for chaining.</returns>
     public static ErrorMappingService MapDefaultErrors(this ErrorMappingService service) => service
             .MapApplication()
             .MapSystem()

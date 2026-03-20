@@ -1,23 +1,23 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using LightningArc.Utils.Abstractions.ValueObjects;
 
 namespace LightningArc.Utils.Json.Converters
 {
     /// <summary>
-    /// Converte um objeto <see cref="Email"/> para e de uma string JSON.
-    /// Isso permite que o campo Email seja tratado como uma string simples na API.
+    /// Converts an <see cref="Email"/> object to and from a JSON string.
+    /// This allows the Email field to be treated as a simple string in the API.
     /// </summary>
     public class EmailJsonConverter : JsonConverter<Email>
     {
         /// <summary>
-        /// Lê o valor JSON e o converte para um objeto <see cref="Email"/>.
+        /// Reads the JSON value and converts it to an <see cref="Email"/> object.
         /// </summary>
-        /// <param name="reader">O leitor JSON.</param>
-        /// <param name="typeToConvert">O tipo que está sendo convertido (Email).</param>
-        /// <param name="options">As opções de serialização.</param>
-        /// <returns>Uma nova instância de <see cref="Email"/>.</returns>
-        /// <exception cref="JsonException">Lançada se o token JSON não for uma string.</exception>
+        /// <param name="reader">The JSON reader.</param>
+        /// <param name="typeToConvert">The type being converted (Email).</param>
+        /// <param name="options">The serialization options.</param>
+        /// <returns>A new instance of <see cref="Email"/>.</returns>
+        /// <exception cref="JsonException">Thrown if the JSON token is not a string.</exception>
         public override Email Read(
             ref Utf8JsonReader reader,
             Type typeToConvert,
@@ -49,11 +49,11 @@ namespace LightningArc.Utils.Json.Converters
         }
 
         /// <summary>
-        /// Escreve um objeto <see cref="Email"/> como uma string JSON.
+        /// Writes an <see cref="Email"/> object as a JSON string.
         /// </summary>
-        /// <param name="writer">O escritor JSON.</param>
-        /// <param name="value">O objeto <see cref="Email"/> a ser escrito.</param>
-        /// <param name="options">As opções de serialização.</param>
+        /// <param name="writer">The JSON writer.</param>
+        /// <param name="value">The <see cref="Email"/> object to be written.</param>
+        /// <param name="options">The serialization options.</param>
         public override void Write(
             Utf8JsonWriter writer,
             Email value,

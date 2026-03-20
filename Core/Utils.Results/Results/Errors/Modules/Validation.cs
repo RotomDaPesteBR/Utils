@@ -51,6 +51,11 @@ public partial class Error
             /// Code '5'. A field value is below the minimum or above the maximum allowed.
             /// </summary>
             ValueOutOfRange = 5,
+
+            /// <summary>
+            /// Code '6'. One or more parameters in the input are invalid.
+            /// </summary>
+            InvalidParameter = 6,
         }
 
         // --- Internal Error Classes ---
@@ -121,6 +126,23 @@ public partial class Error
             )
                 : base(Validation.CodePrefix, (int)Codes.ValueOutOfRange, messageProvider, details)
             { }
+        }
+
+        /// <summary>
+        /// Represents an invalid parameter error (Suffix: 06).
+        /// </summary>
+        public sealed class InvalidParameterError : Error
+        {
+            internal InvalidParameterError(
+                IMessageProvider messageProvider,
+                IEnumerable<ErrorDetail>? details = null
+            )
+                : base(
+                    Validation.CodePrefix,
+                    (int)Codes.InvalidParameter,
+                    messageProvider,
+                    details
+                ) { }
         }
 
         // --- Static Factory Methods ---
@@ -197,6 +219,21 @@ public partial class Error
         ) =>
             new ValueOutOfRangeError(
                 ErrorMessageFactory.CreateProvider(message, "Validation_ValueOutOfRange"),
+                details
+            );
+
+        /// <summary>
+        /// Creates a new invalid parameter error instance (code 06).
+        /// </summary>
+        /// <param name="message">A custom descriptive message. If not provided, the default localized message will be used.</param>
+        /// <param name="details">A list of additional error details.</param>
+        /// <returns>A new <see cref="Error"/> instance representing an invalid parameter.</returns>
+        public static Error InvalidParameter(
+            string? message = null,
+            params IEnumerable<ErrorDetail>? details
+        ) =>
+            new InvalidParameterError(
+                ErrorMessageFactory.CreateProvider(message, "Validation_InvalidParameter"),
                 details
             );
     }

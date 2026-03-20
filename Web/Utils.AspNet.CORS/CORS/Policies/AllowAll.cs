@@ -1,26 +1,26 @@
-﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LightningArc.Utils.AspNet.CORS.Policies
 {
     /// <summary>
-    /// Fornece métodos de extensão para adicionar a política CORS "AllowAll".
+    /// Provides extension methods for adding the "AllowAll" CORS policy.
     /// </summary>
     public static class AllowAll
     {
         /// <summary>
-        /// Adiciona uma política CORS nomeada "AllowAll" que permite todas as origens, métodos e cabeçalhos.
+        /// Adds a CORS policy named "AllowAll" that allows all origins, methods, and headers.
         /// </summary>
-        /// <param name="services">A <see cref="IServiceCollection"/> à qual a política CORS será adicionada.</param>
-        /// <returns>A <see cref="IServiceCollection"/> modificada, para encadeamento de chamadas.</returns>
+        /// <param name="services">The <see cref="IServiceCollection"/> to which the CORS policy will be added.</param>
+        /// <returns>The modified <see cref="IServiceCollection"/>, for call chaining.</returns>
         /// <remarks>
-        /// Esta política configura o CORS para permitir:
+        /// This policy configures CORS to allow:
         /// <list type="bullet">
-        ///     <item><description>Todos os cabeçalhos (`*`)</description></item>
-        ///     <item><description>Todos os métodos HTTP (`*`)</description></item>
-        ///     <item><description>Todas as origens (`*`)</description></item>
+        ///     <item><description>All headers (`*`)</description></item>
+        ///     <item><description>All HTTP methods (`*`)</description></item>
+        ///     <item><description>All origins (`*`)</description></item>
         /// </list>
-        /// Use esta política com cautela, pois ela remove as restrições de segurança padrão do CORS.
+        /// Use this policy with caution, as it removes default CORS security restrictions.
         /// </remarks>
         public static IServiceCollection AddAllowAllPolicy(this IServiceCollection services)
         {

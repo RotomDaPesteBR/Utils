@@ -1,8 +1,8 @@
 namespace LightningArc.Utils.Results
 {
     /// <summary>
-    /// Fornece métodos de extensão para a classe <see cref="Result{TValue}"/>,
-    /// permitindo a composição de operações funcionais.
+    /// Provides extension methods for the <see cref="Result{TValue}"/> class,
+    /// allowing the composition of functional operations.
     /// </summary>
     public static partial class ResultExtensions
     {

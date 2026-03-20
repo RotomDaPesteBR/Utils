@@ -213,4 +213,7 @@
   <data name="Validation_ValueOutOfRange" xml:space="preserve">
     <value>One or more values are out of the allowed range.</value>
   </data>
+  <data name="Validation_InvalidParameter" xml:space="preserve">
+    <value>One or more parameters in the input are invalid.</value>
+  </data>
 </root>

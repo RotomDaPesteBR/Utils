@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Reflection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -6,29 +6,29 @@ using Microsoft.Extensions.Options;
 namespace LightningArc.Utils.Results.AspNet;
 
 /// <summary>
-/// Serviço para mapear tipos de sucesso específicos (<see cref="Success"/>) para
-/// respostas HTTP apropriadas (código de status e detalhes do problema).
+/// Service to map specific success types (<see cref="Success"/>) to
+/// appropriate HTTP responses (status code and problem details).
 /// </summary>
 /// <remarks>
-/// Este serviço é responsável por manter um dicionário de mapeamentos,
-/// permitindo que a aplicação converta instâncias de <see cref="Success"/> em
-/// respostas HTTP padronizadas com base no seu tipo.
+/// This service is responsible for maintaining a dictionary of mappings,
+/// allowing the application to convert instances of <see cref="Success"/> into
+/// standardized HTTP responses based on their type.
 /// </remarks>
 public class SuccessMappingService
 {
     /// <summary>
-    /// Armazena os mapeamentos de tipos de sucesso para detalhes de resposta HTTP.
-    /// A chave é o <see cref="Type"/> do sucesso e o valor é o <see cref="SuccessMapping"/> correspondente.
+    /// Stores the mappings from success types to HTTP response details.
+    /// The key is the success <see cref="Type"/> and the value is the corresponding <see cref="SuccessMapping"/>.
     /// </summary>
     private readonly Dictionary<Type, SuccessMapping> _mappings = [];
 
     private readonly ILogger<SuccessMappingService> _logger;
 
     /// <summary>
-    /// O construtor é o melhor lugar para definir os mapeamentos padrão de forma explícita.
-    /// Mapeia todos os sucessos da biblioteca para códigos HTTP lógicos e títulos de sucesso.
+    /// The constructor is the best place to define default mappings explicitly.
+    /// Maps all library successes to logical HTTP codes and success titles.
     /// </summary>
-    /// <param name="logger">O serviço de logging para registrar informações de mapeamento.</param>
+    /// <param name="logger">The logging service to record mapping information.</param>
     /// <param name="options"></param>
     public SuccessMappingService(
         ILogger<SuccessMappingService> logger,
@@ -78,11 +78,11 @@ public class SuccessMappingService
     }
 
     /// <summary>
-    /// Adiciona ou sobrescreve um mapeamento para um tipo de sucesso específico.
+    /// Adds or overrides a mapping for a specific success type.
     /// </summary>
-    /// <typeparam name="TSuccess">O tipo do sucesso a ser mapeado.</typeparam>
-    /// <param name="statusCode">O código de status HTTP a ser retornado para este sucesso.</param>
-    /// <param name="title">O título do problema para este sucesso.</param>
+    /// <typeparam name="TSuccess">The type of success to map.</typeparam>
+    /// <param name="statusCode">The HTTP status code to be returned for this success.</param>
+    /// <param name="title">The problem title for this success.</param>
     public void Map<TSuccess>(HttpStatusCode statusCode, string title)
         where TSuccess : Success
     {
@@ -99,11 +99,11 @@ public class SuccessMappingService
     }
 
     /// <summary>
-    /// Adiciona ou sobrescreve um mapeamento para um tipo de sucesso específico.
+    /// Adds or overrides a mapping for a specific success type.
     /// </summary>
-    /// <param name="successTypeDefinition">O tipo do sucesso a ser mapeado.</param>
-    /// <param name="statusCode">O código de status HTTP a ser retornado para este sucesso.</param>
-    /// <param name="title">O título do problema para este sucesso.</param>
+    /// <param name="successTypeDefinition">The type of success to map.</param>
+    /// <param name="statusCode">The HTTP status code to be returned for this success.</param>
+    /// <param name="title">The problem title for this success.</param>
     private void Map(Type successTypeDefinition, HttpStatusCode statusCode, string title)
     {
         _mappings[successTypeDefinition] = new SuccessMapping(statusCode, title);
@@ -119,12 +119,12 @@ public class SuccessMappingService
     }
 
     /// <summary>
-    /// Obtém o mapeamento HTTP para um sucesso.
+    /// Gets the HTTP mapping for a success.
     /// </summary>
-    /// <param name="success">A instância do sucesso para a qual se deseja obter o mapeamento.</param>
+    /// <param name="success">The success instance for which the mapping is desired.</param>
     /// <returns>
-    /// Um <see cref="SuccessMapping"/> se um mapeamento for encontrado para o tipo de sucesso,
-    /// caso contrário, retorna <c>null</c>.
+    /// A <see cref="SuccessMapping"/> if a mapping is found for the success type,
+    /// otherwise returns <c>null</c>.
     /// </returns>
     public SuccessMapping? GetMapping(Success success)
     {

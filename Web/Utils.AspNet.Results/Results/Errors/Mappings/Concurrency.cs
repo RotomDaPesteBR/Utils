@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.AspNet.Localization;
+using LightningArc.Utils.Results.AspNet.Localization;
 using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
@@ -6,14 +6,14 @@ namespace LightningArc.Utils.Results.AspNet;
 public static partial class ErrorMappingServiceExtensions
 {
     /// <summary>
-    /// Adiciona mapeamentos de erro relacionados à concorrência.
+    /// Adds error mappings related to concurrency.
     /// </summary>
     /// <remarks>
-    /// Inclui erros como <see cref="Error.Concurrency.ConflictError"/>,
-    /// <see cref="Error.Concurrency.LockedError"/>, entre outros.
+    /// Includes errors such as <see cref="Error.Concurrency.ConflictError"/>,
+    /// <see cref="Error.Concurrency.LockedError"/>, among others.
     /// </remarks>
-    /// <param name="service">A instância do serviço de mapeamento de erros.</param>
-    /// <returns>A instância do serviço para encadeamento de chamadas.</returns>
+    /// <param name="service">The error mapping service instance.</param>
+    /// <returns>The service instance for call chaining.</returns>
     public static ErrorMappingService MapConcurrency(this ErrorMappingService service)
     {
         // Módulo CONCURRENCY (Prefixo 9)

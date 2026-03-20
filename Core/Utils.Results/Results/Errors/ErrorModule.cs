@@ -1,45 +1,58 @@
-﻿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     public partial class Error
     {
         /// <summary>
-        /// Representa a classe base para todos os módulos de erro na aplicação.
+        /// Represents the base class for all error modules in the application.
         /// </summary>
         /// <remarks>
-        /// Cada categoria de erro (ex: Aplicação, Banco de Dados, Negócio) deve herdar desta classe.
-        /// Ela define a estrutura básica para a composição do código de erro por meio de um prefixo.
+        /// Each error category (e.g., Application, Database, Business) should inherit from this class.
+        /// It defines the basic structure for the composition of the error code through a prefix.
         /// </remarks>
         public abstract class ErrorModule
         {
             /// <summary>
-            /// Obtém o prefixo de código da categoria do erro.
+            /// Gets the error category code prefix.
             /// </summary>
             /// <remarks>
-            /// Este valor é usado para categorizar o erro e é combinado com um sufixo para formar o código de erro completo.
-            /// Por exemplo, a categoria 'Aplicação' pode ter o prefixo 1.
+            /// This value is used to categorize the error and is combined with a suffix to form the complete error code.
+            /// For example, the 'Application' category might have a prefix of 1.
             /// </remarks>
             public const int CodePrefix = 0;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ErrorModule"/> class.
+            /// </summary>
+            /// <remarks>
+            /// This constructor is protected to ensure that the class can only be instantiated through inheritance.
+            /// </remarks>
+            protected ErrorModule()
+            {
+            }
         }
 
         /// <summary>
-        /// Representa uma fábrica para a criação de erros de um módulo específico.
+        /// Represents a factory for creating errors for a specific module.
         /// </summary>
-        /// <typeparam name="TModule">O tipo do módulo de erro, que deve herdar de <see cref="ErrorModule"/>.</typeparam>
+        /// <typeparam name="TModule">The type of the error module, which must inherit from <see cref="ErrorModule"/>.</typeparam>
         /// <remarks>
-        /// Esta classe é utilizada para permitir a criação de métodos de extensão que constroem
-        /// erros específicos de um módulo de forma fluida (ex: <c>Error.Custom.OrderRejected(...)</c>).
+        /// This class is used to allow for the creation of extension methods that build 
+        /// specific errors for a module in a fluent manner (e.g., <c>Error.Custom.OrderRejected(...)</c>).
         /// </remarks>
         public class ErrorModule<TModule>
-            where TModule : ErrorModule { }
+            where TModule : ErrorModule
+        {
+            internal ErrorModule() {}
+        }
 
         /// <summary>
-        /// Fornece um ponto de entrada para a criação de erros de módulos customizados.
+        /// Provides an entry point for creating custom module errors.
         /// </summary>
-        /// <typeparam name="TModule">O tipo do módulo de erro, que deve herdar de <see cref="ErrorModule"/>.</typeparam>
-        /// <returns>Uma nova instância de <see cref="ErrorModule{TModule}"/>, que serve como uma fábrica de erros para o módulo especificado.</returns>
+        /// <typeparam name="TModule">The type of the error module, which must inherit from <see cref="ErrorModule"/>.</typeparam>
+        /// <returns>A new instance of <see cref="ErrorModule{TModule}"/>, which serves as an error factory for the specified module.</returns>
         /// <remarks>
-        /// Use este método em conjunto com métodos de extensão para criar erros específicos de um módulo,
-        /// por exemplo: <c>Error.Custom&lt;BusinessErrors&gt;().OrderRejected(...)</c>.
+        /// Use this method in conjunction with extension methods to create specific errors for a module,
+        /// for example: <c>Error.Custom&lt;BusinessErrors&gt;().OrderRejected(...)</c>.
         /// </remarks>
         public static ErrorModule<TModule> Custom<TModule>()
             where TModule : ErrorModule => new();

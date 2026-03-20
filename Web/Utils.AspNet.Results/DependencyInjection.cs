@@ -73,6 +73,26 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Registers a global exception handler that converts unhandled exceptions into standardized library <see cref="Error"/> responses.
+    /// This method also registers <see cref="ProblemDetailsServiceCollectionExtensions.AddProblemDetails(IServiceCollection)"/> to enable standardized RFC 7807 responses.
+    /// </summary>
+    /// <remarks>
+    /// To use this handler, remember to call <c>app.UseExceptionHandler()</c> or <c>app.UseEndpointExceptionHandler()</c> 
+    /// in your middleware pipeline.
+    /// </remarks>
+    /// <param name="services">The application's service collection.</param>
+    /// <returns>The same <see cref="IServiceCollection"/> instance for chaining.</returns>
+    public static IServiceCollection AddEndpointExceptionHandler(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<ResultExceptionHandler>();
+        services.AddProblemDetails();
+
+        return services;
+    }
+#endif
 }
 
 /// <summary>

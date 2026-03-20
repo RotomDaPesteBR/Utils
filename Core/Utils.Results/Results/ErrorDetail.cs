@@ -1,29 +1,29 @@
-﻿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     /// <summary>
-    /// Representa um detalhe específico de um erro, fornecendo um contexto adicional e uma mensagem descritiva.
+    /// Represents a specific detail of an error, providing additional context and a descriptive message.
     /// </summary>
     /// <remarks>
-    /// Inicializa uma nova instância da <see cref="ErrorDetail"/>
-    /// com um contexto e uma mensagem de erro.
+    /// Initializes a new instance of <see cref="ErrorDetail"/>
+    /// with a context and an error message.
     /// </remarks>
-    /// <param name="context">O identificador que fornece contexto sobre o erro.</param>
-    /// <param name="message">A mensagem de erro específica para o contexto.</param>
+    /// <param name="context">The identifier that provides context about the error.</param>
+    /// <param name="message">The specific error message for the context.</param>
     public readonly struct ErrorDetail(string context, string message)
     {
         /// <summary>
-        /// Obtém um identificador que fornece contexto adicional sobre o erro.
-        /// Pode ser um nome de campo, um ID de recurso, um nome de parâmetro, etc.
+        /// Gets an identifier that provides additional context about the error.
+        /// It can be a field name, a resource ID, a parameter name, etc.
         /// </summary>
         public string Context { get; } = context;
 
         /// <summary>
-        /// Obtém a mensagem de erro específica para o contexto.
+        /// Gets the specific error message for the context.
         /// </summary>
         public string Message { get; } = message;
 
         /// <summary>
-        /// Permite a criação implícita de um ErrorDetail a partir de uma tupla.
+        /// Allows implicit creation of an ErrorDetail from a tuple.
         /// </summary>
         public static implicit operator ErrorDetail((string Context, string Message) value)
         {

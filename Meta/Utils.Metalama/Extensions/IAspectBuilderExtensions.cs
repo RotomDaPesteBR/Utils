@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Metalama;
+using LightningArc.Utils.Metalama;
 using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
 using Metalama.Framework.Code.DeclarationBuilders;
@@ -9,43 +9,43 @@ using Metalama.Framework.Engine.Extensibility;
 namespace LightningArc.Utils.Metalama;
 
 /// <summary>
-/// Fornece métodos de extensão para simplificar a adição (introdução) de métodos a tipos
-/// dentro do contexto da construção de aspectos do Metalama.
+/// Provides extension methods to simplify adding (introducing) methods to types
+/// within the context of building Metalama aspects.
 /// </summary>
 /// <remarks>
-/// Estes métodos são úteis para aspectos que precisam gerar código Boilerplate, como
-/// a introdução de métodos de interface ou a criação de stubs assíncronos.
+/// These methods are useful for aspects that need to generate boilerplate code, such as
+/// introducing interface methods or creating asynchronous stubs.
 /// </remarks>
 [CompileTime]
 public static class IAspectBuilderExtensions
 {
     /// <summary>
-    /// Especifica o tipo de retorno assíncrono a ser usado ao introduzir um método.
+    /// Specifies the asynchronous return type to be used when introducing a method.
     /// </summary>
     public enum AsyncType
     {
         /// <summary>
-        /// O método de retorno assíncrono deve usar <see cref="Task"/> ou <see cref="Task{TResult}"/>.
+        /// The asynchronous return method should use <see cref="Task"/> or <see cref="Task{TResult}"/>.
         /// </summary>
         Task,
 
         /// <summary>
-        /// O método de retorno assíncrono deve usar <see cref="ValueTask"/> ou <see cref="ValueTask{TResult}"/>.
+        /// The asynchronous return method should use <see cref="ValueTask"/> or <see cref="ValueTask{TResult}"/>.
         /// </summary>
         ValueTask,
     }
 
     /// <summary>
-    /// Introduz um novo método síncrono no tipo atualmente sendo construído pelo Aspecto.
+    /// Introduces a new synchronous method into the type currently being built by the Aspect.
     /// </summary>
-    /// <param name="templateName">O nome do template de código que será usado para o corpo do método.</param>
-    /// <param name="methodName">O nome que o novo método deve ter.</param>
-    /// <param name="returnType">O tipo de retorno do novo método.</param>
-    /// <param name="parameters">Uma Ação opcional para configurar os parâmetros do método.</param>
-    /// <param name="args">Um objeto anônimo que passa os valores atribuídos aos parâmetros que possuem <see cref="CompileTimeAttribute" />, para os parâmetros de mesmo nome do método introduzido.</param>
-    /// <param name="methodBuilder">Uma Ação opcional para configurações avançadas do método.</param>
-    /// <param name="builder">O construtor do aspecto para o tipo (INamedType).</param>
-    /// <returns>O construtor do aspecto (builder) para permitir o encadeamento de chamadas.</returns>
+    /// <param name="templateName">The name of the code template that will be used for the method body.</param>
+    /// <param name="methodName">The name the new method should have.</param>
+    /// <param name="returnType">The return type of the new method.</param>
+    /// <param name="parameters">An optional Action to configure the method parameters.</param>
+    /// <param name="args">An anonymous object that passes the values assigned to parameters that have the <see cref="CompileTimeAttribute" />, for parameters of the same name in the introduced method.</param>
+    /// <param name="methodBuilder">An optional Action for advanced method configurations.</param>
+    /// <param name="builder">The aspect builder for the type (INamedType).</param>
+    /// <returns>The aspect builder to allow for call chaining.</returns>
     [CompileTime]
     public static IAspectBuilder<INamedType> AddMethod(
         this IAspectBuilder<INamedType> builder,
@@ -76,19 +76,19 @@ public static class IAspectBuilderExtensions
     }
 
     /// <summary>
-    /// Introduz um novo método assíncrono no tipo, garantindo que o nome termine em "Async"
-    /// e o tipo de retorno seja envolvido em <see cref="Task"/> ou <see cref="ValueTask"/>.
+    /// Introduces a new asynchronous method into the type, ensuring that the name ends in "Async"
+    /// and the return type is wrapped in <see cref="Task"/> or <see cref="ValueTask"/>.
     /// </summary>
-    /// <param name="templateName">O nome do template de código que será usado para o corpo do método.</param>
-    /// <param name="methodName">O nome base do método (a parte antes de "Async").</param>
-    /// <param name="returnType">O tipo de valor real a ser retornado (TResult), antes de ser envolvido em Task/ValueTask.</param>
-    /// <param name="parameters">Uma Ação opcional para configurar os parâmetros do método.</param>
-    /// <param name="args">Um objeto anônimo que passa os valores atribuídos aos parâmetros que possuem <see cref="CompileTimeAttribute" />,
-    /// para os parâmetros de mesmo nome do método introduzido.</param>
-    /// <param name="methodBuilder">Uma Ação opcional para configurações avançadas do método.</param>
-    /// <param name="asyncType">O tipo de wrapper assíncrono a ser usado: <see cref="AsyncType.Task"/> (padrão) ou <see cref="AsyncType.ValueTask"/>.</param>
-    /// <param name="builder">O construtor do aspecto para o tipo (INamedType).</param>
-    /// <returns>O construtor do aspecto (builder) para permitir o encadeamento de chamadas.</returns>
+    /// <param name="templateName">The name of the code template that will be used for the method body.</param>
+    /// <param name="methodName">The base name of the method (the part before "Async").</param>
+    /// <param name="returnType">The actual value type to be returned (TResult), before being wrapped in Task/ValueTask.</param>
+    /// <param name="parameters">An optional Action to configure the method parameters.</param>
+    /// <param name="args">An anonymous object that passes the values assigned to parameters that have the <see cref="CompileTimeAttribute" />,
+    /// for parameters of the same name in the introduced method.</param>
+    /// <param name="methodBuilder">An optional Action for advanced method configurations.</param>
+    /// <param name="asyncType">The type of asynchronous wrapper to be used: <see cref="AsyncType.Task"/> (default) or <see cref="AsyncType.ValueTask"/>.</param>
+    /// <param name="builder">The aspect builder for the type (INamedType).</param>
+    /// <returns>The aspect builder to allow for call chaining.</returns>
     [CompileTime]
     public static IAspectBuilder<INamedType> AddAsyncMethod(
         this IAspectBuilder<INamedType> builder,

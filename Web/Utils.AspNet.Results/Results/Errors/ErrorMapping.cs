@@ -1,30 +1,30 @@
-﻿using System.Net;
+using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
 
 /// <summary>
-/// Classe para armazenar os detalhes do mapeamento de um erro para uma resposta HTTP.
+/// Class to store the details of mapping an error to an HTTP response.
 /// </summary>
 /// <remarks>
-/// Inicializa uma nova instância de <see cref="ErrorMapping"/>.
+/// Initializes a new instance of <see cref="ErrorMapping"/>.
 /// </remarks>
-/// <param name="statusCode">O código de status HTTP.</param>
-/// <param name="title">O título da resposta de problema.</param>
-/// <param name="type">O identificador do tipo de problema.</param>
+/// <param name="statusCode">The HTTP status code.</param>
+/// <param name="title">The problem response title.</param>
+/// <param name="type">The problem type identifier.</param>
 public class ErrorMapping(HttpStatusCode statusCode, string title, string type)
 {
     /// <summary>
-    /// Obtém o código de status HTTP associado ao erro.
+    /// Gets the HTTP status code associated with the error.
     /// </summary>
     public HttpStatusCode StatusCode { get; } = statusCode;
 
     /// <summary>
-    /// Obtém o título da resposta de problema HTTP.
+    /// Gets the HTTP problem response title.
     /// </summary>
     public string Title { get; } = title;
 
     /// <summary>
-    /// Obtém o identificador do tipo de problema.
+    /// Gets the problem type identifier.
     /// </summary>
     public string Type { get; } = type;
 }

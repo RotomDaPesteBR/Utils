@@ -3,13 +3,13 @@ using System.Globalization;
 namespace LightningArc.Utils.Results.Messages;
 
 /// <summary>
-/// Provedor de mensagens para mensagens literais (estáticas).
+/// Message provider for literal (static) messages.
 /// </summary>
 /// <remarks>
-/// Inicializa uma nova instância de <see cref="LiteralMessageProvider"/>.
+/// Initializes a new instance of <see cref="LiteralMessageProvider"/>.
 /// </remarks>
-/// <param name="message">A mensagem literal.</param>
-/// <param name="formatArgs">Argumentos opcionais para formatar a mensagem.</param>
+/// <param name="message">The literal message.</param>
+/// <param name="formatArgs">Optional arguments to format the message.</param>
 public class LiteralMessageProvider(string message, object?[]? formatArgs = null) : IMessageProvider
 {
     private readonly string _message = message ?? throw new ArgumentNullException(nameof(message));

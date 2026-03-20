@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using LightningArc.Utils.Results;
 using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
@@ -6,20 +6,20 @@ using Metalama.Framework.Code;
 namespace LightningArc.Utils.Metalama;
 
 /// <summary>
-/// Fornece métodos de extensão para o tipo <see cref="IType"/> do Metalama,
-/// focados na inspeção de tipos de retorno de métodos, especialmente no contexto de
-/// operações assíncronas (<see cref="Task"/>) e tipos de resultado baseados em <see cref="Result"/>.
+/// Provides extension methods for the Metalama <see cref="IType"/> type,
+/// focused on inspecting method return types, especially in the context of
+/// asynchronous operations (<see cref="Task"/>) and result types based on <see cref="Result"/>.
 /// </summary>
 /// <remarks>
-/// Esta classe é utilizada em Aspectos do Metalama para determinar a natureza e a serialização
-/// de parâmetros e tipos de retorno em tempo de compilação.
+/// This class is used in Metalama Aspects to determine the nature and serialization
+/// of parameters and return types at compile-time.
 /// </remarks>
 [CompileTime]
 public static class ITypeExtensions
 {
     /// <summary>
-    /// Fornece uma lista com Tipos não serializáveis <see cref="IType"/>,
-    /// usado no método de extensão <see cref="IsSerializable(IType, Type[])"/>
+    /// Provides a list of non-serializable <see cref="IType"/> types,
+    /// used in the <see cref="IsSerializable(IType, Type[])"/> extension method.
     /// </summary>
     [CompileTime]
     public static readonly Type[] NotSerializableTypes =
@@ -30,10 +30,10 @@ public static class ITypeExtensions
     ];
 
     /// <summary>
-    /// Determina se o tipo atual é um <see cref="Task"/> ou <see cref="Task{TResult}"/>.
+    /// Determines if the current type is a <see cref="Task"/> or <see cref="Task{TResult}"/>.
     /// </summary>
-    /// <param name="type">O tipo a ser verificado.</param>
-    /// <returns><c>true</c> se o tipo for um Task; caso contrário, <c>false</c>.</returns>
+    /// <param name="type">The type to be checked.</param>
+    /// <returns><c>true</c> if the type is a Task; otherwise, <c>false</c>.</returns>
     [CompileTime]
     public static bool IsTask(this IType type)
     {
@@ -43,50 +43,50 @@ public static class ITypeExtensions
     }
 
     /// <summary>
-    /// Obtém o tipo de retorno real (o tipo contido) se o tipo de entrada for um <see cref="Task{TResult}"/>.
-    /// Caso contrário, retorna o próprio tipo de entrada.
+    /// Gets the actual return type (the contained type) if the input type is a <see cref="Task{TResult}"/>.
+    /// Otherwise, returns the input type itself.
     /// </summary>
-    /// <param name="type">O tipo a ser verificado.</param>
+    /// <param name="type">The type to be checked.</param>
     /// <remarks>
-    /// Este método é crucial para abstrair a complexidade de métodos assíncronos,
-    /// permitindo a inspeção do tipo de dado que realmente será retornado após a conclusão da Task.
+    /// This method is crucial for abstracting the complexity of asynchronous methods,
+    /// allowing inspection of the data type that will actually be returned after the Task completes.
     /// </remarks>
-    /// <returns>O tipo de resultado da Task (TResult) se for um Task&lt;TResult&gt;; caso contrário, o tipo original.</returns>
+    /// <returns>The Task result type (TResult) if it is a Task&lt;TResult&gt;; otherwise, the original type.</returns>
     [CompileTime]
     public static IType UnwrapType(this IType type) =>
         type.IsTask() ? type.GetAsyncInfo().ResultType : type;
 
     /// <summary>
-    /// Determina se o tipo de retorno *real* (após desempacotar um possível Task) é conversível para o tipo base <see cref="Result"/>.
+    /// Determines if the *actual* return type (after unwrapping a possible Task) is convertible to the base <see cref="Result"/> type.
     /// </summary>
-    /// <param name="type">O tipo a ser verificado.</param>
-    /// <returns><c>true</c> se o tipo for um <see cref="Result"/> não genérico ou um <see cref="Result{TValue}"/>; caso contrário, <c>false</c>.</returns>
+    /// <param name="type">The type to be checked.</param>
+    /// <returns><c>true</c> if the type is a non-generic <see cref="Result"/> or a <see cref="Result{TValue}"/>; otherwise, <c>false</c>.</returns>
     [CompileTime]
     public static bool IsResult(this IType type) =>
         type.UnwrapType().IsConvertibleTo(typeof(Result));
 
     /// <summary>
-    /// Determina se o tipo de retorno *real* (após desempacotar um possível Task) é uma definição de tipo genérico <see cref="Result{TValue}"/>.
+    /// Determines if the *actual* return type (after unwrapping a possible Task) is a generic <see cref="Result{TValue}"/> type definition.
     /// </summary>
-    /// <param name="type">O tipo a ser verificado.</param>
-    /// <returns><c>true</c> se o tipo for um <see cref="Result{TValue}"/>; caso contrário, <c>false</c>.</returns>
+    /// <param name="type">The type to be checked.</param>
+    /// <returns><c>true</c> if the type is a <see cref="Result{TValue}"/>; otherwise, <c>false</c>.</returns>
     [CompileTime]
     public static bool IsValueResult(this IType type) =>
         type.UnwrapType().IsConvertibleTo(typeof(Result<>), ConversionKind.TypeDefinition);
 
     /// <summary>
-    /// Determina se o tipo de retorno é um tipo que geralmente é considerado serializável ou que deve ser
-    /// inspecionado por aspectos.
+    /// Determines if the return type is a type that is generally considered serializable or that should be
+    /// inspected by aspects.
     /// </summary>
     /// <remarks>
-    /// Verifica se o tipo não está na lista de tipos que são injetados pelo framework
-    /// (e.g., <see cref="CancellationToken"/>,
-    /// pois esses geralmente não devem ser serializados ou inspecionados para lógica de negócios.
+    /// Checks if the type is not in the list of types that are injected by the framework
+    /// (e.g., <see cref="CancellationToken"/>),
+    /// as these generally should not be serialized or inspected for business logic.
     /// </remarks>
-    /// <param name="notSerializableTypes">Uma lista de tipos a serem reconhecidos como não serializáveis.
-    /// Por padrão usa a propriedade estática <see cref="NotSerializableTypes"/></param>
-    /// <param name="type">O tipo a ser verificado.</param>
-    /// <returns><c>true</c> se o tipo não estiver na lista de tipos ignorados; caso contrário, <c>false</c>.</returns>
+    /// <param name="notSerializableTypes">A list of types to be recognized as non-serializable.
+    /// By default, uses the <see cref="NotSerializableTypes"/> static property.</param>
+    /// <param name="type">The type to be checked.</param>
+    /// <returns><c>true</c> if the type is not in the list of ignored types; otherwise, <c>false</c>.</returns>
     [CompileTime]
     public static bool IsSerializable(this IType type, Type[]? notSerializableTypes = null) =>
         !(notSerializableTypes ?? NotSerializableTypes).Any(t => type.IsConvertibleTo(t));

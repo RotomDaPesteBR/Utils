@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -6,25 +6,25 @@ using Microsoft.Extensions.Options;
 namespace LightningArc.Utils.Results.AspNet;
 
 /// <summary>
-/// Serviço para mapear tipos de erros específicos (<see cref="Error"/>) para
-/// respostas HTTP apropriadas (código de status e detalhes do problema).
+/// Service to map specific error types (<see cref="Error"/>) to
+/// appropriate HTTP responses (status code and problem details).
 /// </summary>
 /// <remarks>
-/// Este serviço é responsável por manter um dicionário de mapeamentos,
-/// permitindo que a aplicação converta instâncias de <see cref="Error"/> em
-/// respostas HTTP padronizadas com base no seu tipo.
+/// This service is responsible for maintaining a dictionary of mappings,
+/// allowing the application to convert instances of <see cref="Error"/> into
+/// standardized HTTP responses based on their type.
 /// </remarks>
 public class ErrorMappingService
 {
     /// <summary>
-    /// Armazena os mapeamentos de tipos de erro para detalhes de resposta HTTP.
-    /// A chave é o <see cref="Type"/> do erro e o valor é o <see cref="ErrorMapping"/> correspondente.
+    /// Stores the mappings from error types to HTTP response details.
+    /// The key is the error <see cref="Type"/> and the value is the corresponding <see cref="ErrorMapping"/>.
     /// </summary>
     private readonly Dictionary<Type, ErrorMapping> _mappings = [];
 
     /// <summary>
-    /// Obtém os mapeamentos de tipos de erro para detalhes de resposta HTTP.
-    /// A chave é o <see cref="Type"/> do erro e o valor é o <see cref="ErrorMapping"/> correspondente.
+    /// Gets the mappings from error types to HTTP response details.
+    /// The key is the error <see cref="Type"/> and the value is the corresponding <see cref="ErrorMapping"/>.
     /// </summary>
     public ReadOnlyDictionary<Type, ErrorMapping> Mappings =>
 #if NET7_0_OR_GREATER
@@ -36,10 +36,10 @@ public class ErrorMappingService
     private readonly ILogger<ErrorMappingService> _logger;
 
     /// <summary>
-    /// O construtor é o melhor lugar para definir os mapeamentos padrão de forma explícita.
-    /// Mapeia todos os erros da biblioteca para códigos HTTP lógicos e títulos de problema.
+    /// The constructor is the best place to define default mappings explicitly.
+    /// Maps all library errors to logical HTTP codes and problem titles.
     /// </summary>
-    /// <param name="logger">O serviço de logging para registrar informações de mapeamento.</param>
+    /// <param name="logger">The logging service to record mapping information.</param>
     /// <param name="options"></param>
     public ErrorMappingService(ILogger<ErrorMappingService> logger, IOptions<EndpointResultOptions> options)
     {
@@ -100,12 +100,12 @@ public class ErrorMappingService
     }
 
     /// <summary>
-    /// Adiciona ou sobrescreve um mapeamento para um tipo de erro específico.
+    /// Adds or overrides a mapping for a specific error type.
     /// </summary>
-    /// <typeparam name="TError">O tipo do erro a ser mapeado.</typeparam>
-    /// <param name="statusCode">O código de status HTTP a ser retornado para este erro.</param>
-    /// <param name="title">O título do problema para este erro.</param>
-    /// <param name="type">A URL do tipo do problema para este erro.</param>
+    /// <typeparam name="TError">The type of error to map.</typeparam>
+    /// <param name="statusCode">The HTTP status code to be returned for this error.</param>
+    /// <param name="title">The problem title for this error.</param>
+    /// <param name="type">The problem type URL for this error.</param>
     public void Map<TError>(HttpStatusCode statusCode, string title, string type)
         where TError : Error
     {
@@ -123,12 +123,12 @@ public class ErrorMappingService
     }
 
     /// <summary>
-    /// Obtém o mapeamento HTTP para um erro.
+    /// Gets the HTTP mapping for an error.
     /// </summary>
-    /// <param name="error">A instância do erro para a qual se deseja obter o mapeamento.</param>
+    /// <param name="error">The error instance for which the mapping is desired.</param>
     /// <returns>
-    /// Um <see cref="ErrorMapping"/> se um mapeamento for encontrado para o tipo de erro,
-    /// caso contrário, retorna <c>null</c>.
+    /// An <see cref="ErrorMapping"/> if a mapping is found for the error type,
+    /// otherwise returns <c>null</c>.
     /// </returns>
     public ErrorMapping? GetMapping(Error error)
     {

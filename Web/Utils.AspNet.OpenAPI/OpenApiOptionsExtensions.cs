@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.OpenApi;
+using Microsoft.AspNetCore.OpenApi;
 using LightningArc.Utils.OpenAPI.Filters;
 
 namespace LightningArc.Utils.OpenAPI
 {
     /// <summary>
-    /// Métodos de extensão para OpenApiOptionsExtensions
+    /// Extension methods for OpenApiOptions.
     /// </summary>
     public static partial class OpenApiOptionsExtensions
     {
         /// <summary>
-        /// Adiciona e configura os SchemaTransformers para os ValueObjects.
+        /// Adds and configures SchemaTransformers for ValueObjects.
         /// </summary>
-        /// <param name="openApiOptions">As configurações de OpenAPI.</param>
-        /// <returns>A mesma coleção de serviços com os serviços da Infraestrutura adicionados.</returns>
+        /// <param name="openApiOptions">The OpenAPI configuration options.</param>
+        /// <returns>The same OpenApiOptions instance with Infrastructure services added.</returns>
         public static OpenApiOptions AddSchemaTransformers(this OpenApiOptions openApiOptions)
         {
             openApiOptions.AddSchemaTransformer<EmailSchemaTransformer>();

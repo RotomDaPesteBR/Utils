@@ -1,57 +1,57 @@
-﻿using Metalama.Framework.Aspects;
+using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
 
 namespace LightningArc.Utils.Metalama;
 
 /// <summary>
-/// Expõe métodos que retornam instâncias da interface <see cref="INamedType"/>.
-/// É um wrapper sobre <see cref="TypeFactory"/>, convertendo o resultado para <see cref="INamedType"/>.
+/// Exposes methods that return instances of the <see cref="INamedType"/> interface.
+/// It is a wrapper over <see cref="TypeFactory"/>, converting the result to <see cref="INamedType"/>.
 /// </summary>
 [CompileTime]
 public static class NamedTypeFactory
 {
     #region GetType
     /// <summary>
-    /// Obtém um <see cref="INamedType" /> dado um <see cref="Type" /> de reflexão.
+    /// Gets an <see cref="INamedType" /> given a reflection <see cref="Type" />.
     /// </summary>
-    /// <param name="type">O <see cref="Type" /> de reflexão.</param>
+    /// <param name="type">The reflection <see cref="Type" />.</param>
     /// <returns>
-    /// Um <see cref="INamedType" /> que representa o tipo, ou <see langword="null" /> se for um tipo que
-    /// não pode ser representado como <see cref="INamedType" /> (como um tipo anônimo ou um ponteiro),
-    /// ou se o tipo não for encontrado na compilação.
+    /// An <see cref="INamedType" /> that represents the type, or <see langword="null" /> if it's a type that
+    /// cannot be represented as <see cref="INamedType" /> (such as an anonymous type or a pointer),
+    /// or if the type is not found during compilation.
     /// </returns>
     /// <exception cref="InvalidOperationException">
-    /// Lançada se o <see cref="TypeFactory" /> não estiver disponível no contexto atual.
+    /// Thrown if the <see cref="TypeFactory" /> is not available in the current context.
     /// </exception>
     [CompileTime]
     public static INamedType GetType(Type type) => (INamedType)TypeFactory.GetType(type);
 
     /// <summary>
-    /// Obtém um <see cref="INamedType" /> que representa um <see cref="SpecialType" /> dado.
+    /// Gets an <see cref="INamedType" /> that represents a given <see cref="SpecialType" />.
     /// </summary>
-    /// <param name="type">O <see cref="SpecialType" /> (tipo especial) a ser recuperado.</param>
-    /// <returns>Um <see cref="INamedType" /> que representa o <paramref name="type" /> especial.</returns>
+    /// <param name="type">The <see cref="SpecialType" /> (special type) to be retrieved.</param>
+    /// <returns>An <see cref="INamedType" /> representing the special <paramref name="type" />.</returns>
     /// <exception cref="InvalidOperationException">
-    /// Lançada se o <see cref="TypeFactory" /> não estiver disponível no contexto atual.
+    /// Thrown if the <see cref="TypeFactory" /> is not available in the current context.
     /// </exception>
     [CompileTime]
     public static INamedType GetType(SpecialType type) => TypeFactory.GetType(type);
 
     /// <summary>
-    /// Obtém um <see cref="INamedType" /> baseado em seu nome completo, como usado em reflexão.
+    /// Gets an <see cref="INamedType" /> based on its full name, as used in reflection.
     /// </summary>
     /// <remarks>
-    /// <para>Para tipos aninhados, isso significa usar '+', por exemplo, para obter <c>System.Environment.SpecialFolder</c>,
+    /// <para>For nested types, this means using '+', for example, to get <c>System.Environment.SpecialFolder</c>,
     /// use <c>System.Environment+SpecialFolder</c>.</para>
-    /// <para>Para definições de tipo genérico, isso requer usar '`', por exemplo, para obter <c>List&lt;T&gt;</c>, use
+    /// <para>For generic type definitions, this requires using '`', for example, to get <c>List&lt;T&gt;</c>, use
     /// <c>System.Collections.Generic.List`1</c>.</para>
-    /// <para>Tipos genéricos construídos (por exemplo, <c>List&lt;int&gt;</c>) não são suportados. Para estes, use
+    /// <para>Constructed generic types (e.g., <c>List&lt;int&gt;</c>) are not supported. For these, use
     /// <see cref="GenericExtensions.WithTypeArguments(INamedType, IType[])"/>.</para>
     /// </remarks>
-    /// <param name="typeName">O nome completo do tipo (incluindo namespace e, para tipos aninhados, o caractere '+').</param>
-    /// <returns>O <see cref="INamedType" /> que corresponde ao <paramref name="typeName" />.</returns>
+    /// <param name="typeName">The full name of the type (including namespace and, for nested types, the '+' character).</param>
+    /// <returns>The <see cref="INamedType" /> that corresponds to the <paramref name="typeName" />.</returns>
     /// <exception cref="InvalidOperationException">
-    /// Lançada se o tipo não for encontrado ou se o <see cref="TypeFactory" /> não estiver disponível no contexto atual.
+    /// Thrown if the type is not found or if the <see cref="TypeFactory" /> is not available in the current context.
     /// </exception>
     [CompileTime]
     public static INamedType GetType(string typeName) => TypeFactory.GetType(typeName);
@@ -59,16 +59,16 @@ public static class NamedTypeFactory
 
     #region GetTypeOrDefault
     /// <summary>
-    /// Obtém um <see cref="INamedType"/> baseado em seu nome completo, como usado em reflexão,
-    /// retornando um valor padrão se o tipo não for encontrado.
+    /// Gets an <see cref="INamedType"/> based on its full name, as used in reflection,
+    /// returning a default value if the type is not found.
     /// </summary>
     /// <remarks>
-    /// <para>As regras de nomenclatura de <paramref name="typeName"/> são as mesmas de <see cref="GetType(string)"/>.</para>
-    /// <para>Esta sobrecarga retorna <paramref name="defaultType"/> em vez de lançar uma exceção se o tipo não for encontrado.</para>
+    /// <para>The naming rules for <paramref name="typeName"/> are the same as those for <see cref="GetType(string)"/>.</para>
+    /// <para>This overload returns <paramref name="defaultType"/> instead of throwing an exception if the type is not found.</para>
     /// </remarks>
-    /// <param name="typeName">O nome completo do tipo (incluindo namespace e, para tipos aninhados, o caractere '+').</param>
-    /// <param name="defaultType">O <see cref="INamedType"/> a ser retornado se o tipo não for encontrado. O padrão é <see langword="null"/>.</param>
-    /// <returns>O <see cref="INamedType"/> que corresponde ao <paramref name="typeName"/>, ou <paramref name="defaultType"/> se não for encontrado.</returns>
+    /// <param name="typeName">The full name of the type (including namespace and, for nested types, the '+' character).</param>
+    /// <param name="defaultType">The <see cref="INamedType"/> to be returned if the type is not found. The default is <see langword="null"/>.</param>
+    /// <returns>The <see cref="INamedType"/> that corresponds to the <paramref name="typeName"/>, or <paramref name="defaultType"/> if not found.</returns>
 
     [CompileTime]
     public static INamedType? GetTypeOrDefault(string typeName, INamedType? defaultType = null)

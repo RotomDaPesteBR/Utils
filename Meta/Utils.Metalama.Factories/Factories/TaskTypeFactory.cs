@@ -1,11 +1,11 @@
-﻿using Metalama.Framework.Aspects;
+using Metalama.Framework.Aspects;
 using Metalama.Framework.Code;
 
 namespace LightningArc.Utils.Metalama;
 
 /// <summary>
-/// Uma fábrica de tipos em tempo de compilação para criar instâncias genéricas
-/// de <see cref="Task{TResult}"/> e <see cref="ValueTask{TResult}"/>.
+/// A compile-time type factory for creating generic instances
+/// of <see cref="Task{TResult}"/> and <see cref="ValueTask{TResult}"/>.
 /// </summary>
 [CompileTime]
 public static class TaskTypeFactory
@@ -26,45 +26,45 @@ public static class TaskTypeFactory
 
     #region GetTaskType
     /// <summary>
-    /// Obtém o tipo de <see cref="Task"/> não genérico.
+    /// Gets the non-generic <see cref="Task"/> type.
     /// </summary>
-    /// <returns>Um <see cref="INamedType"/> que representa o tipo <see cref="Task"/> (equivalente a <c>Task</c>).</returns>
+    /// <returns>An <see cref="INamedType"/> representing the <see cref="Task"/> type (equivalent to <c>Task</c>).</returns>
     public static INamedType GetTaskType() => _taskIType;
 
     /// <summary>
-    /// Cria uma instância genérica de <see cref="Task{TResult}"/> com o tipo de resultado especificado.
+    /// Creates a generic instance of <see cref="Task{TResult}"/> with the specified result type.
     /// </summary>
-    /// <param name="type">O tipo de resultado (<c>TResult</c>) da <see cref="Task{TResult}"/>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>Task&lt;type&gt;</c>.</returns>
+    /// <param name="type">The result type (<c>TResult</c>) of the <see cref="Task{TResult}"/>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>Task&lt;type&gt;</c>.</returns>
     public static INamedType GetTaskType(Type type) => _genericTaskIType.MakeGenericInstance(type);
 
     /// <summary>
-    /// Cria uma instância genérica de <see cref="Task{TResult}"/> com o tipo de resultado especificado.
+    /// Creates a generic instance of <see cref="Task{TResult}"/> with the specified result type.
     /// </summary>
-    /// <param name="type">O tipo de resultado (<c>TResult</c>) da <see cref="Task{TResult}"/>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>Task&lt;type&gt;</c>.</returns>
+    /// <param name="type">The result type (<c>TResult</c>) of the <see cref="Task{TResult}"/>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>Task&lt;type&gt;</c>.</returns>
     public static INamedType GetTaskType(IType type) => _genericTaskIType.MakeGenericInstance(type);
     #endregion
 
     #region GetValueTaskType
     /// <summary>
-    /// Obtém o tipo de <see cref="ValueTask"/> não genérico.
+    /// Gets the non-generic <see cref="ValueTask"/> type.
     /// </summary>
-    /// <returns>Um <see cref="INamedType"/> que representa o tipo <see cref="ValueTask"/> (equivalente a <c>ValueTask</c>).</returns>
+    /// <returns>An <see cref="INamedType"/> representing the <see cref="ValueTask"/> type (equivalent to <c>ValueTask</c>).</returns>
     public static INamedType GetValueTaskType() => _valueTaskIType;
 
     /// <summary>
-    /// Cria uma instância genérica de <see cref="ValueTask{TResult}"/> com o tipo de resultado especificado.
+    /// Creates a generic instance of <see cref="ValueTask{TResult}"/> with the specified result type.
     /// </summary>
-    /// <param name="type">O tipo de resultado (<c>TResult</c>) da <see cref="ValueTask{TResult}"/>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>ValueTask&lt;type&gt;</c>.</returns>
+    /// <param name="type">The result type (<c>TResult</c>) of the <see cref="ValueTask{TResult}"/>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>ValueTask&lt;type&gt;</c>.</returns>
     public static INamedType GetValueTaskType(Type type) => _genericValueTaskIType.MakeGenericInstance(type);
 
     /// <summary>
-    /// Cria uma instância genérica de <see cref="ValueTask{TResult}"/> com o tipo de resultado especificado.
+    /// Creates a generic instance of <see cref="ValueTask{TResult}"/> with the specified result type.
     /// </summary>
-    /// <param name="type">O tipo de resultado (<c>TResult</c>) da <see cref="ValueTask{TResult}"/>.</param>
-    /// <returns>Um <see cref="INamedType"/> que representa <c>ValueTask&lt;type&gt;</c>.</returns>
+    /// <param name="type">The result type (<c>TResult</c>) of the <see cref="ValueTask{TResult}"/>.</param>
+    /// <returns>An <see cref="INamedType"/> representing <c>ValueTask&lt;type&gt;</c>.</returns>
     public static INamedType GetValueTaskType(IType type) => _genericValueTaskIType.MakeGenericInstance(type);
     #endregion
 }

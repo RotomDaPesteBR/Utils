@@ -3,14 +3,14 @@ using System.Globalization;
 namespace LightningArc.Utils.Results.Messages;
 
 /// <summary>
-/// Provedor de mensagens para mensagens localizadas via chave de recurso.
+/// Message provider for localized messages via resource key.
 /// </summary>
 /// <remarks>
-/// Inicializa uma nova instância de <see cref="ResourceMessageProvider"/>.
+/// Initializes a new instance of <see cref="ResourceMessageProvider"/>.
 /// </remarks>
-/// <param name="resourceKey">A chave do recurso para a mensagem.</param>
-/// <param name="localizationFunction">A função para obter a string localizada (e.g., LocalizationManager.GetErrorString).</param>
-/// <param name="formatArgs">Argumentos opcionais para formatar a mensagem.</param>
+/// <param name="resourceKey">The resource key for the message.</param>
+/// <param name="localizationFunction">The function to obtain the localized string (e.g., LocalizationManager.GetErrorString).</param>
+/// <param name="formatArgs">Optional arguments to format the message.</param>
 public class ResourceMessageProvider(
     string resourceKey,
     Func<string, string> localizationFunction,

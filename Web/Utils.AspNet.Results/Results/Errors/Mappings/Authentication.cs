@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.AspNet.Localization;
+using LightningArc.Utils.Results.AspNet.Localization;
 using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
@@ -6,14 +6,14 @@ namespace LightningArc.Utils.Results.AspNet;
 public static partial class ErrorMappingServiceExtensions
 {
     /// <summary>
-    /// Adiciona mapeamentos de erro relacionados à autenticação.
+    /// Adds error mappings related to authentication.
     /// </summary>
     /// <remarks>
-    /// Inclui erros como <see cref="Error.Authentication.UnauthorizedError"/>,
-    /// <see cref="Error.Authentication.ForbiddenError"/>, entre outros.
+    /// Includes errors such as <see cref="Error.Authentication.UnauthorizedError"/>,
+    /// <see cref="Error.Authentication.ForbiddenError"/>, among others.
     /// </remarks>
-    /// <param name="service">A instância do serviço de mapeamento de erros.</param>
-    /// <returns>A instância do serviço para encadeamento de chamadas.</returns>
+    /// <param name="service">The error mapping service instance.</param>
+    /// <returns>The service instance for call chaining.</returns>
     public static ErrorMappingService MapAuthentication(this ErrorMappingService service)
     {
         // Módulo AUTHENTICATION (Prefixo 4)

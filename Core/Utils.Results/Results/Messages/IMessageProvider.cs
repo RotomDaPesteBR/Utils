@@ -3,15 +3,15 @@ using System.Globalization;
 namespace LightningArc.Utils.Results.Messages;
 
 /// <summary>
-/// Define um contrato para provedores de mensagens, permitindo diferentes estratégias
-/// para obter a mensagem de um erro ou sucesso.
+/// Defines a contract for message providers, allowing for different strategies
+/// to obtain the message of an error or success.
 /// </summary>
 public interface IMessageProvider
 {
     /// <summary>
-    /// Obtém a mensagem formatada.
+    /// Gets the formatted message.
     /// </summary>
-    /// <param name="culture">A cultura a ser usada para localização, se aplicável.</param>
-    /// <returns>A mensagem formatada.</returns>
+    /// <param name="culture">The culture to be used for localization, if applicable.</param>
+    /// <returns>The formatted message.</returns>
     string GetMessage(CultureInfo culture);
 }

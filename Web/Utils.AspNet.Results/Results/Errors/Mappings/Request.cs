@@ -1,4 +1,4 @@
-﻿using LightningArc.Utils.Results.AspNet.Localization;
+using LightningArc.Utils.Results.AspNet.Localization;
 using System.Net;
 
 namespace LightningArc.Utils.Results.AspNet;
@@ -6,7 +6,7 @@ namespace LightningArc.Utils.Results.AspNet;
 public static partial class ErrorMappingServiceExtensions
 {
     /// <summary>
-    /// Adiciona mapeamentos de erro relacionados à requisição HTTP.
+    /// Adds error mappings related to the HTTP request.
     /// </summary>
     public static ErrorMappingService MapRequest(this ErrorMappingService service)
     {

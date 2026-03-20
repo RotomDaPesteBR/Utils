@@ -1,65 +1,65 @@
-﻿namespace LightningArc.Utils.Results
+namespace LightningArc.Utils.Results
 {
     public partial class Error
     {
         /// <summary>
-        /// Define os prefixos de código (o primeiro dígito ou mais) para cada módulo de erro.
-        /// Os valores são atribuídos sequencialmente de acordo com a prioridade e universalidade do módulo.
+        /// Defines the code prefixes (the first digit or more) for each error module.
+        /// Values are assigned sequentially according to the priority and universality of the module.
         /// </summary>
         public enum ModuleCodes
         {
             /// <summary>
-            /// Prefix '1'. Módulo de erros gerais de fluxo da aplicação e lógica de alto nível.
+            /// Prefix '1'. Module for general application flow and high-level logic errors.
             /// </summary>
             Application = 1,
 
             /// <summary>
-            /// Prefix '2'. Módulo de erros críticos de infraestrutura, ambiente e inicialização.
+            /// Prefix '2'. Module for critical infrastructure, environment, and initialization errors.
             /// </summary>
             System = 2,
 
             /// <summary>
-            /// Prefix '3'. Módulo de erros de persistência e banco de dados.
+            /// Prefix '3'. Module for persistence and database errors.
             /// </summary>
             Database = 3,
 
             /// <summary>
-            /// Prefix '4'. Módulo de erros de validação de entrada de dados e regras de negócio. (Novo módulo)
+            /// Prefix '4'. Module for data input validation and business rule errors.
             /// </summary>
             Validation = 4,
 
             /// <summary>
-            /// Prefix '5'. Módulo de erros de gerenciamento de recursos (ex: não encontrado, já existe).
+            /// Prefix '5'. Module for resource management errors (e.g., not found, already exists).
             /// </summary>
             Resource = 5,
 
             /// <summary>
-            /// Prefix '6'. Módulo de erros de autenticação (identidade) e autorização (permissão).
+            /// Prefix '6'. Module for authentication (identity) and authorization (permission) errors.
             /// </summary>
             Authentication = 6,
 
             /// <summary>
-            /// Prefix '7'. Módulo de erros de processamento da requisição HTTP (ex: payload muito grande).
+            /// Prefix '7'. Module for HTTP request processing errors (e.g., payload too large).
             /// </summary>
             Request = 7,
 
             /// <summary>
-            /// Prefix '8'. Módulo de erros ao interagir com serviços externos/terceiros.
+            /// Prefix '8'. Module for errors when interacting with external/third-party services.
             /// </summary>
             External = 8,
 
             /// <summary>
-            /// Prefix '9'. Módulo de erros de comunicação de rede de baixo nível.
+            /// Prefix '9'. Module for low-level network communication errors.
             /// </summary>
             Network = 9,
 
             /// <summary>
-            /// Prefix '10'. Módulo de erros de concorrência e bloqueios de recursos.
+            /// Prefix '10'. Module for concurrency and resource locking errors.
             /// </summary>
             Concurrency = 10,
 
             /// <summary>
-            /// Prefix '11'. Módulo de erros de operações de Input/Output (I/O) de disco.
+            /// Prefix '11'. Module for disk Input/Output (I/O) operations errors.
             /// </summary>
             IO = 11,
         }

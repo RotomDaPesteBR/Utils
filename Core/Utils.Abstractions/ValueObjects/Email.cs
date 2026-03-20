@@ -1,34 +1,34 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace LightningArc.Utils.Abstractions.ValueObjects
 {
     /// <summary>
-    /// Representa um tipo de dado para um endereço de e-mail,
-    /// garantindo sua validade no momento da criação através de um método de fábrica.
+    /// Represents a data type for an email address, 
+    /// ensuring its validity at the time of creation through a factory method.
     /// </summary>
     /// <remarks>
-    /// Este 'record' é um tipo de valor imutável. A validação do e-mail é imposta
-    /// no construtor privado, acessível por meio do método de fábrica estático <see cref="Create(string)"/>.
+    /// This 'record' is an immutable value type. Email validation is enforced 
+    /// in the private constructor, accessible through the <see cref="Create(string)"/> static factory method.
     /// </remarks>
     public record Email
     {
         /// <summary>
-        /// Expressão regular para validação de formato de e-mail.
-        /// Uma regex comum e robusta para validar a maioria dos formatos de e-mail válidos.
+        /// Regular expression for email format validation.
+        /// A common and robust regex to validate most valid email formats.
         /// </summary>
         private const string EmailRegexPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
 
         /// <summary>
-        /// Obtém o valor da string do endereço de e-mail.
+        /// Gets the string value of the email address.
         /// </summary>
         public string Value { get; }
 
         /// <summary>
-        /// Construtor privado da classe Email.
-        /// Este construtor realiza a validação do formato da string de e-mail.
+        /// Private constructor for the Email class.
+        /// This constructor performs the format validation of the email string.
         /// </summary>
-        /// <param name="value">A string que representa o endereço de e-mail.</param>
-        /// <exception cref="ArgumentException">Lançada se 'value' for nulo, vazio ou não for um formato de e-mail válido.</exception>
+        /// <param name="value">The string representing the email address.</param>
+        /// <exception cref="ArgumentException">Thrown if 'value' is null, empty, or not a valid email format.</exception>
         private Email(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -45,34 +45,34 @@ namespace LightningArc.Utils.Abstractions.ValueObjects
         }
 
         /// <summary>
-        /// Cria uma nova instância de <see cref="Email"/> após validar o formato da string.
-        /// Este é o método público preferencial para construir objetos <see cref="Email"/>.
+        /// Creates a new instance of <see cref="Email"/> after validating the string format.
+        /// This is the preferred public method for constructing <see cref="Email"/> objects.
         /// </summary>
-        /// <param name="value">A string que representa o endereço de e-mail.</param>
-        /// <returns>Uma nova instância de <see cref="Email"/> se a string for um e-mail válido.</returns>
-        /// <exception cref="ArgumentException">Lançada se a string fornecida não for um e-mail válido.</exception>
+        /// <param name="value">The string representing the email address.</param>
+        /// <returns>A new instance of <see cref="Email"/> if the string is a valid email.</returns>
+        /// <exception cref="ArgumentException">Thrown if the provided string is not a valid email.</exception>
         public static Email Create(string value) => new(value);
 
         /// <summary>
-        /// Converte implicitamente um objeto <see cref="Email"/> para sua representação em <see cref="string"/>.
+        /// Implicitly converts an <see cref="Email"/> object to its <see cref="string"/> representation.
         /// </summary>
-        /// <param name="email">O objeto <see cref="Email"/> a ser convertido.</param>
-        /// <returns>A string do endereço de e-mail.</returns>
+        /// <param name="email">The <see cref="Email"/> object to be converted.</param>
+        /// <returns>The email address string.</returns>
         public static implicit operator string(Email email) => email.Value;
 
         /// <summary>
-        /// Converte implicitamente uma <see cref="string"/> para um objeto <see cref="Email"/>.
-        /// Este operador utiliza o método de fábrica <see cref="Create(string)"/> para garantir a validação.
+        /// Implicitly converts a <see cref="string"/> to an <see cref="Email"/> object.
+        /// This operator uses the <see cref="Create(string)"/> factory method to ensure validation.
         /// </summary>
-        /// <param name="value">A string a ser convertida.</param>
-        /// <returns>Um novo objeto <see cref="Email"/>.</returns>
-        /// <exception cref="ArgumentException">Lançada se a string não for um e-mail válido.</exception>
+        /// <param name="value">The string to be converted.</param>
+        /// <returns>A new <see cref="Email"/> object.</returns>
+        /// <exception cref="ArgumentException">Thrown if the string is not a valid email.</exception>
         public static implicit operator Email(string value) => Create(value);
 
         /// <summary>
-        /// Retorna a representação em string do endereço de e-mail.
+        /// Returns the string representation of the email address.
         /// </summary>
-        /// <returns>O endereço de e-mail como uma string.</returns>
+        /// <returns>The email address as a string.</returns>
         public override string ToString() => Value;
     }
 }

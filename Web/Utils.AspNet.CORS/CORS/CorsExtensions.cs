@@ -1,23 +1,23 @@
-﻿using LightningArc.Utils.AspNet.CORS.Policies;
+using LightningArc.Utils.AspNet.CORS.Policies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LightningArc.Utils.AspNet.CORS
 {
     /// <summary>
-    /// Fornece métodos de extensão para configurar políticas CORS (Cross-Origin Resource Sharing) predefinidas.
+    /// Provides extension methods for configuring predefined CORS (Cross-Origin Resource Sharing) policies.
     /// </summary>
     public static class CorsExtensions
     {
         /// <summary>
-        /// Adiciona as políticas CORS predefinidas à coleção de serviços.
+        /// Adds predefined CORS policies to the service collection.
         /// </summary>
-        /// <param name="services">A <see cref="IServiceCollection"/> à qual as políticas CORS serão adicionadas.</param>
-        /// <returns>A <see cref="IServiceCollection"/> modificada, para encadeamento de chamadas.</returns>
+        /// <param name="services">The <see cref="IServiceCollection"/> to which the CORS policies will be added.</param>
+        /// <returns>The modified <see cref="IServiceCollection"/>, for call chaining.</returns>
         /// <remarks>
-        /// Este método registra as seguintes políticas CORS:
+        /// This method registers the following CORS policies:
         /// <list type="bullet">
-        ///     <item><description><see cref="AllowAll"/>.AddAllowAllPolicy(): Adiciona uma política CORS que permite todas as origens, métodos e cabeçalhos.</description></item>
+        ///     <item><description><see cref="AllowAll"/>.AddAllowAllPolicy(): Adds a CORS policy that allows all origins, methods and headers.</description></item>
         /// </list>
         /// </remarks>
         public static IServiceCollection AddCorsPolicies(this IServiceCollection services)
@@ -28,14 +28,14 @@ namespace LightningArc.Utils.AspNet.CORS
         }
 
         /// <summary>
-        /// Adiciona as políticas CORS predefinidas ao middleware da aplicação.
+        /// Adds predefined CORS policies to the application middleware.
         /// </summary>
-        /// <param name="app">A <see cref="IApplicationBuilder"/> à qual as políticas do middleware CORS serão adicionadas.</param>
-        /// <returns>A <see cref="IApplicationBuilder"/> modificada, para encadeamento de chamadas.</returns>
+        /// <param name="app">The <see cref="IApplicationBuilder"/> to which the CORS middleware policies will be added.</param>
+        /// <returns>The modified <see cref="IApplicationBuilder"/>, for call chaining.</returns>
         /// <remarks>
-        /// Este método registra as seguintes políticas CORS:
+        /// This method registers the following CORS policies:
         /// <list type="bullet">
-        ///     <item><description><see cref="AllowAll"/>.UseCors("AllowAll"): Adiciona uma política CORS que permite todas as origens, métodos e cabeçalhos.</description></item>
+        ///     <item><description><see cref="AllowAll"/>.UseCors("AllowAll"): Adds a CORS policy that allows all origins, methods and headers.</description></item>
         /// </list>
         /// </remarks>
         public static IApplicationBuilder UseCorsPolicies(this IApplicationBuilder app)
