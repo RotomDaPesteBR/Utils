@@ -5,18 +5,13 @@
     <BuildType Name="LamaDebug" />
     <BuildType Name="Test" />
   </Configurations>
-  <Folder Name="/root/">
-    <File Path=".gitignore" />
-    <File Path="Directory.Build.props" />
-    <File Path="Directory.Packages.props" />
-    <File Path="publish.ps1" />
-    <File Path="README.md" />
-  </Folder>
   <Folder Name="/docs/">
-    <File Path="Docs/README.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
   </Folder>
   <Folder Name="/src/">
     <File Path="src/Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/Core/">
     <Project Path="src/Core/Utils.Abstractions/Utils.Abstractions.csproj" />
@@ -56,36 +51,29 @@
     <File Path="tests/Directory.Build.props" />
   </Folder>
   <Folder Name="/tests/Core/">
-    <Project Path="tests/Core/Utils.Tests/Utils.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
+    <Project Path="tests/Core/Utils.Abstractions.Tests/Utils.Abstractions.Tests.csproj" />
+    <Project Path="tests/Core/Utils.Json.Tests/Utils.Json.Tests.csproj" />
+    <Project Path="tests/Core/Utils.Results.Tests/Utils.Results.Tests.csproj" />
   </Folder>
   <Folder Name="/tests/Data/">
-    <Project Path="tests/Data/Utils.Data.Tests/Utils.Data.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
-    <Project Path="tests/Data/Utils.Mappers.Tests/Utils.Mappers.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
+    <Project Path="tests/Data/Utils.Data.Abstractions.Tests/Utils.Data.Abstractions.Tests.csproj" />
+    <Project Path="tests/Data/Utils.Data.ADO.Oracle.Tests/Utils.Data.ADO.Oracle.Tests.csproj" />
+    <Project Path="tests/Data/Utils.Data.ADO.SqlServer.Tests/Utils.Data.ADO.SqlServer.Tests.csproj" />
+    <Project Path="tests/Data/Utils.Data.ADO.Tests/Utils.Data.ADO.Tests.csproj" />
+    <Project Path="tests/Data/Utils.Data.EntityFramework.Tests/Utils.Data.EntityFramework.Tests.csproj" />
+    <Project Path="tests/Data/Utils.Data.ADO.SqlBuilder.Tests/Utils.Data.ADO.SqlBuilder.Tests.csproj" />
+    <Project Path="tests/Data/Utils.Mappers.AutoMapper.Tests/Utils.Mappers.AutoMapper.Tests.csproj" />
+    <Project Path="tests/Data/Utils.Mappers.Mapster.Tests/Utils.Mappers.Mapster.Tests.csproj" />
   </Folder>
   <Folder Name="/tests/Meta/">
-    <Project Path="tests/Meta/Utils.Metalama.Tests/Utils.Metalama.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
+    <Project Path="tests/Meta/Utils.Metalama.Tests/Utils.Metalama.Tests.csproj" />
+    <Project Path="tests/Meta/Utils.Metalama.Extensions.Tests/Utils.Metalama.Extensions.Tests.csproj" />
+    <Project Path="tests/Meta/Utils.Metalama.Factories.Tests/Utils.Metalama.Factories.Tests.csproj" />
+    <Project Path="tests/Meta/Utils.Metalama.Results.Tests/Utils.Metalama.Results.Tests.csproj" />
   </Folder>
   <Folder Name="/tests/Web/">
-    <Project Path="tests/Web/Utils.AspNet.Tests/Utils.AspNet.Tests.csproj">
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="LamaDebug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-    </Project>
+    <Project Path="tests/Web/Utils.AspNet.Results.Tests/Utils.AspNet.Results.Tests.csproj" />
+    <Project Path="tests/Web/Utils.AspNet.CORS.Tests/Utils.AspNet.CORS.Tests.csproj" />
+    <Project Path="tests/Web/Utils.AspNet.OpenAPI.Tests/Utils.AspNet.OpenAPI.Tests.csproj" />
   </Folder>
 </Solution>

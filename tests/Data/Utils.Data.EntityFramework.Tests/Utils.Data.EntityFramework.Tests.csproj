@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <ProjectReference Include="..\..\..\src\Data\EF\Utils.Data.EntityFramework\Utils.Data.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\..\src\Data\Utils.Data.Abstractions\Utils.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\Utils.Data.ADO.Tests\Utils.Data.ADO.Tests.csproj" />
+  </ItemGroup>
+</Project>

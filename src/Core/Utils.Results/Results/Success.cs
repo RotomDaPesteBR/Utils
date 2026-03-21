@@ -165,7 +165,7 @@ public abstract class Success
     /// <summary>
     /// Represents the success type for an "Ok" operation.
     /// </summary>
-    internal sealed class OkSuccess : Success
+    public sealed class OkSuccess : Success
     {
         internal OkSuccess(IMessageProvider? messageProvider)
             : base(100, messageProvider) { }
@@ -178,7 +178,7 @@ public abstract class Success
     /// <summary>
     /// Represents the success type for a "Created" operation.
     /// </summary>
-    internal sealed class CreatedSuccess : Success
+    public sealed class CreatedSuccess : Success
     {
         internal CreatedSuccess(IMessageProvider? messageProvider)
             : base(101, messageProvider) { }
@@ -191,7 +191,7 @@ public abstract class Success
     /// <summary>
     /// Represents the success type for an "Accepted" operation.
     /// </summary>
-    internal sealed class AcceptedSuccess : Success
+    public sealed class AcceptedSuccess : Success
     {
         internal AcceptedSuccess(IMessageProvider? messageProvider)
             : base(102, messageProvider) { }
@@ -204,7 +204,7 @@ public abstract class Success
     /// <summary>
     /// Represents the success type for a "No Content" operation.
     /// </summary>
-    internal sealed class NoContentSuccess : Success
+    public sealed class NoContentSuccess : Success
     {
         internal NoContentSuccess(IMessageProvider? messageProvider)
             : base(103, messageProvider) { }
@@ -255,7 +255,7 @@ public abstract class Success<TValue> : Success
     /// <summary>
     /// Represents the success type for an "Ok" operation with a <typeparamref name="TValue"/> value.
     /// </summary>
-    internal new sealed class OkSuccess : Success<TValue>
+    public new sealed class OkSuccess : Success<TValue>
     {
         /// <param name="value">The success value.</param>
         /// <param name="messageProvider">The optional message provider.</param>
@@ -276,7 +276,7 @@ public abstract class Success<TValue> : Success
     /// <summary>
     /// Represents the success type for a "Created" operation with a <typeparamref name="TValue"/> value.
     /// </summary>
-    internal new sealed class CreatedSuccess : Success<TValue>
+    public new sealed class CreatedSuccess : Success<TValue>
     {
         /// <param name="value">The success value.</param>
         /// <param name="messageProvider">The optional message provider.</param>
@@ -294,7 +294,7 @@ public abstract class Success<TValue> : Success
     /// <summary>
     /// Represents the success type for an "Accepted" operation with a <typeparamref name="TValue"/> value.
     /// </summary>
-    internal new sealed class AcceptedSuccess : Success<TValue>
+    public new sealed class AcceptedSuccess : Success<TValue>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AcceptedSuccess"/> class.
@@ -315,7 +315,7 @@ public abstract class Success<TValue> : Success
     /// <summary>
     /// Represents the success type for a "No Content" operation.
     /// </summary>
-    internal new sealed class NoContentSuccess : Success<TValue>
+    public new sealed class NoContentSuccess : Success<TValue>
     {
         internal NoContentSuccess(TValue value, IMessageProvider? messageProvider)
             : base(103, messageProvider, value) { }

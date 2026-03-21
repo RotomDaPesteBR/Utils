@@ -4,8 +4,8 @@ namespace LightningArc.Utils.Metalama.Tests
 {
     public class UnitTest1
     {
-        [Fact]
-        public void Test1()
+        [Test]
+        public async Task Test1()
         {
         }
     }
