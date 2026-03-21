@@ -15,7 +15,7 @@ namespace LightningArc.Utils.Results
     /// For example: 1001 (prefix 10 for "Application", suffix 01 for "Internal").
     /// </para>
     /// </remarks>
-    public partial class Error
+    public partial class Error : IEquatable<Error>
     {
         private readonly IMessageProvider _messageProvider;
 
@@ -115,6 +115,70 @@ namespace LightningArc.Utils.Results
             CodeSuffix = codeSuffix;
             _messageProvider = new LiteralMessageProvider(message);
             Details = details?.ToList() ?? [];
+        }
+
+        /// <inheritdoc />
+        public virtual bool Equals(Error? other)
+        {
+            if (other is null)
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
+
+            return CodePrefix == other.CodePrefix
+                && CodeSuffix == other.CodeSuffix
+                && Details.SequenceEqual(other.Details);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object? obj)
+        {
+            return obj is Error other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+#if NETSTANDARD2_0
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + CodePrefix.GetHashCode();
+                hash = hash * 23 + CodeSuffix.GetHashCode();
+                foreach (var detail in Details)
+                {
+                    hash = hash * 23 + detail.GetHashCode();
+                }
+                return hash;
+            }
+#else
+            var hash = new HashCode();
+            hash.Add(CodePrefix);
+            hash.Add(CodeSuffix);
+            foreach (var detail in Details)
+            {
+                hash.Add(detail);
+            }
+            return hash.ToHashCode();
+#endif
+        }
+
+        /// <summary>
+        /// Checks if two <see cref="Error"/> instances are equal.
+        /// </summary>
+        public static bool operator ==(Error? left, Error? right)
+        {
+            if (left is null)
+                return right is null;
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// Checks if two <see cref="Error"/> instances are different.
+        /// </summary>
+        public static bool operator !=(Error? left, Error? right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace LightningArc.Utils.Results;
 /// This base class is used to standardize success responses, allowing subclasses
 /// to define specific types of success.
 /// </summary>
-public abstract class Success
+public abstract class Success : IEquatable<Success>
 {
     /// <summary>
     /// Gets the numeric code of the success.
@@ -58,6 +58,47 @@ public abstract class Success
 
         Code = code;
         MessageProvider = message is not null ? new LiteralMessageProvider(message) : null;
+    }
+
+    /// <inheritdoc />
+    public virtual bool Equals(Success? other)
+    {
+        if (other is null)
+            return false;
+        if (ReferenceEquals(this, other))
+            return true;
+
+        return Code == other.Code;
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        return obj is Success other && Equals(other);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return Code.GetHashCode();
+    }
+
+    /// <summary>
+    /// Checks if two <see cref="Success"/> instances are equal.
+    /// </summary>
+    public static bool operator ==(Success? left, Success? right)
+    {
+        if (left is null)
+            return right is null;
+        return left.Equals(right);
+    }
+
+    /// <summary>
+    /// Checks if two <see cref="Success"/> instances are different.
+    /// </summary>
+    public static bool operator !=(Success? left, Success? right)
+    {
+        return !(left == right);
     }
 
     /// <summary>
@@ -220,7 +261,7 @@ public abstract class Success
 /// This class extends <see cref="Success"/> to provide a typed value.
 /// </summary>
 /// <typeparam name="TValue">The type of the success value that this object encapsulates.</typeparam>
-public abstract class Success<TValue> : Success
+public abstract class Success<TValue> : Success, IEquatable<Success<TValue>>
 {
     /// <summary>
     /// Gets the encapsulated success value.
@@ -250,6 +291,57 @@ public abstract class Success<TValue> : Success
     {
         // Este construtor é chamado pelas subclasses internas (OkSuccess, CreatedSuccess, etc.)
         Value = value;
+    }
+
+    /// <inheritdoc />
+    public bool Equals(Success<TValue>? other)
+    {
+        if (other is null)
+            return false;
+        if (ReferenceEquals(this, other))
+            return true;
+
+        return base.Equals(other) && EqualityComparer<TValue>.Default.Equals(Value, other.Value);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        return obj is Success<TValue> other && Equals(other);
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+#if NETSTANDARD2_0
+        unchecked
+        {
+            int hash = 17;
+            hash = hash * 23 + base.GetHashCode();
+            hash = hash * 23 + (Value?.GetHashCode() ?? 0);
+            return hash;
+        }
+#else
+        return HashCode.Combine(base.GetHashCode(), Value);
+#endif
+    }
+
+    /// <summary>
+    /// Checks if two <see cref="Success{TValue}"/> instances are equal.
+    /// </summary>
+    public static bool operator ==(Success<TValue>? left, Success<TValue>? right)
+    {
+        if (left is null)
+            return right is null;
+        return left.Equals(right);
+    }
+
+    /// <summary>
+    /// Checks if two <see cref="Success{TValue}"/> instances are different.
+    /// </summary>
+    public static bool operator !=(Success<TValue>? left, Success<TValue>? right)
+    {
+        return !(left == right);
     }
 
     /// <summary>

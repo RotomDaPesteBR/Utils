@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace LightningArc.Utils.Tests.Results
 {
+    [NotInParallel]
     public class ErrorTests
     {
         [Test]
@@ -50,7 +51,7 @@ namespace LightningArc.Utils.Tests.Results
             // Assert
             await Assert.That(error.Code).IsEqualTo(Error.Application.CodePrefix * 1000 + (int)Error.Application.Codes.Internal);
             await Assert.That(error.Message).IsEqualTo(message);
-            await Assert.That(error.Details).IsEqualTo(details);
+            await Assert.That(error.Details).IsEquivalentTo(details);
         }
 
         [Test]

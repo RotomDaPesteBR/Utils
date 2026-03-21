@@ -8,7 +8,7 @@ namespace LightningArc.Utils.Results;
 /// A <see cref="Result"/> is immutable, and its nature (success or failure) is defined at the time of creation.
 /// In case of failure, it encapsulates an <see cref="Error"/> object that provides details about what happened.
 /// </remarks>
-public class Result
+public class Result : IEquatable<Result>
 {
     /// <summary>
     /// Gets a value indicating whether the operation was successful.
@@ -113,6 +113,69 @@ public class Result
         IsSuccess = result.IsSuccess;
         _success = result._success;
         _error = result._error;
+    }
+
+    /// <inheritdoc />
+    public bool Equals(Result? other)
+    {
+        if (other is null)
+            return false;
+        if (ReferenceEquals(this, other))
+            return true;
+
+        if (IsSuccess != other.IsSuccess)
+            return false;
+
+        return IsSuccess
+            ? Equals(_success, other._success)
+            : Equals(_error, other._error);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (obj is Result other)
+            return Equals(other);
+        return false;
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+#if NETSTANDARD2_0
+        unchecked
+        {
+            int hash = 17;
+            hash = hash * 23 + IsSuccess.GetHashCode();
+            if (IsSuccess)
+                hash = hash * 23 + (_success?.GetHashCode() ?? 0);
+            else
+                hash = hash * 23 + (_error?.GetHashCode() ?? 0);
+            return hash;
+        }
+#else
+        return IsSuccess
+            ? HashCode.Combine(IsSuccess, _success)
+            : HashCode.Combine(IsSuccess, _error);
+#endif
+    }
+
+    /// <summary>
+    /// Checks if two <see cref="Result"/> instances are equal.
+    /// </summary>
+    public static bool operator ==(Result? left, Result? right)
+    {
+        if (left is null)
+            return right is null;
+        return left.Equals(right);
+    }
+
+    /// <summary>
+    /// Checks if two <see cref="Result"/> instances are different.
+    /// </summary>
+    public static bool operator !=(Result? left, Result? right)
+    {
+        return !(left == right);
     }
 
     /// <summary>
@@ -287,7 +350,7 @@ public class Result
 /// This class inherits from <see cref="Result"/> and adds the ability to carry a success value.
 /// It is the preferred way to return results from operations that produce data.
 /// </remarks>
-public class Result<TValue> : Result
+public class Result<TValue> : Result, IEquatable<Result<TValue>>
 {
     /// <summary>
     /// Gets the <see cref="Success"/> object associated with this result.
@@ -360,6 +423,57 @@ public class Result<TValue> : Result
     /// <param name="error">The <see cref="Error"/> object describing the failure.</param>
     internal Result(Error error)
         : base(error) { }
+
+    /// <inheritdoc />
+    public bool Equals(Result<TValue>? other)
+    {
+        if (other is null)
+            return false;
+        if (ReferenceEquals(this, other))
+            return true;
+
+        if (!base.Equals(other))
+            return false;
+
+        if (IsSuccess)
+        {
+            return Equals(_success, other._success);
+        }
+
+        return true; // Se ambos falharam e o base.Equals passou, os erros são iguais
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (obj is Result<TValue> other)
+            return Equals(other);
+        return false;
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+    /// <summary>
+    /// Checks if two <see cref="Result{TValue}"/> instances are equal.
+    /// </summary>
+    public static bool operator ==(Result<TValue>? left, Result<TValue>? right)
+    {
+        if (left is null)
+            return right is null;
+        return left.Equals(right);
+    }
+
+    /// <summary>
+    /// Checks if two <see cref="Result{TValue}"/> instances are different.
+    /// </summary>
+    public static bool operator !=(Result<TValue>? left, Result<TValue>? right)
+    {
+        return !(left == right);
+    }
 
     /// <summary>
     /// Creates a generic failure result.
