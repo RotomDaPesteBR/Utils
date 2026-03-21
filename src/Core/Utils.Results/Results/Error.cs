@@ -164,6 +164,50 @@ namespace LightningArc.Utils.Results
         }
 
         /// <summary>
+        /// Deconstructs the error into its code and message.
+        /// </summary>
+        /// <param name="code">The full error code.</param>
+        /// <param name="message">The descriptive message.</param>
+        public void Deconstruct(out int code, out string message)
+        {
+            code = Code;
+            message = Message;
+        }
+
+        /// <summary>
+        /// Deconstructs the error into its code, message, and details.
+        /// </summary>
+        /// <param name="code">The full error code.</param>
+        /// <param name="message">The descriptive message.</param>
+        /// <param name="details">The list of additional error details.</param>
+        public void Deconstruct(out int code, out string message, out IReadOnlyList<ErrorDetail> details)
+        {
+            code = Code;
+            message = Message;
+            details = Details;
+        }
+
+        /// <summary>
+        /// Combines two errors into an <see cref="AggregateError"/>.
+        /// If both errors have the same code, the result maintains that code.
+        /// If codes are different, a general aggregate code (99000) is used.
+        /// </summary>
+        /// <param name="left">The first error to combine.</param>
+        /// <param name="right">The second error to combine.</param>
+        /// <returns>An <see cref="AggregateError"/> containing both errors.</returns>
+        public static Error operator +(Error left, Error right)
+        {
+            var errors = new List<Error> { left, right };
+
+            if (left.Code == right.Code)
+            {
+                return new AggregateError(left.CodePrefix, left.CodeSuffix, left._messageProvider, errors);
+            }
+
+            return new AggregateError((int)ModuleCodes.General, 1, "Multiple errors occurred.", errors);
+        }
+
+        /// <summary>
         /// Checks if two <see cref="Error"/> instances are equal.
         /// </summary>
         public static bool operator ==(Error? left, Error? right)

@@ -85,7 +85,7 @@ app.UseOutputCache();
 
 app.UseAuthorization();
 
-app.MapControllers().WithOpenApi();
+app.MapControllers();
 
 app.Run();
 

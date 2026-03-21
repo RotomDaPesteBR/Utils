@@ -161,6 +161,40 @@ public class Result : IEquatable<Result>
     }
 
     /// <summary>
+    /// Checks if the result is successful.
+    /// Allows the result object to be used directly in conditional expressions.
+    /// </summary>
+    /// <param name="result">The result to check.</param>
+    /// <returns><c>true</c> if the result is successful; otherwise, <c>false</c>.</returns>
+    public static bool operator true(Result result) => result.IsSuccess;
+
+    /// <summary>
+    /// Checks if the result is a failure.
+    /// Allows the result object to be used directly in conditional expressions.
+    /// </summary>
+    /// <param name="result">The result to check.</param>
+    /// <returns><c>true</c> if the result is a failure; otherwise, <c>false</c>.</returns>
+    public static bool operator false(Result result) => result.IsFailure;
+
+    /// <summary>
+    /// Negates the success status of the result.
+    /// </summary>
+    /// <param name="result">The result to negate.</param>
+    /// <returns><c>true</c> if the result is a failure; otherwise, <c>false</c>.</returns>
+    public static bool operator !(Result result) => result.IsFailure;
+
+    /// <summary>
+    /// Deconstructs the result into its success status and error.
+    /// </summary>
+    /// <param name="isSuccess">Indicates if the operation was successful.</param>
+    /// <param name="error">The error object if the operation failed.</param>
+    public void Deconstruct(out bool isSuccess, out Error? error)
+    {
+        isSuccess = IsSuccess;
+        error = _error;
+    }
+
+    /// <summary>
     /// Checks if two <see cref="Result"/> instances are equal.
     /// </summary>
     public static bool operator ==(Result? left, Result? right)
@@ -458,6 +492,19 @@ public class Result<TValue> : Result, IEquatable<Result<TValue>>
     }
 
     /// <summary>
+    /// Deconstructs the result into its success status, value, and error.
+    /// </summary>
+    /// <param name="isSuccess">Indicates if the operation was successful.</param>
+    /// <param name="value">The success value if the operation was successful.</param>
+    /// <param name="error">The error object if the operation failed.</param>
+    public void Deconstruct(out bool isSuccess, out TValue? value, out Error? error)
+    {
+        isSuccess = IsSuccess;
+        value = IsSuccess ? Value : default;
+        error = IsFailure ? Error : null;
+    }
+
+    /// <summary>
     /// Checks if two <see cref="Result{TValue}"/> instances are equal.
     /// </summary>
     public static bool operator ==(Result<TValue>? left, Result<TValue>? right)
@@ -489,6 +536,20 @@ public class Result<TValue> : Result, IEquatable<Result<TValue>>
     /// <returns>A success <see cref="Result{TValue}"/> encapsulating the value.</returns>
     public static Result ToResult(Result<TValue> result) =>
         result.IsSuccess ? Result.Success(result.SuccessDetails) : Result.Failure(result.Error);
+
+    /// <summary>
+    /// Explicitly converts a <see cref="Result{TValue}"/> to its encapsulated value.
+    /// </summary>
+    /// <param name="result">The result to convert.</param>
+    /// <exception cref="ResultAccessFailedException">Thrown if the result is a failure.</exception>
+    public static explicit operator TValue(Result<TValue> result) => result.Value;
+
+    /// <summary>
+    /// Explicitly converts a <see cref="Result{TValue}"/> to its encapsulated error.
+    /// </summary>
+    /// <param name="result">The result to convert.</param>
+    /// <exception cref="ResultAccessFailedException">Thrown if the result is a success.</exception>
+    public static explicit operator Error(Result<TValue> result) => result.Error;
 
     /// <summary>
     /// Allows implicit conversion from a value to a success <see cref="Result{TValue}"/>.

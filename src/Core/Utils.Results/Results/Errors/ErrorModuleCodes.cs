@@ -62,6 +62,11 @@ namespace LightningArc.Utils.Results
             /// Prefix '11'. Module for disk Input/Output (I/O) operations errors.
             /// </summary>
             IO = 11,
+
+            /// <summary>
+            /// Prefix '99'. Module for general, cross-cutting or aggregate errors.
+            /// </summary>
+            General = 99,
         }
     }
 }

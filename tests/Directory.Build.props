@@ -9,6 +9,22 @@
     
     <!-- Build -->
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    
+    <!-- Speed: Only build in Test configuration -->
+    <Configurations>Test</Configurations>
+  </PropertyGroup>
+
+  <Target Name="SkipTestBuild" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' != 'Test'">
+    <Message Importance="high" Text="Skipping test project build because configuration is not 'Test'." />
+    <PropertyGroup>
+      <IsSkipBuild>true</IsSkipBuild>
+    </PropertyGroup>
+  </Target>
+
+  <!-- Prevent compilation and other main tasks if not in Test config -->
+  <PropertyGroup Condition="'$(Configuration)' != 'Test'">
+    <CoreBuildDependsOn></CoreBuildDependsOn>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
