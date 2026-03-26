@@ -404,6 +404,6 @@ conductor/
 
 .artifacts/
 
-Bin/
+bin/
 
-Publish/Bin/
+publish/

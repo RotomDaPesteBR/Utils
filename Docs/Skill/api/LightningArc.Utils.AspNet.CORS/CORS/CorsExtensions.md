@@ -1,6 +1,6 @@
 # CorsExtensions
 
-**Namespace:** `LightningArc.Utils.AspNet.CORS`  
+**Namespace:** `LightningArc.CORS.AspNetCore`  
 **Type:** `static class`
 
 Provides extension methods to configure predefined CORS (Cross-Origin Resource Sharing) policies in ASP.NET Core applications.
@@ -35,3 +35,4 @@ app.UseCorsPolicies();
 
 app.Run();
 ```
+

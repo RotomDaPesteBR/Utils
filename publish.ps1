@@ -35,7 +35,7 @@ function Get-PackageVersionFromProps {
 
 # --- 2. DEFINE VARIABLES WITH THE VERSION ---
 $current_version = Get-PackageVersionFromProps -PropsFile "Directory.Packages.props" 
-$base_output_dir = "Publish\Packages"
+$base_output_dir = "publish\packages"
 $output_dir = Join-Path -Path $base_output_dir -ChildPath $current_version 
 
 Write-Host "Package Version: $current_version" -ForegroundColor Green
@@ -44,35 +44,30 @@ Write-Host "Output Directory: $output_dir" -ForegroundColor Green
 # List of projects you want to pack (adjust these paths according to your libraries)
 $projects_to_pack = @(
     # Core
-    "Core\Utils.Abstractions\Utils.Abstractions.csproj",
-    "Core\Utils.Json\Utils.Json.csproj",
-    "Core\Utils.Results\Utils.Results.csproj",
-
-    "Core\Utils\Utils.csproj",
-
-    # AspNet
-    "Web\Utils.AspNet.CORS\Utils.AspNet.CORS.csproj",
-    "Web\Utils.AspNet.Results\Utils.AspNet.Results.csproj",
-    "Web\Utils.AspNet.OpenAPI\Utils.AspNet.OpenAPI.csproj",
-
-    "Web\Utils.AspNet\Utils.AspNet.csproj",
+    "src\Core\Abstractions\Abstractions.csproj",
+    "src\Core\Json\Json.csproj",
+    "src\Core\Results\Results.csproj",
+    "src\Core\Utils\Utils.csproj",
 
     # Data
-    "Data\Utils.Data.Abstractions\Utils.Data.Abstractions.csproj",
+    "src\Data\Data.Abstractions\Data.Abstractions.csproj",
+    "src\Data\Mappers\Mappers.AutoMapper\Mappers.AutoMapper.csproj",
+    "src\Data\Mappers\Mappers.Mapster\Mappers.Mapster.csproj",
+    "src\Data\ADO\Data.ADO\Data.ADO.csproj",
+    "src\Data\ADO\Data.ADO.SqlBuilder\Data.ADO.SqlBuilder.csproj",
+    "src\Data\ADO\Data.ADO.Oracle\Data.ADO.Oracle.csproj",
+    "src\Data\ADO\Data.ADO.SqlServer\Data.ADO.SqlServer.csproj",
+    "src\Data\EF\Data.EntityFramework\Data.EntityFramework.csproj",
 
-    "Data\Mappers\Utils.Mappers.AutoMapper\Utils.Mappers.AutoMapper.csproj",
-    "Data\Mappers\Utils.Mappers.Mapster\Utils.Mappers.Mapster.csproj",
-
-    "Data\ADO\Utils.Data.ADO\Utils.Data.ADO.csproj",
-    "Data\ADO\Utils.Data.ADO.SqlBuilder\Utils.Data.ADO.SqlBuilder.csproj",
-    "Data\ADO\Utils.Data.ADO.Oracle\Utils.Data.ADO.Oracle.csproj",
-    "Data\ADO\Utils.Data.ADO.SqlServer\Utils.Data.ADO.SqlServer.csproj",
-
-    "Data\EF\Utils.Data.EntityFramework\Utils.Data.EntityFramework.csproj",
+    # AspNetCore
+    "src\Web\Results.AspNetCore\Results.AspNetCore.csproj",
+    "src\Web\CORS.AspNetCore\CORS.AspNetCore.csproj",
+    "src\Web\OpenAPI.AspNetCore\OpenAPI.AspNetCore.csproj",
+    "src\Web\Utils.AspNetCore\Utils.AspNetCore.csproj",
 
     # Meta
-    "Meta\Utils.Metalama\Utils.Metalama.csproj",
-    "Meta\Utils.Metalama.Results\Utils.Metalama.Results.csproj"
+    "src\Meta\Metalama\Metalama.csproj",
+    "src\Meta\Metalama.Results\Metalama.Results.csproj"
 )
 
 # --- General Clean and Build ---
@@ -111,7 +106,7 @@ $pack_failure = $false
 
 foreach ($project in $projects_to_pack) { 
     Write-Host "`nPacking project: $project" -ForegroundColor DarkYellow
-    # The --output directs to Publish\Packages\($current_version)
+    # The --output directs to publish\packages\($current_version)
     dotnet pack $project --configuration $config --output $output_dir --no-build
     
     # Check the Pack result for each project

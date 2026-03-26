@@ -7,7 +7,7 @@ The **Utils.AspNet.Results** library integrates the **Utils.Results** pattern wi
 In your `Program.cs`:
 
 ```csharp
-using LightningArc.Utils.AspNet;
+using LightningArc.Utils.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -23,9 +23,9 @@ The foundation of the ecosystem, compatible with any .NET application.
 ### 2. Web Layer
 Extensions and adapters for ASP.NET Core applications.
 
-*   **`LightningArc.Utils.AspNet.Results`**: Automatically translates domain `Result<T>` objects into HTTP Responses (`IResult`), supporting **RFC 7807 Problem Details**.
-*   **`LightningArc.Utils.AspNet.CORS`**: Pre-configured CORS policies (like "AllowAll" for development).
-*   **`LightningArc.Utils.AspNet.OpenAPI`**: Transformers to ensure your Value Objects are correctly documented in Swagger/OpenAPI.
+*   **`LightningArc.Results.AspNetCore`**: Automatically translates domain `Result<T>` objects into HTTP Responses (`IResult`), supporting **RFC 7807 Problem Details**.
+*   **`LightningArc.CORS.AspNetCore`**: Pre-configured CORS policies (like "AllowAll" for development).
+*   **`LightningArc.OpenAPI.AspNetCore`**: Transformers to ensure your Value Objects are correctly documented in Swagger/OpenAPI.
 
 ### 3. Meta Layer
 Metaprogramming tools powered by **Metalama**.
@@ -77,3 +77,4 @@ This will generate NuGet packages in `Publish/Packages/{Version}`.
 ## 📄 License
 
 This project is proprietary/private. (Update this section if open source).
+

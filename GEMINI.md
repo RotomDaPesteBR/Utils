@@ -57,7 +57,7 @@ This project uses standard .NET CLI tools and a custom PowerShell script for pac
     *   **Documentation:** XML documentation is required.
 *   **Namespaces:**
     *   Core: `LightningArc.Utils.*`
-    *   Web: `LightningArc.Utils.AspNet.*`
+    *   Web: `LightningArc.Utils.AspNetCore.*`
     *   Meta: `LightningArc.Utils.Metalama.*`
 
 ## Key Files

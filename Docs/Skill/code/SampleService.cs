@@ -1,5 +1,5 @@
-using LightningArc.Utils.Results;
-using LightningArc.Utils.Abstractions.ValueObjects;
+using LightningArc.Results;
+using LightningArc.Abstractions.ValueObjects;
 
 namespace Docs.Skill.Code;
 
@@ -50,3 +50,4 @@ public class UserService(IUserRepository repo, IMapper mapper, ILogger logger)
             : email;
     }
 }
+

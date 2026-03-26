@@ -1,0 +1,43 @@
+
+using LightningArc.Results;
+using System.Text;
+using LightningArc.Results.AspNetCore.Interfaces;
+
+namespace LightningArc.Results.AspNetCore.Services;
+
+/// <summary>
+/// A default implementation of <see cref="IErrorListFormatter"/> that formats the error list as a Markdown table.
+/// </summary>
+internal sealed class MarkdownErrorListFormatter : IErrorListFormatter
+{
+    public string Format(IEnumerable<ErrorMetadata> errors)
+    {
+        StringBuilder markdownBuilder = new();
+        markdownBuilder.AppendLine("# Error List");
+        markdownBuilder.AppendLine();
+
+        var groupedByModule = errors.GroupBy(e => e.Module).OrderBy(g => g.Key);
+
+        foreach (var moduleGroup in groupedByModule)
+        {
+            markdownBuilder.AppendLine($"## {moduleGroup.Key}");
+            markdownBuilder.AppendLine();
+
+            markdownBuilder.AppendLine("| Code | Name | HTTP Status | Message |");
+            markdownBuilder.AppendLine("|:---|:---|:---|:---|");
+
+            foreach (ErrorMetadata error in moduleGroup.OrderBy(e => e.Code))
+            {
+                string httpStatus = error.HttpStatusCode.HasValue ? ((int)error.HttpStatusCode.Value).ToString() : "N/A";
+                markdownBuilder.AppendLine($"| `{error.Code:D5}` | `{error.Name}` | `{httpStatus}` | {error.Message} |");
+            }
+            markdownBuilder.AppendLine();
+        }
+
+        return markdownBuilder.ToString();
+    }
+}
+
+
+
+

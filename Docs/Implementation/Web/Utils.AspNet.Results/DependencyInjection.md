@@ -1,7 +1,7 @@
 # DependencyInjection.cs Implementation Details
 
 **File Path:** `Web/Utils.AspNet.Results/DependencyInjection.cs`
-**Namespace:** `LightningArc.Utils.AspNet`
+**Namespace:** `LightningArc.Utils.AspNetCore`
 
 ## Overview
 This file contains the `ServiceCollectionExtensions` and `WebApplicationExtensions` classes, responsible for configuring and registering the library's services in the ASP.NET Core Dependency Injection container.
@@ -30,3 +30,4 @@ public static void OutputErrorsList(this WebApplication app, ...)
 *   **Purpose**: Generates a Markdown file documenting all registered errors in the system.
 *   **Usage**: Intended for development/build pipelines to keep API documentation in sync with the code.
 *   **Mechanism**: Resolves `IErrorListProvider` from the DI container and writes the formatted output to disk.
+

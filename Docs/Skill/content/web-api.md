@@ -7,7 +7,7 @@ keywords: "Web API, ASP.NET Core, Minimal API, IResult, EndpointResult, HTTP Sta
 
 # Web API Integration
 
-`LightningArc.Utils.AspNet` provides tools to bridge the gap between your domain logic (using `Result`) and the HTTP layer.
+`LightningArc.Utils.AspNetCore` provides tools to bridge the gap between your domain logic (using `Result`) and the HTTP layer.
 
 ## EndpointResult
 
@@ -47,3 +47,4 @@ builder.Services.AddOpenApi(options =>
     options.AddSchemaTransformers();
 });
 ```
+

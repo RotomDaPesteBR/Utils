@@ -44,7 +44,7 @@
   keywords: "aspnet, minimal api, iresult, endpointresult"
 
 - name: EndpointResult Reference
-  path: api/LightningArc.Utils.AspNet.Results/Results/EndpointResult.md
+  path: api/LightningArc.Results.AspNetCore/Results/EndpointResult.md
   summary: API for mapping Results to HTTP responses.
   keywords: "iresult, endpointresult, statuscode, mapping"
 
@@ -82,3 +82,4 @@
   path: api/LightningArc.Utils.Results/Results/Errors/Modules/
   summary: Technical reference for all predefined error modules.
   keywords: "validation, resource, application, codes"
+

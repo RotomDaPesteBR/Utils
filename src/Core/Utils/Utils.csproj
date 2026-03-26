@@ -15,9 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\Utils.Abstractions\Utils.Abstractions.csproj" />
-	<ProjectReference Include="..\Utils.Results\Utils.Results.csproj" />
-	<ProjectReference Include="..\Utils.Json\Utils.Json.csproj" />
+	<ProjectReference Include="..\..\Core\Abstractions\Abstractions.csproj" />
+	<ProjectReference Include="..\..\Core\Results\Results.csproj" />
+	<ProjectReference Include="..\..\Core\Json\Json.csproj" />
   </ItemGroup>
 </Project>
+
+
+
 

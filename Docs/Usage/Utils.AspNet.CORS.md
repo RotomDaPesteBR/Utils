@@ -8,7 +8,7 @@ The **Utils.AspNet.CORS** library provides quick-start extension methods to conf
 In your `Program.cs`, add the policies to the service collection:
 
 ```csharp
-using LightningArc.Utils.AspNet.CORS;
+using LightningArc.CORS.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
